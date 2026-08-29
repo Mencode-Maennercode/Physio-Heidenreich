@@ -683,3 +683,24 @@ html:not([data-bewegung="voll"]) .gc-schweben {
 .gc-kontext dd {
   font-family: var(--font-jakarta), system-ui, sans-serif;
 }
+
+/*
+  Ueberschriften geben ihre Schrift an eigene Spans weiter.
+
+  Die Regel darueber greift auf JEDES span - auch auf die, die innerhalb
+  einer Ueberschrift stehen. Genau das tun aber gleich zwei Bausteine:
+  ZeilenTitel legt jede Zeile in ein span, WortAuftritt jedes Wort. Ohne
+  diese Ausnahme erbt keines davon die Display-Serife, und die Ueberschrift
+  erscheint serifenlos - waehrend das Element selbst laut Rechnung die
+  richtige Schrift traegt. Ein Fehler, der im Quelltext unsichtbar ist und
+  nur am fertigen Bild auffaellt.
+
+  h1/h2/h3 stehen mit dabei, weil der Hero-Titel seine Schrift ueber eine
+  Tailwind-Klasse direkt setzt statt ueber `.schrift-display`.
+*/
+.gc-kontext .schrift-display span,
+.gc-kontext h1 span,
+.gc-kontext h2 span,
+.gc-kontext h3 span {
+  font-family: inherit;
+}

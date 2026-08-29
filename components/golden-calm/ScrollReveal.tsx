@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRuhig } from "@/components/a11y/Einstellungen";
+import { KURVE, lebhaft } from "@/lib/bewegung";
 import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,15 +38,30 @@ export default function ScrollReveal({
       const teile = rahmen.current.querySelectorAll(".gc-reveal-teil");
       if (!teile.length) return;
 
+      /*
+        Lebhafte Fassung: zusaetzlich zur Verschiebung ein leichtes
+        Heranwachsen aus 96 % und ein etwas laengerer Versatz. Der
+        Groessensprung ist bewusst klein - er soll als "kommt auf einen zu"
+        wahrgenommen werden, nicht als Zoom. Zusammen mit dem dichteren
+        Stagger entsteht der Eindruck, dass die Karten nacheinander
+        einschwenken statt gemeinsam aufzublenden.
+      */
+      const stark = lebhaft && !ruhig;
+
       gsap.fromTo(
         teile,
-        { opacity: 0, y: versatz },
+        {
+          opacity: 0,
+          y: stark ? versatz * 1.5 : versatz,
+          scale: stark ? 0.96 : 1,
+        },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.12,
+          scale: 1,
+          duration: stark ? 0.95 : 0.8,
+          ease: KURVE,
+          stagger: stark ? 0.1 : 0.12,
           scrollTrigger: {
             trigger: rahmen.current,
             start: "top 82%",

@@ -8,6 +8,7 @@ import {
 import "./globals.css";
 import Kopfzeile from "@/components/Kopfzeile";
 import Fusszeile from "@/components/Fusszeile";
+import Lesefortschritt from "@/components/Lesefortschritt";
 import { EinstellungenProvider } from "@/components/a11y/Einstellungen";
 import { seite } from "@/lib/site-config";
 
@@ -100,6 +101,7 @@ export default function RootLayout({
             Direkt zum Inhalt
           </a>
           <Kopfzeile />
+          <Lesefortschritt />
           {/* Abstand unten: Platz fuer die feste Anruf-Leiste auf kleinen
               Schirmen, damit sie nichts verdeckt. */}
           <main id="inhalt" className="pb-[4.5rem] sm:pb-0">

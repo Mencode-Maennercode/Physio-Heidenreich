@@ -1,4 +1,5 @@
 import { Enthuellen } from "@/components/motion/Enthuellen";
+import WortAuftritt from "@/components/motion/WortAuftritt";
 
 /**
  * Schlichter Seitenkopf fuer Unterseiten.
@@ -32,9 +33,19 @@ export default function GcSeitenKopf({
       <div className="huelle">
         <Enthuellen>
           <p className="augenbraue">{kicker}</p>
-          <h1 className="schrift-display titel-gross mt-7 max-w-[18ch]">
-            {titel}
-          </h1>
+        </Enthuellen>
+
+        {/* Der Seitentitel ist die erste Zeile, die jemand auf einer
+            Unterseite liest - hier lohnt der Wort-fuer-Wort-Auftritt am
+            meisten. Ohne Verzoegerung, weil oben auf der Seite niemand
+            wartet. */}
+        <WortAuftritt
+          text={titel}
+          als="h1"
+          className="schrift-display titel-gross mt-7 max-w-[18ch]"
+        />
+
+        <Enthuellen verzoegerung={0.12}>
           {unterzeile ? (
             <p className="mt-4 text-[1.05rem] text-leise">{unterzeile}</p>
           ) : null}

@@ -47,7 +47,9 @@ export default function UeberMichSeite() {
             </div>
           </div>
 
-          <BildWischer className="relative">
+          {/* Ohne Gegenbewegung: Das Portraet ist eng geschnitten, jede
+              zusaetzliche Verschiebung ginge an Kopf oder Kinn. */}
+          <BildWischer className="relative" tiefe={false}>
             <Bild
               name="portraet"
               className="aspect-4/5 overflow-hidden"

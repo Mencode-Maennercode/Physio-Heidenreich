@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, useScroll, useTransform, type Variants } from "motion/react";
 import { useRuhig } from "@/components/a11y/Einstellungen";
+import { lebhaft } from "@/lib/bewegung";
 
 /**
  * Bausteine fuer Bewegung.
@@ -196,19 +197,47 @@ export function ZeilenTitel({
   );
 }
 
-/** Bild, das über einen Wischer erscheint statt einzublenden. */
+/**
+ * Bild, das über einen Wischer erscheint statt einzublenden.
+ *
+ * In der lebhaften Fassung kommt eine langsame Gegenbewegung dazu: Das Bild
+ * wandert beim Scrollen ein Stueck gegen die Leserichtung. Der Effekt ist
+ * absichtlich klein - er soll dem Bild Tiefe geben, nicht auffallen. Sichtbar
+ * wird er vor allem daran, dass die Seite aufhoert, wie eine Abfolge flach
+ * aufgeklebter Kacheln zu wirken.
+ *
+ * `tiefe={false}` schaltet die Gegenbewegung fuer einzelne Bilder ab. Das
+ * braucht jedes Bild, das im Anschnitt Wichtiges am Rand hat - allen voran
+ * Portraets: Die Bewegung laeuft innerhalb des Rahmens, also wird oben und
+ * unten etwas mehr beschnitten als im Stand.
+ */
 export function BildWischer({
   children,
   className,
   verzoegerung = 0,
+  tiefe = true,
 }: {
   children: React.ReactNode;
   className?: string;
   verzoegerung?: number;
+  tiefe?: boolean;
 }) {
   const ruhig = useRuhig();
   const punkt = useRef<HTMLDivElement>(null);
   const sichtbar = useAuftritt(punkt, 0.1, !ruhig);
+  const bewegt = lebhaft && tiefe && !ruhig;
+
+  /* Fortschritt des Rahmens durch das Fenster: 0 beim Eintreten von unten,
+     1 beim Verlassen nach oben. Daraus die Gegenbewegung ableiten. */
+  const { scrollYProgress } = useScroll({
+    target: punkt,
+    offset: ["start end", "end start"],
+  });
+  const versatzY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    bewegt ? ["-4%", "4%"] : ["0%", "0%"],
+  );
 
   if (ruhig) return <div className={className}>{children}</div>;
 
@@ -222,7 +251,19 @@ export function BildWischer({
       }}
       transition={{ duration: 1.1, delay: verzoegerung, ease: RUHIGE_KURVE }}
     >
-      {children}
+      {bewegt ? (
+        /* Der Rahmen schneidet, die innere Schicht bewegt sich. Ohne das
+           `overflow-hidden` liefe das Bild ueber seine Kante hinaus. Die
+           Ueberhoehung um 8 % gleicht genau den Weg aus, den die Schicht
+           zuruecklegt - sonst entstuende an den Kanten eine Luecke. */
+        <div className="relative h-full overflow-hidden">
+          <motion.div className="h-[108%] -translate-y-[4%]" style={{ y: versatzY }}>
+            {children}
+          </motion.div>
+        </div>
+      ) : (
+        children
+      )}
     </motion.div>
   );
 }
