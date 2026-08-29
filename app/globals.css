@@ -1,0 +1,685 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Farb- und Gestaltungs-Tokens
+
+   Zwei Ebenen mit Absicht:
+   1. Feste Markenfarben (--marke-*) - aendern sich nie.
+   2. Rollen-Tokens (--ui-*) - zeigen normalerweise auf die Markenfarben, werden
+      im Kontrastmodus aber umgehaengt. Nur diese werden im Markup benutzt.
+
+   `@theme inline` sorgt dafuer, dass Tailwind die Rollen-Tokens als var(...)
+   ausgibt statt sie beim Build aufzuloesen - sonst waere der Kontrastmodus
+   technisch unmoeglich.
+   ========================================================================== */
+
+:root {
+  /* Marke */
+  --marke-tief: #1b3535; /* nur noch fuer Foto-/Video-Ueberlagerungen */
+  --marke-petrol: #315b5b; /* durchgaengige Textfarbe, Knoepfe, Icons */
+  --marke-petrol-dunkel: #26494a; /* Hover, Akzent auf warmer Flaeche */
+  --marke-sand: #efebe3; /* Zwischenton */
+  --marke-offwhite: #f8f7f3; /* Grundflaeche */
+  --marke-greige: #d9d4ca; /* warme Sektionsflaeche (ersetzt grosse dunkle Bloecke) */
+  --marke-champagner: #b9a47e; /* nur Haarlinien und Text auf Foto/Video */
+  --marke-anthrazit: #252a2a; /* ungenutzt im Fliesstext, nur Reserve */
+
+  /*
+    Rollen auf hellem und warmem Grund (Off-White, Sand, Greige).
+
+    Petrol traegt als Textfarbe auf allen dreien: 7,05:1 auf Off-White,
+    6,36:1 auf Sand, 5,12:1 auf Greige - durchgehend AA, meist AAA. Deshalb
+    genuegt EIN Text-Token fuer alle drei Flaechen, ohne je eine "-warm"
+    Variante zu brauchen.
+  */
+  --ui-grund: var(--marke-offwhite);
+  --ui-grund-warm: var(--marke-sand);
+  --ui-warm-flaeche: var(--marke-greige); /* ersetzt die alten Tiefpetrol-Bloecke */
+  --ui-text: var(--marke-petrol); /* war Anthrazit */
+  --ui-text-leise: #3d5350; /* 7,7:1 / 6,9:1 / 5,6:1 auf Off-White/Sand/Greige */
+  --ui-linie: var(--marke-greige);
+  --ui-linie-fein: #e5e1d8;
+  --ui-linie-warm: rgba(38, 73, 74, 0.28); /* sichtbare Trennlinie auf Greige */
+  --ui-akzent: var(--marke-champagner); /* dekorativ, nie Fliesstext */
+  --ui-akzent-warm: var(--marke-petrol-dunkel); /* Akzent/Icons auf Greige - Champagner faellt dort auf 1,6:1 */
+  --ui-aktion: var(--marke-petrol);
+  --ui-aktion-hover: var(--marke-petrol-dunkel);
+
+  /*
+    Rollen NUR fuer Foto- und Video-Ueberlagerungen (Hero, Seitenkoepfe,
+    Abschluss-CTA vor der Fusszeile, die transparente Kopfzeile ueber dem
+    Hero). Dort variiert der Untergrund mit dem Bildinhalt - ein heller
+    Text mit dunklem Schleier bleibt die einzig verlaessliche Loesung,
+    unabhaengig von der sonstigen Palette.
+  */
+  --ui-medien: var(--marke-tief);
+  --ui-text-medien: var(--marke-offwhite);
+  --ui-text-leise-medien: #c9d2cf; /* 7,6:1 auf Tiefpetrol */
+  --ui-akzent-medien: var(--marke-champagner); /* 4,8:1 auf Tiefpetrol - AA */
+  --ui-linie-medien: #3d5a5a;
+
+  /* Schatten warm getoent - reines Schwarz laesst die Palette billig wirken */
+  --schatten-weich: 0 1px 2px rgba(37, 42, 42, 0.04),
+    0 8px 24px -12px rgba(37, 42, 42, 0.14);
+  --schatten-tief: 0 2px 4px rgba(37, 42, 42, 0.05),
+    0 24px 56px -24px rgba(37, 42, 42, 0.22);
+
+  /* Rhythmus */
+  --sektion-luft: clamp(4.5rem, 9vw, 9rem);
+  --rand: clamp(1.25rem, 5vw, 4rem);
+  --schrift-faktor: 1;
+
+  /* Bewegung: wird bei "weniger Bewegung" auf 0.01ms gesetzt */
+  --dauer-kurz: 220ms;
+  --dauer-mittel: 520ms;
+  --dauer-lang: 900ms;
+  --kurve: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Kontrastmodus: nur die Rollen werden umgehaengt, nicht die Marke */
+html[data-kontrast="hoch"] {
+  --ui-text-leise: #2f423f;
+  --ui-linie: #8e887b;
+  --ui-linie-fein: #b3ada0;
+  --ui-linie-warm: rgba(27, 53, 53, 0.4);
+  --ui-akzent: #6e5e3c; /* nur auf Medien-Flaechen als Text lesbar, siehe unten */
+  --ui-akzent-warm: #1b3535;
+  --ui-aktion: #244646;
+  --ui-text-leise-medien: #eef1f0;
+  --ui-akzent-medien: #d8c9a6; /* 7,2:1 auf Tiefpetrol */
+  --ui-linie-medien: #7d9291;
+}
+
+@theme inline {
+  --color-grund: var(--ui-grund);
+  --color-grund-warm: var(--ui-grund-warm);
+  --color-warm-flaeche: var(--ui-warm-flaeche);
+  --color-text: var(--ui-text);
+  --color-leise: var(--ui-text-leise);
+  --color-linie: var(--ui-linie);
+  --color-linie-fein: var(--ui-linie-fein);
+  --color-linie-warm: var(--ui-linie-warm);
+  --color-akzent: var(--ui-akzent);
+  --color-akzent-warm: var(--ui-akzent-warm);
+  --color-aktion: var(--ui-aktion);
+  --color-aktion-hover: var(--ui-aktion-hover);
+
+  /* Nur fuer Foto-/Video-Ueberlagerungen - siehe Kommentar bei den Rollen oben. */
+  --color-dunkel: var(--ui-medien);
+  --color-auf-dunkel: var(--ui-text-medien);
+  --color-leise-dunkel: var(--ui-text-leise-medien);
+  --color-akzent-dunkel: var(--ui-akzent-medien);
+  --color-linie-dunkel: var(--ui-linie-medien);
+
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+
+  --shadow-weich: var(--schatten-weich);
+  --shadow-tief: var(--schatten-tief);
+
+  --ease-ruhig: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ==========================================================================
+   Grundlagen
+   ========================================================================== */
+
+html {
+  /* 112,5 % = 18 px Grundgroesse. Die Zielgruppe liest oft mit muede werdenden
+     Augen - 16 px waere hier die falsche Sparsamkeit. */
+  font-size: calc(112.5% * var(--schrift-faktor));
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+html[data-textgroesse="gross"] {
+  --schrift-faktor: 1.15;
+}
+
+html[data-textgroesse="sehrgross"] {
+  --schrift-faktor: 1.3;
+}
+
+body {
+  background-color: var(--ui-grund);
+  color: var(--ui-text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--marke-petrol);
+  color: var(--marke-offwhite);
+}
+
+/* Fokus: immer sichtbar, nie wegoptimiert. Zwei Ringe, damit er auf hellem
+   und dunklem Grund gleichermassen auffaellt. */
+:focus-visible {
+  outline: 3px solid var(--ui-aktion);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.auf-dunkel :focus-visible {
+  outline-color: var(--ui-akzent-medien);
+}
+
+.auf-warm :focus-visible {
+  outline-color: var(--ui-akzent-warm);
+}
+
+/* ==========================================================================
+   Bewegung
+
+   Drei Wege fuehren zur Ruhe: System-Einstellung, eigener Schalter, oder
+   beides. Alle enden hier.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-bewegung="voll"]) {
+    --dauer-kurz: 0.01ms;
+    --dauer-mittel: 0.01ms;
+    --dauer-lang: 0.01ms;
+    scroll-behavior: auto;
+  }
+
+  html:not([data-bewegung="voll"]) *,
+  html:not([data-bewegung="voll"]) *::before,
+  html:not([data-bewegung="voll"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html[data-bewegung="reduziert"] {
+  --dauer-kurz: 0.01ms;
+  --dauer-mittel: 0.01ms;
+  --dauer-lang: 0.01ms;
+  scroll-behavior: auto;
+}
+
+html[data-bewegung="reduziert"] *,
+html[data-bewegung="reduziert"] *::before,
+html[data-bewegung="reduziert"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ==========================================================================
+   Typografie
+   ========================================================================== */
+
+.schrift-display {
+  font-family: var(--font-instrument), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+
+/* Der Hero-Titel. clamp statt Breakpoints, damit die Groesse auch bei
+   130 % Textgroesse mitwaechst statt umzubrechen. */
+.titel-gross {
+  font-size: clamp(2.6rem, 6.2vw, 5.1rem);
+}
+
+.titel-mittel {
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+}
+
+.titel-klein {
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+}
+
+/* Lesespalte: 68 Zeichen sind die Obergrenze fuer entspanntes Lesen. */
+.lesespalte {
+  max-width: 38rem;
+}
+
+.lesespalte-weit {
+  max-width: 46rem;
+}
+
+/*
+   Klassen, die eine Farbe setzen, gehoeren in die components-Ebene.
+
+   Sonst gewinnen sie gegen die Tailwind-Klassen: Beide haben dieselbe
+   Spezifitaet, und was spaeter im Stylesheet steht, setzt sich durch - das
+   waeren diese Regeln hier. Ein `text-leise-dunkel` daneben bliebe wirkungslos,
+   und auf dunklem Grund stuende dunkelgrauer Text auf dunkelgruenem Grund
+   (2,05:1). Genau das hat die Kontrastpruefung gemeldet.
+
+   In der components-Ebene gewinnen die Utilities unabhaengig von der
+   Reihenfolge - so wie es sein soll.
+*/
+@layer components {
+  /* Kleine Ueberschrift ueber dem Titel. Champagner erscheint hier nur als
+     Strich - als Textfarbe waere er auf Off-White mit 2,3:1 unlesbar. */
+  .augenbraue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ui-aktion);
+  }
+
+  .augenbraue::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--ui-akzent);
+    flex: none;
+  }
+
+  .auf-dunkel .augenbraue {
+    color: var(--ui-akzent-medien);
+  }
+
+  .auf-dunkel .augenbraue::before {
+    background: var(--ui-akzent-medien);
+  }
+
+  /* .auf-warm braucht bei der Farbe keine Ueberschreibung - .augenbraue
+     zeigt schon per Grundregel auf Petrol (--ui-aktion), und das traegt auf
+     Greige genauso wie auf Off-White. Nur die Haarlinie: Champagner liegt auf
+     Greige zu nah an der Flaeche (1,6:1, fast unsichtbar), deshalb hier
+     Petrol-dunkel statt Champagner - beides dekorativ, keine Kontrastpflicht,
+     aber sichtbar soll es trotzdem sein. */
+  .auf-warm .augenbraue::before {
+    background: var(--ui-akzent-warm);
+  }
+
+  .feld-marke {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ui-text-leise);
+    font-weight: 500;
+  }
+}
+
+/* ==========================================================================
+   Bausteine
+   ========================================================================== */
+
+.huelle {
+  width: 100%;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: var(--rand);
+}
+
+.huelle-eng {
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+  padding-inline: var(--rand);
+}
+
+.sektion {
+  padding-block: var(--sektion-luft);
+}
+
+/*
+   Nur fuer Foto-/Video-Ueberlagerungen (Hero, Seitenkoepfe, Abschluss-CTA,
+   transparente Kopfzeile). Fuer flaechige Sektionen ohne Bild darunter gilt
+   .auf-warm - siehe Kommentar bei den Rollen-Tokens oben.
+*/
+.auf-dunkel {
+  background-color: var(--ui-medien);
+  color: var(--ui-text-medien);
+}
+
+/* Ersetzt die grossen dunklen Bloecke: Greige-Flaeche, Petrol-Text - dieselbe
+   Textfarbe wie auf Off-White und Sand, da Petrol auf allen dreien traegt. */
+.auf-warm {
+  background-color: var(--ui-warm-flaeche);
+  color: var(--ui-text);
+}
+
+/* Haarlinie als Trenner - der einzige Ort, an dem Champagner grossflaechig
+   auftaucht, und selbst da nur als 1 px. */
+/*
+   Bildlaufleiste in der Palette der Seite.
+
+   Der graue Standardbalken des Browsers ist auf einer warmen, gedeckten
+   Flaeche das lauteste Element auf dem Schirm - und das einzige, das nicht
+   zum Rest gehoert. Beide Wege sind hier abgedeckt: `scrollbar-color` als
+   heutiger Standard (Firefox, Chrome ab 121, Safari 18.2) und die alten
+   ::-webkit-Pseudoelemente fuer aeltere Blink- und WebKit-Fassungen. Wo der
+   Standard greift, gewinnt er - beide Regelsaetze beschreiben ohnehin
+   dasselbe Bild.
+
+   Alle Werte kommen aus den Rollen-Tokens, nicht aus festen Farben: Damit
+   zieht die Leiste beim Umschalten auf hohen Kontrast von selbst mit.
+
+   Breite bewusst nicht unter ~10 px: Eine Leiste, die man kaum trifft, ist
+   fuer Menschen mit eingeschraenkter Feinmotorik schlechter als eine
+   haessliche - und die sind hier ein grosser Teil der Zielgruppe. Aus
+   demselben Grund `thin` statt `none`, nie ganz ausgeblendet.
+*/
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-akzent-warm) var(--ui-grund-warm);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ui-grund-warm);
+}
+
+::-webkit-scrollbar-thumb {
+  /* Der Rand in Trackfarbe laesst den Griff schmaler wirken, als er zum
+     Treffen ist - er behaelt seine volle Klickbreite. */
+  background: color-mix(in srgb, var(--ui-akzent-warm) 60%, var(--ui-grund-warm));
+  border: 2px solid var(--ui-grund-warm);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-akzent-warm);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--ui-grund-warm);
+}
+
+.haarlinie {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ui-akzent) 18%,
+    var(--ui-akzent) 82%,
+    transparent
+  );
+  opacity: 0.55;
+}
+
+/* Sanftes Einblenden beim Scrollen. Basis fuer alle Reveal-Effekte;
+   Motion setzt darauf auf, aber ohne JS funktioniert die Seite trotzdem. */
+.kein-js-sichtbar {
+  opacity: 1;
+}
+
+/* Bild mit ruhiger Vergroesserung beim Hover - langsam genug, dass es
+   nicht als Effekt auffaellt. */
+.bild-ruhig img {
+  transition: transform var(--dauer-lang) var(--kurve);
+}
+
+.bild-ruhig:hover img {
+  transform: scale(1.03);
+}
+
+/* ==========================================================================
+   Formulare
+   ========================================================================== */
+
+.feld {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ui-linie);
+  padding: 0.85rem 0.25rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--ui-text);
+  transition: border-color var(--dauer-kurz) var(--kurve);
+  border-radius: 0;
+}
+
+.feld:hover {
+  border-bottom-color: var(--ui-aktion);
+}
+
+.feld:focus {
+  outline: none;
+  border-bottom-color: var(--ui-aktion);
+  border-bottom-width: 2px;
+  padding-bottom: calc(0.85rem - 1px);
+}
+
+.feld:focus-visible {
+  outline: 3px solid var(--ui-aktion);
+  outline-offset: 4px;
+}
+
+.feld[aria-invalid="true"] {
+  border-bottom-color: #9a3412;
+  border-bottom-width: 2px;
+}
+
+/* .feld-marke steht weiter oben in der components-Ebene - siehe Kommentar dort. */
+
+/* Honigtopf: fuer Menschen und Screenreader unsichtbar, fuer Bots verlockend.
+   Kein Captcha - Captchas sind fuer genau diese Zielgruppe eine Barriere. */
+.honigtopf {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Sprunglink
+   ========================================================================== */
+
+.sprunglink {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 100;
+  background: var(--ui-medien);
+  color: var(--ui-text-medien);
+  padding: 0.85rem 1.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  transition: transform var(--dauer-kurz) var(--kurve);
+}
+
+.sprunglink:focus {
+  transform: translate(-50%, 0);
+}
+
+/* ==========================================================================
+   Aufklapplisten
+
+   Radix setzt die Zielhoehe als CSS-Variable; die globale Bewegungsregel
+   weiter oben legt diese Animationen bei "weniger Bewegung" still.
+   ========================================================================== */
+
+@keyframes auf {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes zu {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* ==========================================================================
+   Druck
+
+   Zwei Faelle: die ganze Seite drucken (dann fallen nur Navigation, Video und
+   Knoepfe weg) - oder gezielt einen Abschnitt, ausgeloest vom Druckknopf an
+   der Checkliste. Fuer den zweiten Fall wird alles unsichtbar geschaltet und
+   nur der gewaehlte Bereich zurueckgeholt; das ist der einzige Weg, der ohne
+   Umbau des Seitenaufbaus funktioniert.
+   ========================================================================== */
+
+@media print {
+  .nicht-drucken {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .sektion {
+    padding-block: 0.5rem;
+  }
+
+  .auf-dunkel,
+  .auf-warm {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+  }
+
+  body.druckauswahl * {
+    visibility: hidden;
+  }
+
+  body.druckauswahl .druckbereich,
+  body.druckauswahl .druckbereich * {
+    visibility: visible;
+  }
+
+  body.druckauswahl .druckbereich {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: 0;
+    padding: 0;
+  }
+}
+
+/* ==========================================================================
+   Golden Calm — eigenes Farbsystem NUR für die Startseite.
+
+   Bewusst getrennt von den --ui-* Tokens: Die Startseite ist ein Stil-
+   Experiment nach einem separaten Referenzdesign ("Golden Calm"), die
+   uebrigen Seiten bleiben unangetastet bei der geprueften Petrol-Palette.
+   Praefix --gc- verhindert jede Kollision.
+   ========================================================================== */
+:root {
+  --gc-gold: #c59b6c;
+  --gc-gold-dunkel: #a87f4e;
+  --gc-bg: #f8f6f0;
+  --gc-bg-sekundaer: #e6dfd5;
+  --gc-text: #2c2523;
+  --gc-text-leise: #5c534e;
+  --gc-text-fein: #7a6e64;
+  --gc-navy: #1e2d3b;
+  --gc-navy-dunkel: #16222d;
+  --gc-braun: #5c4530;
+  --gc-karte-rand: #ede6db;
+  --gc-feld-rand: #ddd3c6;
+
+  --gc-schatten-weich: 0 24px 48px -34px rgba(44, 37, 35, 0.32);
+  --gc-schatten-tief: 0 50px 90px -50px rgba(0, 0, 0, 0.5);
+  --gc-schatten-hero: 0 70px 120px -70px rgba(44, 37, 35, 0.5);
+}
+
+@keyframes gc-schweben {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.gc-schweben {
+  animation: gc-schweben 8s ease-in-out infinite;
+}
+
+html[data-bewegung="reduziert"] .gc-schweben,
+html:not([data-bewegung="voll"]) .gc-schweben {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-schweben {
+    animation: none;
+  }
+}
+
+/* Anker-Ziele fuer die Golden-Calm-Startseite: Ausgleich fuer die fixierte
+   Kopfzeile (~4.75rem), sonst verschwindet die Ueberschrift beim Sprung
+   dahinter. */
+.gc-anker {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Golden-Calm-Startseite: Grid-/Flex-Kinder duerfen schrumpfen.
+   Browser setzen bei Grid- und Flex-Items per Spezifikation min-width:auto -
+   das Kind bleibt dann mindestens so breit wie sein eigener unumbrochener
+   Inhalt, selbst wenn der Container schmaler ist. Bei 130 % Textgroesse auf
+   schmalen Schirmen fuehrte genau das mehrfach zu waagerechtem Scrollen,
+   quer durch mehrere Abschnitte. Statt jedes Kind einzeln zu markieren, gilt
+   die Korrektur pauschal fuer alle direkten Kinder von Grid-Containern
+   innerhalb der Golden-Calm-Seite. */
+[data-gc] .grid > * {
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Golden-Calm-Kontext fuer wiederverwendete Bausteine.
+
+   Zeitstrahl, SituationsKlaerer, Checkliste, Fragen, Wohnungsweg und
+   Einsatzgebiet nutzen ausschliesslich die geteilten --ui-* Tokens (das war
+   bei ihrem Bau bereits so angelegt). Statt sie fuer Behandlung/Ablauf zu
+   verdoppeln oder umzuschreiben, haengt diese Klasse die Tokens innerhalb
+   eines Rahmens auf Gold/Navy um - derselbe Kniff wie beim wiederverwendeten
+   Formular in GcKontakt. Jeder Wert unten ist rechnerisch gegen Creme
+   (#F8F6F0), Sekundaer (#E6DFD5) und Weiss geprueft, nicht nur aus der
+   Referenz uebernommen (siehe Notiz zu den Kontrastfehlern beim ersten
+   Golden-Calm-Durchgang).
+   ========================================================================== */
+.gc-kontext {
+  --ui-grund: var(--gc-bg);
+  --ui-grund-warm: var(--gc-bg-sekundaer);
+  --ui-warm-flaeche: var(--gc-bg-sekundaer);
+  --ui-text: var(--gc-text);
+  --ui-text-leise: var(--gc-text-leise);
+  --ui-linie: var(--gc-feld-rand);
+  --ui-linie-fein: #ece4d8;
+  --ui-linie-warm: rgba(30, 45, 59, 0.16);
+  --ui-akzent: var(--gc-gold); /* dekorativ, wie im Rest der Seite nie Fliesstext */
+  --ui-akzent-warm: #6e5940; /* gepruefter Kicker-Ton, >=4.5:1 auf Creme/Sekundaer/Weiss */
+  --ui-aktion: var(--gc-navy);
+  --ui-aktion-hover: var(--gc-navy-dunkel);
+
+  color: var(--gc-text);
+  background: var(--gc-bg);
+}
+
+.gc-kontext .schrift-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 400;
+}
+
+.gc-kontext p,
+.gc-kontext span,
+.gc-kontext li,
+.gc-kontext dt,
+.gc-kontext dd {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+}

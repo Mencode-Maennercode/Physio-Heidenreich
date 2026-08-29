@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# Arbeitsordner: Rohdateien der Platzhalter-Medien, Motiv-Sichtung und die
+# Bildschirmfotos der Pruefung. Alle liegen ausserhalb von public/, damit sie
+# nicht in den Export wandern.
+.medien-roh/
+.sichtung/
+.pruefung/

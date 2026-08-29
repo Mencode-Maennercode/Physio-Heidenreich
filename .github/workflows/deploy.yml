@@ -1,0 +1,56 @@
+name: Bauen und auf netcup hochladen
+
+# Baut die statische Seite und laedt sie per FTP auf den Webspace.
+#   - bei jedem Push auf main
+#   - oder von Hand ueber "Run workflow" in GitHub
+#
+# Einzurichtende Secrets im Repository (Settings -> Secrets -> Actions):
+#   FTP_SERVER    z. B. ftp.eigenedomain.de
+#   FTP_USER      FTP-Benutzername aus dem netcup-Kundenkonto
+#   FTP_PASSWORT  zugehoeriges Passwort
+#   FTP_ZIEL      Dokumentenverzeichnis, z. B. /nora-physio/ oder /
+#
+# WICHTIG: FTP_ZIEL muss ein eigenes Verzeichnis sein, getrennt von anderen
+# Seiten auf demselben Webspace. So kann ein Deploy hier nichts anderes
+# ueberschreiben.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Statische Seite bauen (erzeugt ./out)
+        run: npm run build
+
+      - name: Per FTP hochladen
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORT }}
+          local-dir: ./out/
+          server-dir: ${{ secrets.FTP_ZIEL }}
+          # Nichts loeschen, was nicht aus dem Build stammt - etwa eine von
+          # Hand angelegte .htaccess oder Dateien aus _data.
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
