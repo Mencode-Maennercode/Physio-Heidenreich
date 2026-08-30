@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { gegenstueck, spracheAus } from "@/lib/sprache";
 import { cn } from "@/lib/utils";
 
 /**
@@ -27,7 +28,7 @@ import { cn } from "@/lib/utils";
  */
 export default function Sprachwahl({ className }: { className?: string }) {
   const pfad = usePathname();
-  const aufEnglisch = pfad.startsWith("/en");
+  const aufEnglisch = spracheAus(pfad) === "en";
 
   /* min-h-11 = 44 px: Beruehrflaechen duerfen nicht kleiner sein. Ohne die
      Angabe war der Knopf nur 33 px hoch - gemessen mit
@@ -44,7 +45,7 @@ export default function Sprachwahl({ className }: { className?: string }) {
       aria-label="Sprache wählen"
     >
       <Link
-        href="/"
+        href={gegenstueck(pfad, "de")}
         hrefLang="de"
         aria-current={aufEnglisch ? undefined : "true"}
         className={cn(
@@ -57,7 +58,7 @@ export default function Sprachwahl({ className }: { className?: string }) {
         DE
       </Link>
       <Link
-        href="/en/"
+        href={gegenstueck(pfad, "en")}
         hrefLang="en"
         aria-current={aufEnglisch ? "true" : undefined}
         className={cn(

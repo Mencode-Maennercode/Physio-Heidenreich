@@ -9,7 +9,8 @@ import Logo from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
 import SmsKnopf from "./SmsKnopf";
 import Sprachwahl from "@/components/Sprachwahl";
-import { kontakt, navigation } from "@/lib/site-config";
+import { kontakt } from "@/lib/site-config";
+import { UI, spracheAus } from "@/lib/sprache";
 import { cn } from "@/lib/utils";
 
 /**
@@ -28,6 +29,10 @@ import { cn } from "@/lib/utils";
  */
 export default function Kopfzeile() {
   const pfad = usePathname();
+  /* Die Sprache steht in der Adresse - kein Zustand, kein Umschalten im
+     Kopf. Damit stimmt sie auch beim ersten Aufbau auf dem Server. */
+  const sprache = spracheAus(pfad);
+  const { navigation, ...beschriftung } = UI[sprache];
   const [gescrollt, setzeGescrollt] = useState(false);
   const [menueOffen, setzeMenueOffen] = useState(false);
 
@@ -64,62 +69,110 @@ export default function Kopfzeile() {
             aufzureissen. Alle Elemente behalten dabei ihre volle,
             mitwachsende Groesse - nichts wird fuer diesen Randfall
             verkleinert. */}
-        <div className="huelle flex min-h-[4.75rem] flex-wrap items-center justify-between gap-x-6 gap-y-2 py-2">
+        {/*
+          Zwei Zonen statt drei.
+
+          Vorher standen Logo, Navigation und Knopfgruppe als drei
+          gleichrangige Kinder mit `justify-between` nebeneinander - zusammen
+          zu breit, sodass die Knopfgruppe unter das Logo umbrach und links
+          eine grosse Luecke entstand. Jetzt gibt es nur noch links (Logo)
+          und rechts (alles andere); innerhalb der rechten Zone ordnen sich
+          Navigation und Knoepfe selbst.
+
+          Die Reihenfolge in der rechten Zone folgt der Wichtigkeit von
+          links nach rechts: erst die Kapitel, dann die stillen Werkzeuge
+          (Sprache, Barrierefreiheit), ganz aussen die Kontaktaufnahme. Der
+          Anruf-Knopf steht damit an der auffaelligsten Stelle der Zeile -
+          dem aeusseren Ende, das der Blick zuletzt und am sichersten
+          trifft.
+        */}
+        <div className="huelle flex min-h-[4.75rem] flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2">
           <Logo />
 
-          <nav aria-label="Hauptmenü" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
-              {navigation.map((eintrag) => {
-                const aktiv =
-                  eintrag.pfad === "/"
-                    ? pfad === "/"
-                    : pfad.startsWith(eintrag.pfad);
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 xl:gap-x-4">
+            <nav aria-label={beschriftung.menue} className="hidden xl:block">
+              <ul className="flex items-center gap-1">
+                {navigation.map((eintrag) => {
+                  const aktiv =
+                    eintrag.pfad === "/"
+                      ? pfad === "/"
+                      : pfad.startsWith(eintrag.pfad);
 
-                return (
-                  <li key={eintrag.pfad}>
-                    <Link
-                      href={eintrag.pfad}
-                      aria-current={aktiv ? "page" : undefined}
-                      className={cn(
-                        "relative flex min-h-[2.75rem] items-center px-3.5 text-[0.92rem] transition-opacity",
-                        aktiv ? "opacity-100" : "opacity-70 hover:opacity-100",
-                      )}
-                    >
-                      {eintrag.name}
-                      {aktiv ? (
-                        <span
-                          aria-hidden="true"
-                          className={cn(
-                            "absolute inset-x-3.5 bottom-1.5 h-px bg-akzent",
-                          )}
-                        />
-                      ) : null}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+                  return (
+                    <li key={eintrag.pfad}>
+                      <Link
+                        href={eintrag.pfad}
+                        aria-current={aktiv ? "page" : undefined}
+                        className={cn(
+                          "relative flex min-h-[2.75rem] items-center px-2.5 text-[0.92rem] transition-opacity",
+                          aktiv ? "opacity-100" : "opacity-70 hover:opacity-100",
+                        )}
+                      >
+                        {eintrag.name}
+                        {aktiv ? (
+                          <span
+                            aria-hidden="true"
+                            className={cn(
+                              "absolute inset-x-2.5 bottom-1.5 h-px bg-akzent",
+                            )}
+                          />
+                        ) : null}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            {/* Feine Trennung zwischen Wegweisern und Werkzeugen. Ohne sie
+                lesen sich Navigationslinks und Knoepfe als eine einzige
+                lange Reihe gleichrangiger Dinge. */}
+            <span
+              aria-hidden="true"
+              className="hidden h-6 w-px bg-linie xl:block"
+            />
 
           <div className="flex items-center gap-2">
-            {/* Sprachwahl ganz links in der Knopfgruppe: Sie ist der am
-                seltensten gebrauchte Knopf und darf dem Telefon nicht den
-                Platz streitig machen. Unter sm entfaellt sie - dort ist der
-                Kopf fuer Logo, Telefon und Menue schon voll, und die
-                englische Seite ist ueber den Fuss weiterhin erreichbar. */}
+            {/* Sprachwahl vor der Barrierefreiheit, beide vor dem Telefon:
+                Es sind stille Werkzeuge, die selten gebraucht werden. Ganz
+                links neben dem Logo waeren sie an der zweitstaerksten
+                Stelle der Zeile gelandet - dort gehoert nichts hin, was
+                man einmal im Jahr braucht.
+
+                Unter md entfaellt die Sprachwahl. Dort ist der Kopf fuer
+                Logo, Telefon und Menue schon voll, und die englische Seite
+                bleibt ueber den Fuss erreichbar. */}
             <Sprachwahl className="hidden md:flex" />
 
-            {/* Festnetz: ab sm mit Nummer im Kopf sichtbar. Darunter bleibt es
-                versteckt - nicht weil das Telefonieren dort unwichtig waere,
-                sondern im Gegenteil: Die feste Anruf-Leiste am unteren Rand
-                (weiter unten in dieser Datei) deckt genau diesen Bereich
-                bereits mit einem vollbreiten, groesseren Anruf-Knopf ab. Ein
-                zweiter, engerer Anruf-Knopf oben waere dort nur redundant -
-                und bei stark vergroesserter Schrift (Barrierefreiheits-
-                Einstellung) reicht der Platz im Kopf fuer Logo, Telefon-,
-                Barrierefreiheits- und Menu-Knopf zusammen nicht mehr; alle
-                vier Elemente skalieren bewusst mit der Textgroesse fuer
-                groessere Tippflaechen. */}
+            <BarrierefreiheitPanel />
+
+            {/* SMS als reines Symbol - der zweite Weg, nicht der erste.
+
+                Die Sichtbarkeit ist gestaffelt, weil der Platz es verlangt:
+                Unter sm traegt die feste Leiste am unteren Rand einen
+                vollbreiten SMS-Knopf. Zwischen lg und xl erscheint zusaetzlich
+                die Navigation, und dann ist die Zeile so voll, dass die
+                Knopfgruppe umbrechen wuerde - dort weicht SMS als
+                schwaechstes Element. Ab xl ist wieder Platz.
+
+                SMS bleibt in jedem Fall erreichbar: unten in der Leiste, auf
+                der Kontaktseite und im Fuss. */}
+            <div className="hidden sm:block xl:hidden 2xl:block">
+              <SmsKnopf nurSymbol />
+            </div>
+
+            {/* Der Anruf steht ganz aussen und ist der einzige gefuellte
+                Knopf im Kopf. Beides mit Absicht: Ein grosser Teil der
+                Anfragen kommt von aelteren Menschen, die anrufen statt zu
+                tippen, und das aeussere Ende einer Zeile ist die Stelle,
+                die der Blick am sichersten trifft.
+
+                Unter sm bleibt er verborgen - nicht weil Telefonieren dort
+                unwichtig waere, sondern im Gegenteil: Die feste Leiste am
+                unteren Rand deckt denselben Zweck mit einer groesseren
+                Flaeche ab. Zwei Anruf-Knoepfe uebereinander waeren nur
+                Verdopplung, und bei vergroesserter Schrift reicht der Platz
+                im Kopf dann ohnehin nicht mehr. */}
             <a
               href={`tel:${kontakt.telefonLink}`}
               className={cn(
@@ -132,20 +185,14 @@ export default function Kopfzeile() {
               </span>
             </a>
 
-            <div className="hidden sm:block">
-              <SmsKnopf nurSymbol />
-            </div>
-
-            <BarrierefreiheitPanel />
-
             <Dialog.Root open={menueOffen} onOpenChange={setzeMenueOffen}>
               <Dialog.Trigger asChild>
                 <button
                   type="button"
                   className={cn(
-                    "flex size-11 items-center justify-center rounded-full border border-linie text-aktion transition-colors hover:bg-grund-warm lg:hidden",
+                    "flex size-11 items-center justify-center rounded-full border border-linie text-aktion transition-colors hover:bg-grund-warm xl:hidden",
                   )}
-                  aria-label="Menü öffnen"
+                  aria-label={beschriftung.menueOeffnen}
                 >
                   <Menu className="size-5" aria-hidden="true" />
                 </button>
@@ -163,7 +210,7 @@ export default function Kopfzeile() {
                       <button
                         type="button"
                         className="flex size-11 items-center justify-center rounded-full border border-linie-warm transition-colors hover:bg-grund/40"
-                        aria-label="Menü schließen"
+                        aria-label={beschriftung.menueSchliessen}
                       >
                         <X className="size-5" aria-hidden="true" />
                       </button>
@@ -171,7 +218,7 @@ export default function Kopfzeile() {
                   </div>
 
                   <nav
-                    aria-label="Hauptmenü"
+                    aria-label={beschriftung.menue}
                     className="huelle flex flex-1 flex-col justify-center py-10"
                   >
                     <ul className="flex flex-col gap-1">
@@ -202,6 +249,7 @@ export default function Kopfzeile() {
                 </Dialog.Content>
               </Dialog.Portal>
             </Dialog.Root>
+          </div>
           </div>
         </div>
       </header>

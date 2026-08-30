@@ -1,5 +1,7 @@
 "use client";
 
+import type { Wohnungsweg } from "@/lib/content/typen";
+
 import { useRef, useState } from "react";
 import {
   motion,
@@ -10,7 +12,7 @@ import {
 } from "motion/react";
 import { useRuhig } from "@/components/a11y/Einstellungen";
 import { RUHIGE_KURVE } from "@/components/motion/Enthuellen";
-import { wohnungsweg } from "@/lib/content/behandlung";
+import { wohnungsweg as wohnungswegDe } from "@/lib/content/behandlung";
 import { cn } from "@/lib/utils";
 
 /**
@@ -52,7 +54,11 @@ const STUFEN = [262, 278, 294, 310, 326];
 /** Mittelpunkt der Zeichenfläche - Bezug für die Kamerafahrt. */
 const MITTE = { x: 300, y: 210 };
 
-function Liste() {
+function Liste({
+  wohnungsweg,
+}: {
+  wohnungsweg: Wohnungsweg;
+}) {
   return (
     <div className="huelle sektion">
       <p className="augenbraue">{wohnungsweg.augenbraue}</p>
@@ -83,7 +89,15 @@ function Liste() {
   );
 }
 
-export default function Wohnungsweg() {
+/*
+  Inhalt als Parameter, deutscher Inhalt als Vorgabe - damit rendert
+  derselbe Baustein beide Sprachen. Siehe lib/content/typen.ts.
+*/
+export default function Wohnungsweg({
+  wohnungsweg = wohnungswegDe,
+}: {
+  wohnungsweg?: Wohnungsweg;
+} = {}) {
   const ruhig = useRuhig();
   const bereich = useRef<HTMLDivElement>(null);
   const [aktiv, setzeAktiv] = useState(0);
@@ -107,7 +121,7 @@ export default function Wohnungsweg() {
     setzeAktiv(index);
   });
 
-  if (ruhig) return <Liste />;
+  if (ruhig) return <Liste wohnungsweg={wohnungsweg} />;
 
   const stelle = wohnungsweg.stationen[aktiv];
 
@@ -123,7 +137,7 @@ export default function Wohnungsweg() {
         Fensterbreite, damit beim ersten Bildaufbau nichts springt.
       */}
       <div className="lg:hidden">
-        <Liste />
+        <Liste wohnungsweg={wohnungsweg} />
       </div>
 
       {/*

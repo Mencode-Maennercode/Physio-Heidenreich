@@ -1,8 +1,10 @@
 "use client";
 
+import type { Fragen } from "@/lib/content/typen";
+
 import * as Accordion from "@radix-ui/react-accordion";
 import { Plus } from "lucide-react";
-import { fragen } from "@/lib/content/ablauf";
+import { fragen as fragenDe } from "@/lib/content/ablauf";
 
 /**
  * Häufige Fragen als Aufklappliste.
@@ -14,7 +16,15 @@ import { fragen } from "@/lib/content/ablauf";
  * `type="multiple"` mit Absicht: Wer zwei Fragen vergleichen will, soll nicht
  * beim Aufklappen der zweiten die erste verlieren.
  */
-export default function Fragen() {
+/*
+  Inhalt als Parameter, deutscher Inhalt als Vorgabe - damit rendert
+  derselbe Baustein beide Sprachen. Siehe lib/content/typen.ts.
+*/
+export default function Fragen({
+  fragen = fragenDe,
+}: {
+  fragen?: Fragen;
+} = {}) {
   return (
     <Accordion.Root type="multiple" className="border-t border-linie-fein">
       {fragen.liste.map((eintrag) => (

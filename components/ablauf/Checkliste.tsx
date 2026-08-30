@@ -1,8 +1,10 @@
 "use client";
 
+import type { Checkliste } from "@/lib/content/typen";
+
 import { useEffect } from "react";
 import { Printer } from "lucide-react";
-import { checkliste } from "@/lib/content/ablauf";
+import { checkliste as checklisteDe } from "@/lib/content/ablauf";
 import { kontakt, seite } from "@/lib/site-config";
 
 /**
@@ -13,7 +15,15 @@ import { kontakt, seite } from "@/lib/site-config";
  * globals.css blenden dann alles außer diesem Abschnitt aus - so entsteht ein
  * einzelnes Blatt statt zwölf Seiten Website.
  */
-export default function Checkliste() {
+/*
+  Inhalt als Parameter, deutscher Inhalt als Vorgabe - damit rendert
+  derselbe Baustein beide Sprachen. Siehe lib/content/typen.ts.
+*/
+export default function Checkliste({
+  checkliste = checklisteDe,
+}: {
+  checkliste?: Checkliste;
+} = {}) {
   // Die Klasse muss auch dann verschwinden, wenn der Druckdialog abgebrochen
   // wird - sonst bleibt sie bis zum naechsten Seitenwechsel haengen.
   useEffect(() => {

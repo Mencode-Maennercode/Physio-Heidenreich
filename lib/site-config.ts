@@ -87,9 +87,9 @@ export const kontakt = {
   telefonLink: "+4926418904973",
   telefonAnzeige: "02641 / 890 49 73",
 
-  mobil: "0171 3900123",
-  mobilLink: "+491713900123",
-  mobilAnzeige: "0171 390 01 23",
+  mobil: "0160 2205263",
+  mobilLink: "+491602205263",
+  mobilAnzeige: "0160 220 52 63",
 
   /**
    * SMS an die Mobilnummer. Ohne Vorbelegung des Textes - die Nachricht
@@ -108,9 +108,8 @@ export const kontakt = {
    * unterliegt dem Fernmeldegeheimnis statt der Datenverarbeitung eines
    * Drittlandanbieters.
    */
-  sms: "sms:+491713900123",
+  sms: "sms:+491602205263",
 
-  /** PLATZHALTER */
   email: "kontakt@nora-heidenreich.de",
 
   /**
@@ -246,7 +245,10 @@ export const navigation = [
   { name: "Start", pfad: "/" },
   { name: "Behandlung", pfad: "/behandlung/" },
   { name: "Über mich", pfad: "/ueber-mich/" },
-  { name: "Ablauf & Abrechnung", pfad: "/ablauf/" },
+  /* Kurz im Menue, ausfuehrlich auf der Seite: "Ablauf & Abrechnung" war
+     mit Abstand der breiteste Eintrag und zwang die ganze Knopfgruppe in
+     eine zweite Zeile. Die Ueberschrift der Seite nennt weiterhin beides. */
+  { name: "Ablauf", pfad: "/ablauf/" },
   { name: "Kontakt", pfad: "/kontakt/" },
 ] as const;
 

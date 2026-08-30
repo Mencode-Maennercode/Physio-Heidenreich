@@ -2,8 +2,10 @@
 
 import { Brain, House, Phone, UserRound } from "lucide-react";
 import RuhigesVideo from "@/components/RuhigesVideo";
+import TerminHinweis from "@/components/TerminHinweis";
 import MagnetKnopf from "./MagnetKnopf";
-import { hero, person } from "@/lib/content/golden-calm";
+import { hero as heroDe, person as personDe } from "@/lib/content/golden-calm";
+import type { Hero, Person } from "@/lib/content/typen";
 import { kontakt } from "@/lib/site-config";
 
 /** Symbole zu den drei Merkmalen - Zuordnung ueber den Namen im Inhalt. */
@@ -32,7 +34,21 @@ const SYMBOLE = {
  * den Abzug rechnet die Sektion mit Platz, den sie nicht hat, und die
  * Merkmalszeile verschwindet hinter der Leiste.
  */
-export default function GcHero() {
+export default function GcHero({
+  hero = heroDe,
+  person = personDe,
+  anfrageLabel = "Hausbesuch anfragen",
+  videoBeschreibung = "Ältere Frau geht mit einem Rollator durch ihr helles Wohnzimmer, bleibt stehen und lächelt",
+}: {
+  hero?: Hero;
+  person?: Person;
+  /* Beschriftung des zweiten Knopfes. Sie steht nicht in den Inhalten,
+     weil sie zur Bedienung gehoert, nicht zum Text der Seite. */
+  anfrageLabel?: string;
+  /* Die Bildbeschreibung des Videos muss mit uebersetzt werden - sie ist
+     fuer blinde Nutzer der einzige Zugang zum Motiv. */
+  videoBeschreibung?: string;
+} = {}) {
   return (
     <section
       id="top"
@@ -88,7 +104,7 @@ export default function GcHero() {
           <div className="relative h-full w-full sm:aspect-video sm:h-auto sm:max-h-full sm:w-[62%] sm:self-center lg:w-[56%]">
             <RuhigesVideo
               name="hero"
-              beschreibung="Ältere Frau geht mit einem Rollator durch ihr helles Wohnzimmer, bleibt stehen und lächelt"
+              beschreibung={videoBeschreibung}
               className="absolute inset-0 h-full w-full"
               videoKlasse="h-full w-full translate-x-[12%] object-cover object-[50%_15%] sm:translate-x-0 sm:object-center"
               schleife={false}
@@ -174,6 +190,10 @@ export default function GcHero() {
               Text beruehrt. 28rem enden bei 1440 px Fensterbreite rund bei
               42 % - der Verlauf deckt bis 44 %. */}
           <div className="max-w-[32rem]">
+            {/* Ganz oben in der Textspalte, noch vor der Augenbraue: die
+                erste farbige Flaeche, die der Blick trifft. Wegklickbar -
+                siehe Begruendung in der Komponente. */}
+            <TerminHinweis />
             {/* Stille Augenbraue statt des frueheren umrandeten Abzeichens -
                 dieselbe Angabe, ohne den Blick als Erstes auf sich zu
                 ziehen. */}
@@ -273,7 +293,7 @@ export default function GcHero() {
                   color: "var(--gc-text)",
                 }}
               >
-                Hausbesuch anfragen
+                {anfrageLabel}
               </MagnetKnopf>
             </div>
           </div>

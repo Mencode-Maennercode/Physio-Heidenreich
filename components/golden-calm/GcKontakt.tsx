@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 import Formular from "@/components/kontakt/Formular";
 import MagnetKnopf from "./MagnetKnopf";
-import { kontaktBand } from "@/lib/content/golden-calm";
+import { kontaktBand as kontaktBandDe } from "@/lib/content/golden-calm";
+import type { KontaktBand } from "@/lib/content/typen";
 import { kontakt } from "@/lib/site-config";
 
 /**
@@ -15,7 +16,17 @@ import { kontakt } from "@/lib/site-config";
  * umgefaerbt, indem die geteilten --ui-* Tokens innerhalb dieses Rahmens auf
  * die Golden-Calm-Werte umgehaengt werden. Kein Code doppelt gepflegt.
  */
-export default function GcKontakt() {
+/*
+  Der Inhalt kommt als Parameter herein, mit dem deutschen als Vorgabe.
+  So rendert dieselbe Komponente die deutsche und die englische Seite -
+  ohne Kopie und ohne dass die Gestaltung zweimal gepflegt werden muss.
+  Bestehende Aufrufe ohne Parameter bleiben unveraendert deutsch.
+*/
+export default function GcKontakt({
+  kontaktBand = kontaktBandDe,
+}: {
+  kontaktBand?: KontaktBand;
+} = {}) {
   return (
     <section
       id="kontakt"

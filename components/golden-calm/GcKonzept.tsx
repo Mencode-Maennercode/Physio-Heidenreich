@@ -2,9 +2,20 @@
 
 import TiltKarte from "./TiltKarte";
 import ScrollReveal from "./ScrollReveal";
-import { konzept } from "@/lib/content/golden-calm";
+import { konzept as konzeptDe } from "@/lib/content/golden-calm";
+import type { Konzept } from "@/lib/content/typen";
 
-export default function GcKonzept() {
+/*
+  Der Inhalt kommt als Parameter herein, mit dem deutschen als Vorgabe.
+  So rendert dieselbe Komponente die deutsche und die englische Seite -
+  ohne Kopie und ohne dass die Gestaltung zweimal gepflegt werden muss.
+  Bestehende Aufrufe ohne Parameter bleiben unveraendert deutsch.
+*/
+export default function GcKonzept({
+  konzept = konzeptDe,
+}: {
+  konzept?: Konzept;
+} = {}) {
   return (
     <section
       id="konzept"

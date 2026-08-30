@@ -3,7 +3,6 @@ import GcKonzept from "@/components/golden-calm/GcKonzept";
 import GcLeistungen from "@/components/golden-calm/GcLeistungen";
 import GcUeberMich from "@/components/golden-calm/GcUeberMich";
 import GcKontakt from "@/components/golden-calm/GcKontakt";
-import TerminHinweis from "@/components/TerminHinweis";
 
 /**
  * Startseite — Stilexperiment "Golden Calm".
@@ -30,9 +29,6 @@ export default function Startseite() {
       style={{ background: "var(--gc-bg)", color: "var(--gc-text)" }}
     >
       <GcHero />
-      {/* Direkt unter dem Hero: faellt beim ersten Weiterscrollen auf,
-          verdeckt aber nie etwas. Siehe Begruendung in der Komponente. */}
-      <TerminHinweis />
       <GcKonzept />
       <GcLeistungen />
       <GcUeberMich />

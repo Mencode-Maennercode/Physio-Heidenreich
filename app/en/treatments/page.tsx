@@ -13,21 +13,23 @@ import {
 } from "@/components/motion/Enthuellen";
 import { kontakt } from "@/lib/site-config";
 import {
-  kopf,
+  behandlungKopf as kopf,
   schwerpunkt,
   warumZuHause,
-  weitereBehandlungen,
-  wohnungsweg,
-} from "@/lib/content/behandlung";
+  leistungsliste as weitereBehandlungen,
+  wohnungswegText as wohnungsweg,
+} from "@/lib/content/en/seiten";
 
 export const metadata: Metadata = {
-  title: "Behandlungen im Hausbesuch",
+  title: {
+    absolute: "Treatments at Home | Physiotherapy Ahrweiler District",
+  },
   alternates: {
-    canonical: "/behandlung/",
+    canonical: "/en/treatments/",
     languages: { "de-DE": "/behandlung/", en: "/en/treatments/" },
   },
   description:
-    "Physiotherapie im Hausbesuch: Krankengymnastik, Mobilisation, Nachsorge nach Operationen, Sturzprophylaxe, Lymphdrainage und neurologische Behandlung mit besonderer Erfahrung.",
+    "Physiotherapy in a home visit: exercise therapy, mobilisation, post-operative care, fall prevention, lymphatic drainage and neurological treatment.",
 };
 
 /**
@@ -44,9 +46,9 @@ export const metadata: Metadata = {
  * Gold/Navy/Cormorant um (siehe app/globals.css). Deshalb kein Nachbau
  * dieser Bausteine noetig, nur die Umgebung stimmt jetzt.
  */
-export default function BehandlungSeite() {
+export default function TreatmentsPage() {
   return (
-    <div className="gc-kontext" data-gc>
+    <div lang="en" className="gc-kontext" data-gc>
       <GcSeitenKopf
         kicker={kopf.augenbraue}
         titel={kopf.titel}
@@ -175,15 +177,15 @@ export default function BehandlungSeite() {
           <div className="huelle pt-[var(--sektion-luft)] lg:hidden">
             <p className="text-leise">{wohnungsweg.text}</p>
           </div>
-          <Wohnungsweg />
+          <Wohnungsweg wohnungsweg={wohnungsweg} />
         </section>
 
         <section className="sektion bg-grund-warm">
           <div className="huelle-eng text-center">
             <Enthuellen className="flex flex-col items-center">
-              <p className="augenbraue">Unsicher, was passt?</p>
+              <p className="augenbraue">Not sure what fits?</p>
               <h2 className="schrift-display titel-klein mt-6 max-w-[26ch]">
-                Rufen Sie an. Fünfzehn Minuten Telefon ersparen oft drei Termine.
+                Just call. Fifteen minutes on the phone often saves three appointments.
               </h2>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Knopf
@@ -195,7 +197,7 @@ export default function BehandlungSeite() {
                     </>
                   }
                 />
-                <Knopf href="/ablauf/" art="linie" kind="Ablauf und Abrechnung" />
+                <Knopf href="/en/how-it-works/" art="linie" kind="How it works" />
               </div>
             </Enthuellen>
           </div>

@@ -1,9 +1,11 @@
 "use client";
 
+import type { Stationen } from "@/lib/content/typen";
+
 import { useRef } from "react";
 import { motion, useInView, useScroll, useSpring } from "motion/react";
 import { useRuhig } from "@/components/a11y/Einstellungen";
-import { stationen } from "@/lib/content/ablauf";
+import { stationen as stationenDe } from "@/lib/content/ablauf";
 
 /**
  * Die vier Stationen des Ablaufs.
@@ -23,7 +25,15 @@ import { stationen } from "@/lib/content/ablauf";
  * aktiv. Der Inhalt ist in beiden Faellen vollstaendig - es ist eine
  * geordnete Liste, kein Karussell.
  */
-export default function Zeitstrahl() {
+/*
+  Inhalt als Parameter, deutscher Inhalt als Vorgabe - damit rendert
+  derselbe Baustein beide Sprachen. Siehe lib/content/typen.ts.
+*/
+export default function Zeitstrahl({
+  stationen = stationenDe,
+}: {
+  stationen?: Stationen;
+} = {}) {
   const bereich = useRef<HTMLOListElement>(null);
   const ruhig = useRuhig();
 
@@ -71,7 +81,7 @@ function Station({
   station,
   ruhig,
 }: {
-  station: (typeof stationen)[number];
+  station: Stationen[number];
   ruhig: boolean;
 }) {
   const punkt = useRef<HTMLLIElement>(null);

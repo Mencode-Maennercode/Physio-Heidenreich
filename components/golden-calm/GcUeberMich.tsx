@@ -2,9 +2,22 @@
 
 import Bild from "@/components/Bild";
 import ParallaxBild from "./ParallaxBild";
-import { person, ueberMich } from "@/lib/content/golden-calm";
+import { person as personDe, ueberMich as ueberMichDe } from "@/lib/content/golden-calm";
+import type { Person, UeberMich } from "@/lib/content/typen";
 
-export default function GcUeberMich() {
+/*
+  Der Inhalt kommt als Parameter herein, mit dem deutschen als Vorgabe.
+  So rendert dieselbe Komponente die deutsche und die englische Seite -
+  ohne Kopie und ohne dass die Gestaltung zweimal gepflegt werden muss.
+  Bestehende Aufrufe ohne Parameter bleiben unveraendert deutsch.
+*/
+export default function GcUeberMich({
+  person = personDe,
+  ueberMich = ueberMichDe,
+}: {
+  person?: Person;
+  ueberMich?: UeberMich;
+} = {}) {
   return (
     <section
       id="ueber-mich"

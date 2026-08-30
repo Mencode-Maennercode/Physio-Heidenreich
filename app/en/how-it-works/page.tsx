@@ -18,23 +18,28 @@ import {
 } from "@/components/motion/Enthuellen";
 import { heilpraktikerErlaubnis, kontakt } from "@/lib/site-config";
 import {
-  fragen,
-  fuerAngehoerige,
-  grenzen,
-  keinePreisliste,
-  kopf,
-  ohneRezept,
-  zusagen,
-} from "@/lib/content/ablauf";
+  ablaufFragen as fragen,
+  ablaufAngehoerige as fuerAngehoerige,
+  ablaufGrenzen as grenzen,
+  ablaufKeinePreisliste as keinePreisliste,
+  ablaufKopf as kopf,
+  ablaufZusagen as zusagen,
+  ablaufStationen,
+  ablaufSituationen,
+  ablaufCheckliste,
+} from "@/lib/content/en/seiten";
+import { ohneRezept } from "@/lib/content/ablauf";
 
 export const metadata: Metadata = {
-  title: "Ablauf, Kosten und Abrechnung",
+  title: {
+    absolute: "How It Works & Fees | Physiotherapy Ahrweiler District",
+  },
   alternates: {
-    canonical: "/ablauf/",
+    canonical: "/en/how-it-works/",
     languages: { "de-DE": "/ablauf/", en: "/en/how-it-works/" },
   },
   description:
-    "Wie die Kontaktaufnahme läuft, wie ein Termin zustande kommt, wer welche Rechnung bekommt und was Ihre Versicherung erstattet — offen aufgeschrieben, bevor Sie anrufen.",
+    "How to get in touch, how an appointment comes about, who receives which invoice and what your insurer reimburses — written out before you call.",
 };
 
 /**
@@ -45,9 +50,9 @@ export const metadata: Metadata = {
  * (Zeitstrahl, SituationsKlaerer, Checkliste, Fragen, Einsatzgebiet), nur
  * umgefaerbt statt neu gebaut.
  */
-export default function AblaufSeite() {
+export default function HowItWorksPage() {
   return (
-    <div className="gc-kontext" data-gc>
+    <div lang="en" className="gc-kontext" data-gc>
       <GcSeitenKopf
         kicker={kopf.augenbraue}
         titel={kopf.titel}
@@ -72,7 +77,7 @@ export default function AblaufSeite() {
           <div className="huelle">
             <div className="haarlinie" aria-hidden="true" />
             <div className="mt-[clamp(2.5rem,5vw,4rem)]">
-              <Zeitstrahl />
+              <Zeitstrahl stationen={ablaufStationen} />
             </div>
           </div>
         </section>
@@ -139,12 +144,12 @@ export default function AblaufSeite() {
         <section className="sektion">
           <div className="huelle">
             <Sektionskopf
-              augenbraue="Abrechnung"
-              titel="Was gilt für Sie?"
-              text="Wählen Sie Ihre Situation. Sie sehen dann genau den Weg, der Sie betrifft — wer wem die Rechnung stellt, welche Unterlagen nötig sind und wer am Ende erstattet."
+              augenbraue="Fees"
+              titel="What applies to you?"
+              text="Choose your situation. You then see exactly the route that concerns you — who invoices whom, which documents are needed and who reimburses in the end."
               className="mb-14"
             />
-            <SituationsKlaerer />
+            <SituationsKlaerer situationen={ablaufSituationen} />
           </div>
         </section>
 
@@ -235,7 +240,7 @@ export default function AblaufSeite() {
         <section className="sektion">
           <div className="huelle-eng">
             <Enthuellen>
-              <Checkliste />
+              <Checkliste checkliste={ablaufCheckliste} />
             </Enthuellen>
           </div>
         </section>
@@ -246,9 +251,9 @@ export default function AblaufSeite() {
         <section className="sektion">
           <div className="huelle">
             <Sektionskopf
-              augenbraue="Einsatzgebiet und Touren"
-              titel="Warum ich zuerst nach Ihrem Wohnort frage"
-              text="Ich arbeite mit einer bewusst kleinen Zahl an Patientinnen und Patienten und lege Termine so, dass daraus zusammenhängende Routen entstehen."
+              augenbraue="Area and routes"
+              titel="Why I ask where you live first"
+              text="I work with a deliberately small number of patients and arrange appointments so that connected routes emerge from them."
               className="mb-14"
             />
           </div>
@@ -270,7 +275,7 @@ export default function AblaufSeite() {
                 {fragen.titel}
               </h2>
             </div>
-            <Fragen />
+            <Fragen fragen={fragen} />
           </div>
         </section>
 
@@ -280,9 +285,9 @@ export default function AblaufSeite() {
         <section className="sektion bg-grund-warm">
           <div className="huelle-eng text-center">
             <Enthuellen className="flex flex-col items-center">
-              <p className="augenbraue">Noch Fragen offen?</p>
+              <p className="augenbraue">Still have questions?</p>
               <h2 className="schrift-display titel-klein mt-6 max-w-[24ch]">
-                Was hier nicht steht, beantworte ich am Telefon
+                Whatever is not written here, I answer on the phone
               </h2>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Knopf
@@ -295,7 +300,7 @@ export default function AblaufSeite() {
                   }
                 />
                 <SmsKnopf />
-                <Knopf href="/kontakt/" art="linie" kind="Rückruf anfragen" />
+                <Knopf href="/en/contact/" art="linie" kind="Request a call back" />
               </div>
             </Enthuellen>
           </div>

@@ -11,26 +11,29 @@ import {
 } from "@/components/motion/Enthuellen";
 import { grade, kontakt } from "@/lib/site-config";
 import {
-  einleitung,
-  haltung,
-  kopf,
-  qualifikation,
-  warumHausbesuche,
-  werdegang,
-} from "@/lib/content/ueber-mich";
+  aboutEinleitung as einleitung,
+  aboutHaltung as haltung,
+  aboutKopf as kopf,
+  aboutQualifikation as qualifikation,
+  aboutWarumHausbesuche as warumHausbesuche,
+  aboutWerdegang as werdegang,
+} from "@/lib/content/en/seiten";
 
 export const metadata: Metadata = {
-  title: "Ihre Physiotherapeutin",
+  title: {
+    absolute: "Your Physiotherapist | Physiotherapy Ahrweiler District",
+  },
   alternates: {
-    canonical: "/ueber-mich/",
+    canonical: "/en/about/",
     languages: { "de-DE": "/ueber-mich/", en: "/en/about/" },
   },
-  description: `${grade.bachelor}, ${grade.master}. Viele Jahre Klinikerfahrung, überwiegend im neurologischen Bereich — jetzt als mobile Physiotherapie im Kreis Ahrweiler.`,
+  description:
+    "Physiotherapist with a degree from the Netherlands and years of hospital experience, focus on neurology — now working through home visits in the Ahrweiler district.",
 };
 
-export default function UeberMichSeite() {
+export default function AboutPage() {
   return (
-    <div className="gc-kontext" data-gc>
+    <div lang="en" className="gc-kontext" data-gc>
       {/* ------------------------------------------------------------------
           Kopf. Kein Video hier - auf dieser Seite geht es um einen Menschen,
           nicht um Atmosphäre.
@@ -41,7 +44,7 @@ export default function UeberMichSeite() {
             <p className="augenbraue">{kopf.augenbraue}</p>
             <h1 className="schrift-display titel-gross mt-7">{kopf.titel}</h1>
             <p className="mt-4 text-[1.05rem] text-leise">
-              {kopf.untertitel} · {grade.kurz}
+              {kopf.untertitel} · B.Sc. Physiotherapy · M.A. Health Administration
             </p>
 
             <div className="lesespalte-weit mt-9 flex flex-col gap-5 text-[1.1rem]">
@@ -204,7 +207,7 @@ export default function UeberMichSeite() {
                   </>
                 }
               />
-              <Knopf href="/behandlung/" art="linie" kind="Was ich behandle" />
+              <Knopf href="/en/treatments/" art="linie" kind="What I treat" />
             </div>
           </Enthuellen>
         </div>

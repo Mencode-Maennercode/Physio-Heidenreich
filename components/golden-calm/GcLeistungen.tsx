@@ -3,9 +3,20 @@
 import Bild from "@/components/Bild";
 import TiltKarte from "./TiltKarte";
 import ScrollReveal from "./ScrollReveal";
-import { leistungen } from "@/lib/content/golden-calm";
+import { leistungen as leistungenDe } from "@/lib/content/golden-calm";
+import type { Leistungen } from "@/lib/content/typen";
 
-export default function GcLeistungen() {
+/*
+  Der Inhalt kommt als Parameter herein, mit dem deutschen als Vorgabe.
+  So rendert dieselbe Komponente die deutsche und die englische Seite -
+  ohne Kopie und ohne dass die Gestaltung zweimal gepflegt werden muss.
+  Bestehende Aufrufe ohne Parameter bleiben unveraendert deutsch.
+*/
+export default function GcLeistungen({
+  leistungen = leistungenDe,
+}: {
+  leistungen?: Leistungen;
+} = {}) {
   return (
     <section
       id="leistungen"

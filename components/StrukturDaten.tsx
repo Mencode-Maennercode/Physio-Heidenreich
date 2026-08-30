@@ -55,10 +55,58 @@ export default function StrukturDaten() {
       "@type": "City",
       name: ort,
     })),
+    /*
+      Das Einsatzgebiet als Kreis mit Mittelpunkt und Radius.
+
+      Der Mittelpunkt liegt bewusst auf Bad Neuenahr-Ahrweiler, nicht auf
+      der Wohnanschrift: Es ist der Schwerpunkt des Gebiets, und es haelt
+      die genaue Hausadresse aus den Kartendiensten heraus. Fuer eine
+      Praxis ohne Raeume ist das auch die sachlich richtige Angabe - es
+      gibt keinen Ort, an den jemand kommen koennte.
+    */
     serviceArea: {
-      "@type": "AdministrativeArea",
-      name: "Kreis Ahrweiler",
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: 50.5428,
+        longitude: 7.115,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Bad Neuenahr-Ahrweiler",
+          addressRegion: "Rheinland-Pfalz",
+          addressCountry: "DE",
+        },
+      },
+      geoRadius: "20000",
+      description: "Kreis Ahrweiler",
     },
+    /*
+      Erreichbarkeit fuer Anfragen - NICHT Behandlungszeiten. Google zeigt
+      das als Oeffnungszeiten an; deshalb stehen hier genau die Zeiten, zu
+      denen tatsaechlich jemand ans Telefon geht. Falsche Zeiten sind hier
+      schaedlicher als gar keine: Wer vergeblich anruft, ruft nicht wieder
+      an.
+    */
+    openingHoursSpecification: [
+      { oeffnet: "08:00", schliesst: "09:00" },
+      { oeffnet: "17:00", schliesst: "19:00" },
+    ].map((zeit) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+      ],
+      opens: zeit.oeffnet,
+      closes: zeit.schliesst,
+    })),
+    availableLanguage: [
+      { "@type": "Language", name: "German", alternateName: "de" },
+      { "@type": "Language", name: "English", alternateName: "en" },
+      { "@type": "Language", name: "Dutch", alternateName: "nl" },
+    ],
     availableService: [
       "Krankengymnastik im Hausbesuch",
       "Neurologische Physiotherapie",

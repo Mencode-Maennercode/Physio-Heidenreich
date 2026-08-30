@@ -1,8 +1,10 @@
 "use client";
 
+import type { Situationen } from "@/lib/content/typen";
+
 import { useId, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
-import { situationen } from "@/lib/content/ablauf";
+import { situationen as situationenDe } from "@/lib/content/ablauf";
 import { cn } from "@/lib/utils";
 
 /**
@@ -16,7 +18,15 @@ import { cn } from "@/lib/utils";
  * Umgesetzt als klassisches Reitermuster nach ARIA: Pfeiltasten wechseln,
  * Pos1/Ende springen an den Rand, der Reiterinhalt ist selbst anfahrbar.
  */
-export default function SituationsKlaerer() {
+/*
+  Inhalt als Parameter, deutscher Inhalt als Vorgabe - damit rendert
+  derselbe Baustein beide Sprachen. Siehe lib/content/typen.ts.
+*/
+export default function SituationsKlaerer({
+  situationen = situationenDe,
+}: {
+  situationen?: Situationen;
+} = {}) {
   const [aktiv, setzeAktiv] = useState(0);
   const basis = useId();
   const knoepfe = useRef<(HTMLButtonElement | null)[]>([]);

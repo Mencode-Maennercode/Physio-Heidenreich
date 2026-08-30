@@ -31,6 +31,11 @@ const SEITEN = [
   "/kontakt/",
   "/einfache-sprache/",
   "/impressum/",
+  "/en/",
+  "/en/treatments/",
+  "/en/about/",
+  "/en/how-it-works/",
+  "/en/contact/",
 ];
 
 const TYPEN = {

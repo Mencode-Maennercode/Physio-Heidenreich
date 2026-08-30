@@ -7,7 +7,10 @@ import { kontakt, terminstatus } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Termin anfragen",
-  alternates: { canonical: "/kontakt/" },
+  alternates: {
+    canonical: "/kontakt/",
+    languages: { "de-DE": "/kontakt/", en: "/en/contact/" },
+  },
   description:
     "Telefonisch, per SMS oder über das Formular. Hausbesuche im Kreis Ahrweiler — Rückruf zur gewünschten Zeit.",
 };

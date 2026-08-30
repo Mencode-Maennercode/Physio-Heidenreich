@@ -62,6 +62,11 @@ const SEITEN = [
   "/einfache-sprache/",
   "/impressum/",
   "/datenschutz/",
+  "/en/",
+  "/en/treatments/",
+  "/en/about/",
+  "/en/how-it-works/",
+  "/en/contact/",
 ];
 
 function starteServer() {
