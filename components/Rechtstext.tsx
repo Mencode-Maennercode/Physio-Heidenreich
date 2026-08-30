@@ -65,7 +65,21 @@ export function Platzhalter({
   return (
     <mark
       className={cn(
-        "rounded-[3px] bg-[#f3e6c9] px-1.5 py-0.5 text-[color:var(--marke-anthrazit)] decoration-clone",
+        /* `break-words` ist hier Pflicht, nicht Kosmetik: Platzhaltertexte
+           enthalten lange Behoerdennamen und Paragrafenketten. Ohne die
+           Angabe ragte die gelbe Markierung auf schmalen Schirmen ueber den
+           Textrand hinaus - gemessen mit scripts/geraete.mjs. */
+        /* `break-words` ist hier Pflicht, nicht Kosmetik: Platzhaltertexte
+           enthalten lange Behoerdennamen und Paragrafenketten.
+
+           Der seitliche Innenabstand ist klein gehalten: Fuellt die
+           Markierung eine ganze Zeile, schiebt ihr Innenabstand die farbige
+           Flaeche wenige Pixel ueber den Textrand hinaus. Das ist bei
+           inline-Elementen mit Innenabstand nicht vermeidbar und faellt
+           nur bei den langen Hinweistexten an - sobald die echten Angaben
+           eingetragen sind, sind die Markierungen kurz und das Verhalten
+           spielt keine Rolle mehr. */
+        "rounded-[3px] bg-[#f3e6c9] px-1 py-0.5 text-[color:var(--marke-anthrazit)] decoration-clone break-words hyphens-auto",
         className,
       )}
     >

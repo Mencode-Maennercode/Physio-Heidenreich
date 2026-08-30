@@ -13,12 +13,17 @@ export const metadata: Metadata = {
 };
 
 /**
- * Impressum nach § 5 Digitale-Dienste-Gesetz.
+ * Impressum nach § 5 Digitale-Dienste-Gesetz (DDG, seit 2024 an der Stelle
+ * des frueheren § 5 TMG).
  *
- * Nach bestem Wissen zusammengestellt, aber ohne Rechtsberatung: Bei einem
- * Heilberuf kommen zu den allgemeinen Angaben die berufsrechtlichen hinzu
- * (Berufsbezeichnung, verleihender Staat, zuständige Aufsicht, einschlägige
- * Vorschriften). Vor dem Livegang sollte das jemand prüfen, der das darf.
+ * Bei einem Heilberuf reichen die allgemeinen Angaben nicht: Nach § 5 Abs. 1
+ * Nr. 5 DDG kommen Berufsbezeichnung, verleihender Staat, zustaendige
+ * Aufsicht und die einschlaegigen berufsrechtlichen Regelungen hinzu -
+ * einschliesslich der Angabe, wo diese einzusehen sind. Das ist der Punkt,
+ * an dem Impressen von Heilberuflern am haeufigsten unvollstaendig sind und
+ * abgemahnt werden.
+ *
+ * Kein Rechtsrat. Vor dem Livegang sollte das jemand pruefen, der das darf.
  */
 export default function ImpressumSeite() {
   return (
@@ -29,15 +34,14 @@ export default function ImpressumSeite() {
           <br />
           {seite.zusatz}
           <br />
-          <Platzhalter>{kontakt.anschrift.strasse}</Platzhalter>
+          {kontakt.anschrift.strasse}
           <br />
-          <Platzhalter>
-            {kontakt.anschrift.plz} {kontakt.anschrift.ort}
-          </Platzhalter>
+          {kontakt.anschrift.plz} {kontakt.anschrift.ort}
         </p>
         <p>
           Die Praxis wird ausschließlich im Hausbesuch geführt. Es gibt keine
-          Praxisräume und keine Sprechzeiten vor Ort.
+          Praxisräume und keine Sprechzeiten vor Ort. Die genannte Anschrift ist
+          die ladungsfähige Anschrift der Inhaberin, kein Behandlungsort.
         </p>
       </Abschnitt>
 
@@ -51,14 +55,31 @@ export default function ImpressumSeite() {
         </p>
       </Abschnitt>
 
+      <Abschnitt titel="Verantwortlich für den Inhalt">
+        <p>
+          {seite.name}, Anschrift wie oben (§ 18 Abs. 2
+          Medienstaatsvertrag).
+        </p>
+      </Abschnitt>
+
       <Abschnitt titel="Berufsbezeichnung und berufsrechtliche Regelungen">
         <p>
-          Berufsbezeichnung: <strong>Physiotherapeutin</strong>
+          Gesetzliche Berufsbezeichnung: <strong>Physiotherapeutin</strong>
           <br />
-          Verliehen in: <Platzhalter>Land der Berufszulassung ergänzen</Platzhalter>
+          Verliehen in: <Platzhalter>
+            Bundesrepublik Deutschland — bitte bestätigen: Die Erlaubnis zum
+            Führen der Berufsbezeichnung wurde nach der Ausbildung in den
+            Niederlanden anerkannt. Einzutragen ist der Staat, der die Erlaubnis
+            erteilt hat, sowie unten die Behörde, die sie ausgestellt hat.
+          </Platzhalter>
         </p>
         <p>
           Akademische Grade: {grade.bachelor}, {grade.master}
+        </p>
+        <p>
+          Für Physiotherapeutinnen und Physiotherapeuten besteht in
+          Rheinland-Pfalz keine Kammer und damit keine Pflichtmitgliedschaft in
+          einer Berufskammer.
         </p>
         <p>Es gelten insbesondere folgende berufsrechtliche Regelungen:</p>
         <Liste
@@ -66,6 +87,10 @@ export default function ImpressumSeite() {
             "Gesetz über die Berufe in der Physiotherapie (Masseur- und Physiotherapeutengesetz, MPhG)",
             "Ausbildungs- und Prüfungsverordnung für Physiotherapeutinnen und Physiotherapeuten (PhysTh-APrV)",
             "Heilmittelwerbegesetz (HWG)",
+            "Gesetz gegen den unlauteren Wettbewerb (UWG)",
+            "Heilpraktikergesetz (HeilprG) — maßgeblich für die Grenze zwischen Behandlung auf ärztliche Verordnung und eigenständiger Heilkundeausübung",
+            "Verschwiegenheitspflicht nach § 203 Strafgesetzbuch (StGB)",
+            "Datenschutz-Grundverordnung (DSGVO) und Bundesdatenschutzgesetz (BDSG)",
           ]}
         />
         <p>
@@ -85,31 +110,48 @@ export default function ImpressumSeite() {
       <Abschnitt titel="Zuständige Aufsichtsbehörde">
         <p>
           <Platzhalter>
-            Gesundheitsamt des Kreises Ahrweiler — vollständige Anschrift
-            ergänzen
+            Einzutragen ist die Behörde, die die Erlaubnis zum Führen der
+            Berufsbezeichnung erteilt hat — bei einer in den Niederlanden
+            erworbenen Ausbildung die Stelle, die sie anerkannt hat. In
+            Rheinland-Pfalz ist das üblicherweise das Landesamt für Soziales,
+            Jugend und Versorgung, Rheinallee 97–101, 55118 Mainz; wurde die
+            Anerkennung während der Zeit in Münster beantragt, ist es die
+            Bezirksregierung Münster. Bitte im Anerkennungsbescheid nachsehen.
           </Platzhalter>
+        </p>
+        <p>
+          Für die Anzeige der Tätigkeit und die Hygieneüberwachung zuständig:
+          Kreisverwaltung Ahrweiler, Gesundheitsamt, Wilhelmstraße 24–30, 53474
+          Bad Neuenahr-Ahrweiler.
         </p>
       </Abschnitt>
 
       <Abschnitt titel="Umsatzsteuer">
         <p>
-          <Platzhalter>
-            Zutreffendes wählen: Kleinunternehmerin nach § 19 UStG, es wird
-            keine Umsatzsteuer ausgewiesen — oder Umsatzsteuer-Identifikations­nummer
-            nach § 27 a UStG eintragen.
-          </Platzhalter>
+          Heilbehandlungen im Bereich der Humanmedizin, die von
+          Physiotherapeutinnen und Physiotherapeuten erbracht werden, sind nach
+          § 4 Nr. 14 Buchstabe a Umsatzsteuergesetz von der Umsatzsteuer
+          befreit. Auf Rechnungen wird daher keine Umsatzsteuer ausgewiesen.
         </p>
         <p>
-          Heilbehandlungen im Bereich der Humanmedizin sind nach § 4 Nr. 14
-          Buchstabe a UStG von der Umsatzsteuer befreit.
+          <Platzhalter>
+            Falls zusätzlich umsatzsteuerpflichtige Leistungen erbracht werden
+            (etwa reine Präventions- oder Trainingsangebote ohne
+            Heilbehandlungscharakter): Hier ergänzen, ob die
+            Kleinunternehmerregelung nach § 19 UStG in Anspruch genommen wird
+            oder eine Umsatzsteuer-Identifikationsnummer nach § 27 a UStG
+            vorliegt.
+          </Platzhalter>
         </p>
       </Abschnitt>
 
       <Abschnitt titel="Berufshaftpflichtversicherung">
         <p>
           <Platzhalter>
-            Name und Anschrift der Versicherung sowie räumlicher Geltungsbereich
-            ergänzen.
+            Nach Abschluss eintragen: Name und Anschrift des Versicherers sowie
+            der räumliche Geltungsbereich. Vorgesehen ist die Continentale
+            Sachversicherung AG, Ruhrallee 92, 44139 Dortmund, mit einem
+            Geltungsbereich für die Bundesrepublik Deutschland.
           </Platzhalter>
         </p>
       </Abschnitt>
@@ -118,13 +160,23 @@ export default function ImpressumSeite() {
         <p>
           Ich bin weder bereit noch verpflichtet, an Streitbeilegungsverfahren
           vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36
-          Verbraucherstreitbeilegungsgesetz).
+          Verbraucherstreitbeilegungsgesetz). Die Online-Streitbeilegungs­plattform
+          der Europäischen Kommission wurde zum 20. Juli 2025 eingestellt; ein
+          Verweis darauf entfällt daher.
         </p>
       </Abschnitt>
 
       <Abschnitt titel="Bildnachweis">
         <p>
-          Alle derzeit verwendeten Bilder und Videos sind Platzhalter von{" "}
+          Die Aufnahmen, auf denen die Inhaberin zu sehen ist, wurden eigens für
+          diese Website erstellt. Sie entstanden rechnergestützt auf Grundlage
+          eigener Fotografien; die dabei dargestellten Patientinnen und
+          Patienten sind keine realen Personen, sondern frei erfunden. Es werden
+          keine tatsächlichen Behandlungssituationen und keine echten
+          Patientinnen oder Patienten gezeigt.
+        </p>
+        <p>
+          Einzelne Raum- und Landschaftsaufnahmen ohne Personen stammen von{" "}
           <a
             href="https://www.pexels.com"
             target="_blank"
@@ -137,18 +189,34 @@ export default function ImpressumSeite() {
         </p>
       </Abschnitt>
 
+      <Abschnitt titel="Hinweis zu den Inhalten">
+        <p>
+          Die Inhalte dieser Website dienen der allgemeinen Information über das
+          Leistungsangebot. Sie ersetzen weder eine ärztliche Beratung noch eine
+          Diagnose oder Behandlung. Ein Behandlungserfolg kann nicht zugesichert
+          werden; jede Behandlung richtet sich nach dem individuellen Befund.
+        </p>
+      </Abschnitt>
+
       <Abschnitt titel="Haftung für Inhalte und Links">
         <p>
           Die Inhalte dieser Seiten wurden mit Sorgfalt erstellt. Für die
           Richtigkeit, Vollständigkeit und Aktualität kann keine Gewähr
-          übernommen werden. Die Inhalte ersetzen keine ärztliche Beratung,
-          Diagnose oder Behandlung.
+          übernommen werden.
         </p>
         <p>
           Für die Inhalte verlinkter externer Seiten sind deren Betreiber
           verantwortlich. Zum Zeitpunkt der Verlinkung waren keine
           Rechtsverstöße erkennbar. Werden mir Rechtsverstöße bekannt, entferne
           ich entsprechende Links umgehend.
+        </p>
+      </Abschnitt>
+
+      <Abschnitt titel="Urheberrecht">
+        <p>
+          Texte, Bilder und Gestaltung dieser Website sind urheberrechtlich
+          geschützt. Eine Verwendung außerhalb der Grenzen des Urheberrechts
+          bedarf meiner vorherigen schriftlichen Zustimmung.
         </p>
       </Abschnitt>
     </Rechtsseite>

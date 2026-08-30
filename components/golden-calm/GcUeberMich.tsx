@@ -69,11 +69,19 @@ export default function GcUeberMich() {
                 className="flex justify-between gap-4 py-[18px] text-[1.05rem] sm:gap-6"
                 style={{ borderBottom: "1px solid var(--gc-bg-sekundaer)" }}
               >
-                <span className="min-w-0" style={{ color: "var(--gc-text-fein)" }}>
+                {/* Die Bezeichnung ist immer ein einzelnes Wort und darf
+                    nicht umbrechen - `min-w-0` allein hat sie stattdessen
+                    beschnitten ("Ausbildung" wurde abgeschnitten). Sie
+                    behaelt deshalb ihre Breite; schrumpfen und umbrechen
+                    tut nur der Wert daneben. */}
+                <span
+                  className="flex-none whitespace-nowrap"
+                  style={{ color: "var(--gc-text-fein)" }}
+                >
                   {fakt.label}
                 </span>
                 <span
-                  className="min-w-0 text-right"
+                  className="min-w-0 text-right break-words"
                   style={{ color: "var(--gc-text)" }}
                 >
                   {fakt.wert}

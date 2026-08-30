@@ -20,7 +20,8 @@ import {
 } from "@/lib/content/ueber-mich";
 
 export const metadata: Metadata = {
-  title: "Über mich",
+  title: "Ihre Physiotherapeutin",
+  alternates: { canonical: "/ueber-mich/" },
   description: `${grade.bachelor}, ${grade.master}. Viele Jahre Klinikerfahrung, überwiegend im neurologischen Bereich — jetzt als mobile Physiotherapie im Kreis Ahrweiler.`,
 };
 

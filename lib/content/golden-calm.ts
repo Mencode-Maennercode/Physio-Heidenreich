@@ -20,8 +20,16 @@ export const hero = {
     im Vorgespraech. Als Pille war er ein Blickfang, als Zeile ist er eine
     Angabe - das ist die richtige Gewichtung.
   */
-  augenbraue: "Privatpraxis · Hausbesuche im Kreis Ahrweiler",
-  titelZeilen: ["Mobile Physiotherapie"],
+  /*
+    Augenbraue und Ueberschrift teilen sich die Arbeit neu auf: Der Ort steht
+    jetzt in der H1, nicht mehr in der Augenbraue. Fuer Suchmaschinen ist die
+    H1 die wichtigste Zeile der Seite - eine H1 ohne Ortsangabe verschenkt
+    genau die Suchanfrage, um die es geht ("Physiotherapie Hausbesuch Kreis
+    Ahrweiler"). Die Augenbraue traegt dafuer die Abrechnungsart, die vorher
+    dort nur angedeutet war.
+  */
+  augenbraue: "Privatpraxis · für Privatpatienten und Selbstzahler",
+  titelZeilen: ["Mobile Physiotherapie", "im Kreis Ahrweiler"],
   text: "Behandlung in Ihren eigenen vier Wänden – ohne Anfahrt, ohne Wartezimmer, mit voller Aufmerksamkeit für jeden Termin.",
   /*
     Drei Merkmale unter dem Video. Bewusst alle drei nachpruefbar und ohne

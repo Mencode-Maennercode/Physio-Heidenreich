@@ -18,8 +18,52 @@ export const seite = {
   domain: "https://www.nora-heidenreich.de",
 
   claim: "Therapie findet dort statt, wo Sie leben.",
+
+  /**
+   * Beschreibung fuer Suchmaschinen und Vorschaukarten.
+   *
+   * Bewusst mit den Worten, die Menschen tatsaechlich eintippen -
+   * "Physiotherapie Hausbesuch", der Landkreis, "Privatpatienten". Alles
+   * daran ist wahr; es ist nur in der Reihenfolge formuliert, in der gesucht
+   * wird, statt in der Reihenfolge, in der man sich selbst vorstellt.
+   * Laenge unter 160 Zeichen, sonst schneidet Google ab.
+   */
   kurzbeschreibung:
-    "Mobile Physiotherapie im Kreis Ahrweiler. Hausbesuche für Privatpatienten und Selbstzahler, mit Schwerpunkt in der Neurologie.",
+    "Physiotherapie im Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler – Krankengymnastik, Neurologie, Lymphdrainage. Termin: 02641 8904973.",
+
+  /**
+   * Titelzeile der Startseite.
+   *
+   * Die Leistung steht vorn, der Name hinten. Wer "Physiotherapie
+   * Hausbesuch Ahrweiler" sucht, kennt den Namen noch nicht - er ist als
+   * Suchwort wertlos und als erstes Wort im Titel verschenkter Platz.
+   * Umgekehrt findet, wer den Namen kennt, die Seite ohnehin.
+   */
+  seoTitel:
+    "Physiotherapie Hausbesuch Kreis Ahrweiler | Mobile Physiotherapie Nora Heidenreich",
+
+  /** Suchworte, die zum Angebot passen - jedes davon nachpruefbar wahr. */
+  schlagworte: [
+    "Physiotherapie Hausbesuch",
+    "mobile Physiotherapie",
+    "Physiotherapie zu Hause",
+    "Hausbesuch Physiotherapeutin",
+    "Physiotherapie Kreis Ahrweiler",
+    "Physiotherapie Bad Neuenahr-Ahrweiler",
+    "Physiotherapie Sinzig",
+    "Physiotherapie Remagen",
+    "Physiotherapie Grafschaft",
+    "Krankengymnastik zu Hause",
+    "Physiotherapie Privatpatienten",
+    "Physiotherapie Selbstzahler",
+    "neurologische Physiotherapie",
+    "Physiotherapie nach Schlaganfall",
+    "Physiotherapie bei Parkinson",
+    "Manuelle Lymphdrainage",
+    "Sturzprophylaxe",
+    "Physiotherapie für Senioren",
+    "Physiotherapie Pflegeheim",
+  ],
 } as const;
 
 export const kontakt = {
@@ -69,11 +113,19 @@ export const kontakt = {
   /** PLATZHALTER */
   email: "kontakt@nora-heidenreich.de",
 
-  /** PLATZHALTER - vollstaendige Anschrift fuer das Impressum. */
+  /**
+   * Ladungsfaehige Anschrift fuer das Impressum.
+   *
+   * Ohne eigene Praxisraeume ist das die Wohnanschrift - § 5 DDG (frueher
+   * TMG) verlangt eine Anschrift, unter der man tatsaechlich erreichbar ist;
+   * ein Postfach genuegt ausdruecklich nicht. Bei mobilen Praxen ohne
+   * Betriebsstaette laesst sich das nicht vermeiden. Die Adresse wird damit
+   * oeffentlich.
+   */
   anschrift: {
-    strasse: "Musterstraße 00",
-    plz: "53474",
-    ort: "Bad Neuenahr-Ahrweiler",
+    strasse: "Josef-Martin-Weg 4",
+    plz: "53501",
+    ort: "Grafschaft",
   },
 
   erreichbarkeit: [
@@ -94,6 +146,34 @@ export const terminstatus: { text: string; stand: string } | null = {
 };
 
 /**
+ * Hinweisstreifen auf der Startseite: aktuell freie Termine.
+ *
+ * `null` blendet ihn vollstaendig aus - dann steht er nicht einmal im HTML.
+ *
+ * Bewusst KEIN Popup und keine Einblendung, die sich ueber den Inhalt legt.
+ * Ein Streifen, der beim Scrollen mitwandert und weggeklickt werden muss,
+ * kostet bei genau dieser Zielgruppe Vertrauen - Angehoerige in einer
+ * angespannten Lage haben keine Geduld fuer Werbeflaechen. Der Streifen
+ * sitzt deshalb fest im Seitenfluss, direkt unter dem Hero: Er faellt beim
+ * Weiterscrollen auf, laesst sich aber ignorieren und verdeckt nie etwas.
+ *
+ * `bisWann` ist eine Sicherung gegen die haeufigste Panne bei solchen
+ * Hinweisen: Sie bleiben stehen, bis jemand sie bemerkt. Nach diesem Datum
+ * verschwindet der Streifen von selbst - ein Datum in der Vergangenheit ist
+ * schlechter als gar kein Hinweis.
+ */
+export const terminHinweis: {
+  text: string;
+  betonung: string;
+  bisWann: string;
+} | null = {
+  text: "Wieder freie Termine ab",
+  betonung: "1. Oktober 2026",
+  /* ISO-Datum. Ab diesem Tag blendet sich der Streifen selbst aus. */
+  bisWann: "2026-10-01",
+};
+
+/**
  * Schalter fuer den vorbereiteten Abschnitt "Behandlung ohne Rezept".
  *
  * Erst auf `true` stellen, wenn die sektorale Heilpraktikererlaubnis
@@ -102,6 +182,29 @@ export const terminstatus: { text: string; stand: string } | null = {
  * angreifbar - der Abschnitt bleibt bis dahin komplett aus dem HTML.
  */
 export const heilpraktikerErlaubnis = false;
+
+/**
+ * Reichweitenmessung und Suchmaschinen-Nachweis.
+ *
+ * `googleId` LEER lassen heisst: kein Analysedienst, kein Skript von Google,
+ * kein Einwilligungsbanner - und die Datenschutzerklaerung sagt weiterhin
+ * wahrheitsgemaess, dass nichts gemessen wird. Sobald hier eine Mess-ID
+ * steht ("G-XXXXXXX"), erscheint das Banner, und Google Analytics laedt
+ * ausschliesslich nach ausdruecklicher Zustimmung. Vorher wird nichts
+ * geladen und nichts gespeichert - das verlangt § 25 TDDDG.
+ *
+ * `sucheNachweis` ist etwas voellig anderes und ausdruecklich unbedenklich:
+ * ein reiner Bestaetigungscode fuer die Google Search Console. Er laedt kein
+ * Skript, setzt nichts im Browser und braucht deshalb keine Einwilligung -
+ * es ist nur eine Zeile im Kopf der Seite. Fuer die Sichtbarkeit bei Google
+ * ist er das weit wichtigere Werkzeug von beiden.
+ */
+export const analyse = {
+  /** PLATZHALTER - GA4-Mess-ID, Format "G-XXXXXXXXXX". Leer = aus. */
+  googleId: "",
+  /** PLATZHALTER - Bestaetigungscode aus der Google Search Console. */
+  sucheNachweis: "",
+} as const;
 
 /** Praxisumfang - bewusst klein. Steuert die Formulierungen zur Kapazitaet. */
 export const kapazitaet = {
@@ -129,10 +232,12 @@ export const einsatzgebiet = {
     "Bad Bodendorf",
     "Sinzig",
     "Remagen",
-    "Niederzissen",
-    "Brohltal",
   ],
-  rand: ["Adenau"],
+  /* Leer: Adenau, Niederzissen und Brohltal sind bewusst draussen. Sie
+     liegen abseits der Ahrtal-Rhein-Achse; sie mitzunehmen haette Anfahrten
+     bedeutet, die sich nicht in eine Route einfuegen. Bleibt die Liste leer,
+     entfaellt der Abschnitt "Auf Anfrage" automatisch. */
+  rand: [] as readonly string[],
   hinweis:
     "Termine vergebe ich entlang zusammenhängender Fahrtrouten. Deshalb frage ich beim ersten Telefonat immer zuerst nach Ihrem Wohnort.",
 } as const;
@@ -147,6 +252,10 @@ export const navigation = [
 
 export const rechtsnavigation = [
   { name: "Einfache Sprache", pfad: "/einfache-sprache/" },
+  /* Im Fuss statt in der Hauptnavigation: Die englische Seite ist ein
+     Angebot fuer wenige, kein gleichwertiger zweiter Auftritt. Auf schmalen
+     Schirmen, wo die Sprachwahl im Kopf entfaellt, ist das der Weg dorthin. */
+  { name: "English", pfad: "/en/" },
   { name: "Impressum", pfad: "/impressum/" },
   { name: "Datenschutz", pfad: "/datenschutz/" },
 ] as const;

@@ -6,7 +6,8 @@ import { Enthuellen } from "@/components/motion/Enthuellen";
 import { kontakt, terminstatus } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Kontakt",
+  title: "Termin anfragen",
+  alternates: { canonical: "/kontakt/" },
   description:
     "Telefonisch, per SMS oder über das Formular. Hausbesuche im Kreis Ahrweiler — Rückruf zur gewünschten Zeit.",
 };

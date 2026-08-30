@@ -21,7 +21,8 @@ import {
 } from "@/lib/content/behandlung";
 
 export const metadata: Metadata = {
-  title: "Behandlung",
+  title: "Behandlungen im Hausbesuch",
+  alternates: { canonical: "/behandlung/" },
   description:
     "Physiotherapie im Hausbesuch: Krankengymnastik, Mobilisation, Nachsorge nach Operationen, Sturzprophylaxe, Lymphdrainage und neurologische Behandlung mit besonderer Erfahrung.",
 };

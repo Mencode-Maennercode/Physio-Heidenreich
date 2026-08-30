@@ -6,6 +6,7 @@ import { einsatzgebiet, kontakt, seite } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Einfache Sprache",
+  alternates: { canonical: "/einfache-sprache/" },
   description:
     "Alles Wichtige über die mobile Physiotherapie von Nora Heidenreich in kurzen, einfachen Sätzen.",
 };
@@ -79,7 +80,12 @@ export default function EinfacheSpracheSeite() {
           </Block>
 
           <Block frage="Was kostet das?">
-            <p>Sie bezahlen die Behandlung selbst.</p>
+            {/* Vorher stand hier "Sie bezahlen die Behandlung selbst." Das
+                widersprach dem naechsten Block: Privatversicherte bekommen
+                Geld zurueck. In einfacher Sprache faellt so ein Widerspruch
+                besonders auf, weil jeder Satz fuer sich gelesen wird. */}
+            <p>Sie bekommen von mir eine Rechnung.</p>
+            <p>Diese Rechnung bezahlen Sie an mich.</p>
             <p>Ich sage Ihnen vorher, was es kostet.</p>
             <p>Sie bekommen den Preis auch schriftlich.</p>
             <p>Erst danach fangen wir an.</p>
@@ -111,6 +117,27 @@ export default function EinfacheSpracheSeite() {
             <p>Wir reden etwa 15 Minuten.</p>
             <p>Das Gespräch kostet nichts.</p>
             <p>Danach wissen Sie, wie es weitergeht.</p>
+          </Block>
+
+          {/* Neu: Wann jemand anrufen kann. Ohne diese Angabe ruft jemand
+              abends an, erreicht niemanden und denkt, die Nummer stimmt
+              nicht. Auf den anderen Seiten steht es, hier fehlte es. */}
+          <Block frage="Wann kann ich anrufen?">
+            <p>Von Montag bis Freitag.</p>
+            <p>Morgens von 8 bis 9 Uhr.</p>
+            <p>Abends von 17 bis 19 Uhr.</p>
+            <p>Sonst geht der Anrufbeantworter an.</p>
+            <p>Dann rufe ich Sie zurück.</p>
+          </Block>
+
+          {/* Neu: die ehrliche Abgrenzung. Sie steht auf dem Ablauf-Reiter
+              schon - gerade hier ist sie aber wichtig, weil dieser Text oft
+              die einzige Seite ist, die jemand liest. */}
+          <Block frage="Was mache ich nicht?">
+            <p>Ich bin kein Notdienst.</p>
+            <p>Ich komme nicht am Wochenende.</p>
+            <p>Ich komme nicht sofort am selben Tag.</p>
+            <p>Ich stelle keine Diagnose. Das macht die Ärztin oder der Arzt.</p>
           </Block>
 
           <Block frage="Ich frage für jemand anderen">

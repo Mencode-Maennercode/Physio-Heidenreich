@@ -8,6 +8,7 @@ import { Menu, Phone, X } from "lucide-react";
 import Logo from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
 import SmsKnopf from "./SmsKnopf";
+import Sprachwahl from "@/components/Sprachwahl";
 import { kontakt, navigation } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -101,6 +102,13 @@ export default function Kopfzeile() {
           </nav>
 
           <div className="flex items-center gap-2">
+            {/* Sprachwahl ganz links in der Knopfgruppe: Sie ist der am
+                seltensten gebrauchte Knopf und darf dem Telefon nicht den
+                Platz streitig machen. Unter sm entfaellt sie - dort ist der
+                Kopf fuer Logo, Telefon und Menue schon voll, und die
+                englische Seite ist ueber den Fuss weiterhin erreichbar. */}
+            <Sprachwahl className="hidden md:flex" />
+
             {/* Festnetz: ab sm mit Nummer im Kopf sichtbar. Darunter bleibt es
                 versteckt - nicht weil das Telefonieren dort unwichtig waere,
                 sondern im Gegenteil: Die feste Anruf-Leiste am unteren Rand

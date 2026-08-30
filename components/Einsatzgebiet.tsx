@@ -35,8 +35,12 @@ type Ort = {
   lage: "oben" | "unten" | "rechts" | "links";
 };
 
+/*
+  Nur die Orte, die auch wirklich gefahren werden. Adenau, Niederzissen und
+  Brohltal standen hier fruehers als Punkte - sie wieder aufzunehmen hiesse,
+  auf der Karte ein Gebiet zu zeigen, das in der Liste daneben fehlt.
+*/
 const ORTE: Ort[] = [
-  { name: "Adenau", x: 120, y: 412, kern: false, lage: "unten" },
   { name: "Altenahr", x: 240, y: 350, kern: true, lage: "oben" },
   { name: "Grafschaft", x: 424, y: 188, kern: true, lage: "oben" },
   { name: "Bad Neuenahr-Ahrweiler", x: 362, y: 318, kern: true, lage: "unten" },
@@ -44,8 +48,6 @@ const ORTE: Ort[] = [
   { name: "Bad Bodendorf", x: 556, y: 298, kern: true, lage: "unten" },
   { name: "Sinzig", x: 640, y: 296, kern: true, lage: "oben" },
   { name: "Remagen", x: 690, y: 190, kern: true, lage: "rechts" },
-  { name: "Niederzissen", x: 588, y: 420, kern: true, lage: "unten" },
-  { name: "Brohltal", x: 676, y: 446, kern: true, lage: "rechts" },
 ];
 
 /** Beschriftungsposition und -ausrichtung aus der Lage ableiten. */
@@ -192,18 +194,24 @@ export default function Einsatzgebiet() {
           ))}
         </ul>
 
-        <h3 className="feld-marke mt-9">Auf Anfrage</h3>
-        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-leise">
-          {einsatzgebiet.rand.map((ort) => (
-            <li key={ort} className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="size-1.5 rounded-full bg-leise"
-              />
-              {ort}
-            </li>
-          ))}
-        </ul>
+        {/* Nur zeigen, wenn es tatsaechlich Orte auf Anfrage gibt - eine
+            leere Ueberschrift waere schlimmer als keine. */}
+        {einsatzgebiet.rand.length > 0 ? (
+          <>
+            <h3 className="feld-marke mt-9">Auf Anfrage</h3>
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-leise">
+              {einsatzgebiet.rand.map((ort) => (
+                <li key={ort} className="flex items-center gap-2.5">
+                  <span
+                    aria-hidden="true"
+                    className="size-1.5 rounded-full bg-leise"
+                  />
+                  {ort}
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
 
         <p className="lesespalte mt-9 text-leise">{einsatzgebiet.hinweis}</p>
       </div>

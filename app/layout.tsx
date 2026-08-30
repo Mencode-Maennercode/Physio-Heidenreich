@@ -9,8 +9,10 @@ import "./globals.css";
 import Kopfzeile from "@/components/Kopfzeile";
 import Fusszeile from "@/components/Fusszeile";
 import Lesefortschritt from "@/components/Lesefortschritt";
+import Einwilligung from "@/components/Einwilligung";
+import StrukturDaten from "@/components/StrukturDaten";
 import { EinstellungenProvider } from "@/components/a11y/Einstellungen";
-import { seite } from "@/lib/site-config";
+import { analyse, seite } from "@/lib/site-config";
 
 // next/font laedt die Schriften beim Build herunter und liefert sie von der
 // eigenen Domain aus. Der Browser der Besucher spricht nie mit Google - genau
@@ -61,19 +63,59 @@ var b=s.getItem("nh-bewegung");if(b)d.dataset.bewegung=b;}catch(e){}})();`;
 export const metadata: Metadata = {
   metadataBase: new URL(seite.domain),
   title: {
-    default: `${seite.nameLang} · Kreis Ahrweiler`,
-    template: `%s · ${seite.name}`,
+    /*
+      Die Leistung steht vorn, der Name hinten - siehe `seoTitel` in
+      site-config. Die Vorlage fuer Unterseiten haengt zusaetzlich die Region
+      an: "Behandlung · Nora Heidenreich" wuerde bei einer Ortssuche nichts
+      hergeben, "Behandlung · Physiotherapie Hausbesuch Kreis Ahrweiler"
+      schon.
+    */
+    default: seite.seoTitel,
+    template: `%s · Physiotherapie Hausbesuch Kreis Ahrweiler`,
   },
   description: seite.kurzbeschreibung,
+  keywords: [...seite.schlagworte],
   authors: [{ name: seite.name }],
+  creator: seite.name,
+  publisher: seite.name,
+  /* hreflang: sagt Google, dass /en/ die englische Entsprechung ist - und
+     nicht etwa doppelter Inhalt. Ohne diese Angabe koennen sich beide
+     Fassungen gegenseitig verdraengen. */
+  alternates: {
+    canonical: "/",
+    languages: { "de-DE": "/", en: "/en/" },
+  },
   openGraph: {
     siteName: seite.nameLang,
     type: "website",
     locale: "de_DE",
-    title: seite.nameLang,
+    url: seite.domain,
+    title: seite.seoTitel,
     description: seite.kurzbeschreibung,
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: seite.seoTitel,
+    description: seite.kurzbeschreibung,
+  },
+  /* Bestaetigungscode der Search Console. Leer = das Feld entfaellt. */
+  verification: analyse.sucheNachweis
+    ? { google: analyse.sucheNachweis }
+    : undefined,
+  /* Telefonnummern nicht automatisch verlinken lassen - iOS formatiert
+     sonst auch Datumsangaben und Hausnummern zu Anruflinks um. */
+  formatDetection: { telephone: false, address: false, email: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -94,6 +136,7 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: vorabSkript }} />
+        <StrukturDaten />
       </head>
       <body>
         <EinstellungenProvider>
@@ -108,6 +151,7 @@ export default function RootLayout({
             {children}
           </main>
           <Fusszeile />
+          <Einwilligung />
         </EinstellungenProvider>
       </body>
     </html>

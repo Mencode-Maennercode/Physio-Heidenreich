@@ -28,7 +28,8 @@ import {
 } from "@/lib/content/ablauf";
 
 export const metadata: Metadata = {
-  title: "Ablauf & Abrechnung",
+  title: "Ablauf, Kosten und Abrechnung",
+  alternates: { canonical: "/ablauf/" },
   description:
     "Wie die Kontaktaufnahme läuft, wie ein Termin zustande kommt, wer welche Rechnung bekommt und was Ihre Versicherung erstattet — offen aufgeschrieben, bevor Sie anrufen.",
 };

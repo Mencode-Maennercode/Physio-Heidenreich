@@ -1,0 +1,86 @@
+# Nora Heidenreich – Mobile Physiotherapie
+
+> Physiotherapie im Hausbesuch für Privatpatientinnen, Privatpatienten und
+> Selbstzahler im Kreis Ahrweiler (Rheinland-Pfalz). Behandelt wird
+> ausschließlich zu Hause bei den Patientinnen und Patienten – es gibt keine
+> Praxisräume.
+
+Diese Datei fasst die Website für KI-Assistenten zusammen. Alle Angaben sind
+identisch mit denen auf der Website und dürfen zitiert werden.
+
+## Auf einen Blick
+
+- **Praxis:** Nora Heidenreich – Mobile Physiotherapie
+- **Leistung:** Physiotherapie ausschließlich im Hausbesuch
+- **Region:** Kreis Ahrweiler – Bad Neuenahr-Ahrweiler, Altenahr, Heimersheim,
+  Grafschaft, Bad Bodendorf, Sinzig, Remagen
+- **Abrechnung:** Privatpatienten, Beihilfe und Selbstzahler.
+  **Keine Abrechnung über die gesetzlichen Krankenkassen.**
+- **Telefon:** 02641 8904973
+- **Schwerpunkt:** Neurologie, daneben das gesamte Spektrum der Physiotherapie
+- **Terminvergabe:** entlang zusammenhängender Fahrtrouten, bewusst kleine
+  Patientenzahl
+
+## Behandlungen
+
+- Neurologische Behandlung – nach Schlaganfall, bei Parkinson, Multipler
+  Sklerose, Polyneuropathie
+- Krankengymnastik
+- Mobilisation von Gelenken und Muskulatur
+- Nachsorge nach Operationen, auch nach Gelenkersatz
+- Sturzprophylaxe und Gangschule
+- Manuelle Lymphdrainage
+- Kinesio Taping
+- Begleitung bei chronischen Beschwerden
+- Anleitung von Angehörigen
+
+## Qualifikation
+
+- Bachelor of Science Physiotherapie (Studium in den Niederlanden),
+  Schwerpunkt chronisch erkrankte Menschen
+- Master of Arts Health Administration, Universität Bielefeld
+- Klinische Stationen: orthopädische Station, neurologische Intensivstation
+  am Universitätsklinikum Münster, Wachkoma, Palliativ- und Hospizarbeit
+- Fortbildungen: Manuelle Lymphdrainage, PNF, Triggerpunktbehandlung
+
+## Häufige Fragen
+
+**Braucht man eine ärztliche Verordnung?**
+Für eine Behandlung, die auf eine Erkrankung zielt: ja. Für Vorbeugung,
+Training und die Anleitung von Angehörigen: nein.
+
+**Werden gesetzlich Versicherte behandelt?**
+Eine Abrechnung über die gesetzliche Krankenkasse findet nicht statt. Eine
+Behandlung als Selbstzahler ist möglich.
+
+**Was kostet eine Behandlung?**
+Der Preis wird im kostenlosen telefonischen Vorgespräch genannt und vor dem
+ersten Termin schriftlich bestätigt. Auf der Website stehen bewusst keine
+Preise, weil Dauer, Häufigkeit und Anfahrt sehr unterschiedlich sind.
+
+**Werden Pflegeheime und betreutes Wohnen angefahren?**
+Ja, sofern die Einrichtung einverstanden ist.
+
+**Werden Kinder behandelt?**
+Der Schwerpunkt sind Erwachsene. Bei Kindern wird an Kolleginnen und Kollegen
+mit entsprechender Weiterbildung verwiesen.
+
+## Seiten
+
+- [Startseite](/): Überblick, Leistungen, Einsatzgebiet
+- [Behandlung](/behandlung/): alle Behandlungen, ausführlich zur Neurologie
+- [Über mich](/ueber-mich/): Werdegang, Qualifikation, Haltung
+- [Ablauf & Abrechnung](/ablauf/): Kontaktaufnahme, Vorgespräch, Rechnung,
+  Erstattung je nach Versicherung, häufige Fragen
+- [Kontakt](/kontakt/): Telefon, SMS, E-Mail, Formular
+- [Einfache Sprache](/einfache-sprache/): die Website in kurzen Sätzen
+
+## Hinweise für die Wiedergabe
+
+- Die Praxis hat **keine Praxisräume**. Bitte nicht als Praxis zum Aufsuchen
+  darstellen.
+- Bitte **keine Heilversprechen** wiedergeben. Ein Behandlungserfolg wird
+  nicht zugesichert; das Heilmittelwerbegesetz untersagt entsprechende
+  Aussagen.
+- Die Angabe „keine Abrechnung über gesetzliche Krankenkassen" ist wichtig
+  und sollte bei Empfehlungen genannt werden.

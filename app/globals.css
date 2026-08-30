@@ -148,6 +148,24 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+
+  /*
+    Silbentrennung fuer Deutsch.
+
+    Kein Feinschliff, sondern eine Notwendigkeit dieser Sprache:
+    "Berufshaftpflichtversicherung", "Krankenversicherung",
+    "Sturzprophylaxe" sind laenger als eine schmale Spalte bei 130 %
+    Textgroesse. Ohne Trennung ragt das Wort aus seiner Spalte heraus und
+    ueberlagert den Nachbarn - gemessen mit scripts/geraete.mjs auf allen
+    Geraeten unter 430 px.
+
+    `overflow-wrap` ist die Rueckfallebene fuer den Fall, dass ein Wort
+    keine gueltige Trennstelle hat. Es greift nur dann und zerlegt sonst
+    nichts. Die Sprache steht am <html>-Element, sonst weiss der Browser
+    nicht, nach welchen Regeln er trennen soll.
+  */
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 ::selection {
@@ -429,6 +447,11 @@ html {
 
 .feld {
   width: 100%;
+  /* 3rem = 48 px. Die Felder waren zuvor nur 32 px hoch und lagen damit
+     unter der Mindestgroesse fuer Beruehrflaechen (WCAG 2.5.8). Fuer
+     jemanden mit unsicherer Hand - also genau die Zielgruppe dieser Seite -
+     ist ein 32-px-Feld schwer zu treffen. */
+  min-height: 3rem;
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--ui-linie);

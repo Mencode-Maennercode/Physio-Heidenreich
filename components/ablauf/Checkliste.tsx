@@ -68,7 +68,10 @@ export default function Checkliste() {
               aria-hidden="true"
               className="mt-1 size-4 flex-none rounded-[3px] border border-linie print:border-black"
             />
-            <span>{punkt}</span>
+            {/* `min-w-0`: Als Flex-Kind behaelt der Text sonst seine
+                natuerliche Breite und ragt bei 130 % Textgroesse aus der
+                Spalte. Gemessen mit scripts/geraete.mjs. */}
+            <span className="min-w-0">{punkt}</span>
           </li>
         ))}
       </ul>

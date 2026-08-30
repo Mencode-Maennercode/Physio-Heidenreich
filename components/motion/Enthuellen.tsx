@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, type Variants } from "motion/react";
+import { motion, type Variants } from "motion/react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRuhig } from "@/components/a11y/Einstellungen";
 import { lebhaft } from "@/lib/bewegung";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Bausteine fuer Bewegung.
@@ -224,19 +229,39 @@ export function BildWischer({
 }) {
   const ruhig = useRuhig();
   const punkt = useRef<HTMLDivElement>(null);
+  const schicht = useRef<HTMLDivElement>(null);
   const sichtbar = useAuftritt(punkt, 0.1, !ruhig);
   const bewegt = lebhaft && tiefe && !ruhig;
 
-  /* Fortschritt des Rahmens durch das Fenster: 0 beim Eintreten von unten,
-     1 beim Verlassen nach oben. Daraus die Gegenbewegung ableiten. */
-  const { scrollYProgress } = useScroll({
-    target: punkt,
-    offset: ["start end", "end start"],
-  });
-  const versatzY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    bewegt ? ["-4%", "4%"] : ["0%", "0%"],
+  /*
+    Gegenbewegung ueber GSAP, nicht ueber `useScroll` aus motion.
+    `useScroll({ target })` verlangt, dass der Ref beim ersten Durchlauf
+    bereits am fertigen Element haengt. Genau das ist hier unmoeglich:
+    `useRuhig()` meldet im ersten Durchlauf Ruhe, dann rendert die schlichte
+    Fassung ohne Ref - motion bricht daraufhin mit "Target ref is defined but
+    not hydrated" ab. GSAP misst erst im Effekt, wenn das Element steht, und
+    hat dieses Problem nicht. Dieselbe Loesung nutzt ParallaxBild schon.
+  */
+  useGSAP(
+    () => {
+      if (!bewegt || !schicht.current || !punkt.current) return;
+
+      gsap.fromTo(
+        schicht.current,
+        { yPercent: -3.5 },
+        {
+          yPercent: 3.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: punkt.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        },
+      );
+    },
+    { scope: punkt, dependencies: [bewegt] },
   );
 
   if (ruhig) return <div className={className}>{children}</div>;
@@ -252,14 +277,13 @@ export function BildWischer({
       transition={{ duration: 1.1, delay: verzoegerung, ease: RUHIGE_KURVE }}
     >
       {bewegt ? (
-        /* Der Rahmen schneidet, die innere Schicht bewegt sich. Ohne das
-           `overflow-hidden` liefe das Bild ueber seine Kante hinaus. Die
-           Ueberhoehung um 8 % gleicht genau den Weg aus, den die Schicht
+        /* Der Rahmen schneidet, die innere Schicht bewegt sich. Die
+           Ueberhoehung um 7 % gleicht genau den Weg aus, den die Schicht
            zuruecklegt - sonst entstuende an den Kanten eine Luecke. */
         <div className="relative h-full overflow-hidden">
-          <motion.div className="h-[108%] -translate-y-[4%]" style={{ y: versatzY }}>
+          <div ref={schicht} className="h-[107%]">
             {children}
-          </motion.div>
+          </div>
         </div>
       ) : (
         children

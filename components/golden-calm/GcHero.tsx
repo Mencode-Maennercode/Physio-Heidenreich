@@ -187,9 +187,18 @@ export default function GcHero() {
               className="mb-4 font-[family-name:var(--font-cormorant)] font-normal sm:mb-6 text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.08] tracking-[-0.01em]"
               style={{ color: "var(--gc-text)" }}
             >
-              {hero.titelZeilen.map((zeile) => (
+              {/*
+                Das Leerzeichen am Zeilenende ist kein Schoenheitsfehler,
+                sondern noetig: Optisch trennt `block` die Zeilen ohnehin,
+                der reine Textinhalt der Ueberschrift wuerde aber ohne
+                Trenner zu "Mobile Physiotherapieim Kreis Ahrweiler"
+                verschmelzen. Genau diesen Text lesen Suchmaschinen und
+                Vorlesesoftware aus - sichtbar ist der Fehler nie.
+              */}
+              {hero.titelZeilen.map((zeile, i) => (
                 <span key={zeile} className="block">
                   {zeile}
+                  {i < hero.titelZeilen.length - 1 ? " " : null}
                 </span>
               ))}
             </h1>
@@ -298,8 +307,15 @@ export default function GcHero() {
                   style={{ color: "#6E5940" }}
                   aria-hidden="true"
                 />
+                {/* `w-full`, nicht `min-w-0`: In einer Spalten-Flexbox
+                    richtet sich die Breite eines Kindes nach seinem Inhalt,
+                    `min-width` aendert daran nichts. Der Text stand deshalb
+                    bei 130 % Textgroesse 115 px breit in einer 85 px
+                    schmalen Spalte und ragte in die Nachbarspalte. Erst
+                    `w-full` zwingt ihn auf die Spaltenbreite - dann bricht
+                    er innerhalb um. Gemessen mit scripts/geraete.mjs. */}
                 <span
-                  className="text-[clamp(0.85rem,1.6vw,1rem)] font-medium leading-tight"
+                  className="w-full text-[clamp(0.85rem,1.6vw,1rem)] font-medium leading-tight text-balance"
                   style={{ color: "var(--gc-text)" }}
                 >
                   {merkmal.titel}
@@ -308,7 +324,7 @@ export default function GcHero() {
                     Spalten nebeneinander lassen dort keinen Platz fuer zwei
                     Textebenen, ohne dass jede Spalte vierzeilig umbricht. */}
                 <span
-                  className="hidden text-[0.85rem] leading-tight sm:block"
+                  className="hidden w-full text-[0.85rem] leading-tight text-balance sm:block"
                   style={{ color: "var(--gc-text-fein)" }}
                 >
                   {merkmal.text}
