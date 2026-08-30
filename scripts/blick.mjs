@@ -14,7 +14,7 @@ import puppeteer from "puppeteer-core";
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
 const AUSGABE = join(WURZEL, "out");
 const ZIEL = join(WURZEL, ".blick");
-const PORT = 4324;
+const PORT = 4329;
 
 const TYPEN = {
   ".html": "text/html; charset=utf-8",
@@ -69,10 +69,8 @@ const browser = await puppeteer.launch({ executablePath: exe, headless: true });
 
 /** Auf ein Element scrollen, Animation abwarten, Ausschnitt aufnehmen. */
 const ZIELE = [
-  { seite: "/behandlung/", wahl: "h2", name: "behandlung-titel" },
-  { seite: "/ueber-mich/", wahl: "h1", name: "ueber-mich-titel" },
-  { seite: "/ablauf/", wahl: "h1", name: "ablauf-titel" },
-  { seite: "/", wahl: "h2", name: "start-titel" },
+  { seite: "/en/", wahl: "h1", name: "en-start" },
+  { seite: "/en/treatments/", wahl: "h1", name: "en-treatments" },
 ];
 
 for (const z of ZIELE) {
