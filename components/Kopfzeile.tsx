@@ -3,12 +3,13 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, Phone, X } from "lucide-react";
 import Logo from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
 import SmsKnopf from "./SmsKnopf";
 import Sprachwahl from "@/components/Sprachwahl";
+import TerminHinweis from "@/components/TerminHinweis";
 import { kontakt } from "@/lib/site-config";
 import { UI, spracheAus } from "@/lib/sprache";
 import { cn } from "@/lib/utils";
@@ -36,11 +37,43 @@ export default function Kopfzeile() {
   const [gescrollt, setzeGescrollt] = useState(false);
   const [menueOffen, setzeMenueOffen] = useState(false);
 
+  const leiste = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const pruefen = () => setzeGescrollt(window.scrollY > 32);
     pruefen();
     window.addEventListener("scroll", pruefen, { passive: true });
     return () => window.removeEventListener("scroll", pruefen);
+  }, []);
+
+  /*
+    Die Kopfzeile meldet ihre eigene Hoehe als CSS-Variable.
+
+    Vorher stand die Hoehe an drei Stellen im Hero als feste Zahl
+    (7,5 rem / 5,5 rem / 7,75 rem) - geraten fuer den Fall, dass die Leiste
+    auf schmalen Schirmen zweizeilig umbricht. Jede Aenderung am Kopf
+    musste dort von Hand nachgezogen werden, und mit dem Terminstreifen
+    waere es endgueltig unhaltbar geworden: Seine Hoehe haengt davon ab, ob
+    er ueberhaupt angezeigt wird.
+
+    Der Beobachter misst stattdessen, was wirklich dasteht - auch wenn der
+    Streifen zusammenfaehrt oder die Schrift vergroessert wird.
+  */
+  useEffect(() => {
+    const knoten = leiste.current;
+    if (!knoten) return;
+
+    const melde = () => {
+      document.documentElement.style.setProperty(
+        "--kopf-hoehe",
+        `${knoten.offsetHeight}px`,
+      );
+    };
+    melde();
+
+    const beobachter = new ResizeObserver(melde);
+    beobachter.observe(knoten);
+    return () => beobachter.disconnect();
   }, []);
 
   /*
@@ -55,6 +88,7 @@ export default function Kopfzeile() {
   return (
     <>
       <header
+        ref={leiste}
         className={cn(
           "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
           durchsichtig
@@ -142,9 +176,15 @@ export default function Kopfzeile() {
                 Unter md entfaellt die Sprachwahl. Dort ist der Kopf fuer
                 Logo, Telefon und Menue schon voll, und die englische Seite
                 bleibt ueber den Fuss erreichbar. */}
-            <Sprachwahl className="hidden md:flex" />
-
-            <BarrierefreiheitPanel />
+            {/* Zwei Gruppen mit sichtbarem Abstand statt einer langen
+                Reihe: links die stillen Werkzeuge, die man selten braucht,
+                rechts die Kontaktaufnahme. Ohne die Trennung wirkte die
+                Zeile gequetscht - alle fuenf Knoepfe lasen sich als
+                gleichrangig. */}
+            <div className="mr-2 flex items-center gap-1 sm:mr-3">
+              <Sprachwahl className="hidden md:flex" />
+              <BarrierefreiheitPanel />
+            </div>
 
             {/* SMS als reines Symbol - der zweite Weg, nicht der erste.
 
@@ -252,6 +292,13 @@ export default function Kopfzeile() {
           </div>
           </div>
         </div>
+
+        {/* Der Terminstreifen gehoert in die feste Leiste, nicht in den
+            Hero: So liegt er ueber der ganzen Seitenbreite, verdeckt nichts
+            und schiebt den Inhalt nur so weit nach unten, wie er selbst
+            hoch ist. Faehrt er zusammen, wandert der Inhalt wieder hoch -
+            der Beobachter oben misst das mit. */}
+        <TerminHinweis />
       </header>
 
       {/* Feste Leiste am unteren Rand kleiner Schirme. Anrufen und SMS sind

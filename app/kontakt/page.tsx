@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 export default function KontaktSeite() {
   return (
     <div className="gc-kontext" data-gc>
-      <section className="bg-grund-warm pt-[8.5rem] pb-[clamp(3rem,6vw,4.5rem)]">
+      <section
+        className="bg-grund-warm pb-[clamp(3rem,6vw,4.5rem)]"
+        style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}
+      >
         <div className="huelle">
           <p className="augenbraue">Kontakt</p>
           <h1 className="schrift-display titel-gross mt-7 max-w-[14ch]">

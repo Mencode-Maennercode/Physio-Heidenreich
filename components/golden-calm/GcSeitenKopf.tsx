@@ -28,7 +28,8 @@ export default function GcSeitenKopf({
 }) {
   return (
     <section
-      className="bg-grund-warm pt-[8.5rem] pb-[clamp(3rem,6vw,4.5rem)]"
+      className="bg-grund-warm pb-[clamp(3rem,6vw,4.5rem)]"
+      style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}
     >
       <div className="huelle">
         <Enthuellen>

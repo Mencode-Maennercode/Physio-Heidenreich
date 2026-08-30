@@ -18,7 +18,10 @@ export function Rechtsseite({
   children: React.ReactNode;
 }) {
   return (
-    <article className="pt-[8.5rem] pb-[var(--sektion-luft)]">
+    <article
+      className="pb-[var(--sektion-luft)]"
+      style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}
+    >
       <div className="huelle-eng">
         <h1 className="schrift-display titel-mittel">{titel}</h1>
         {stand ? <p className="mt-4 text-[0.92rem] text-leise">{stand}</p> : null}

@@ -2,7 +2,6 @@
 
 import { Brain, House, Phone, UserRound } from "lucide-react";
 import RuhigesVideo from "@/components/RuhigesVideo";
-import TerminHinweis from "@/components/TerminHinweis";
 import MagnetKnopf from "./MagnetKnopf";
 import { hero as heroDe, person as personDe } from "@/lib/content/golden-calm";
 import type { Hero, Person } from "@/lib/content/typen";
@@ -74,7 +73,19 @@ export default function GcHero({
           Der Wert ist auf schmalen Schirmen groesser, weil die Kopfzeile dort
           auf zwei Zeilen umbricht (Logo, darunter die Knopfgruppe).
         */}
-        <div className="absolute inset-x-0 top-[7.5rem] bottom-0 flex items-center justify-end sm:top-[5.5rem]">
+        {/*
+          Der Abstand nach oben kommt aus --kopf-hoehe, gemeldet von der
+          Kopfzeile selbst (siehe dort). Vorher standen hier feste Werte,
+          geraten fuer den zweizeiligen Umbruch auf schmalen Schirmen. Mit
+          dem Terminstreifen waere das nicht mehr aufgegangen: Seine Hoehe
+          haengt davon ab, ob er ueberhaupt angezeigt wird.
+
+          Der Ersatzwert greift nur, bis das Skript uebernimmt.
+        */}
+        <div
+          className="absolute inset-x-0 bottom-0 flex items-center justify-end"
+          style={{ top: "calc(var(--kopf-hoehe, 7.5rem) + 0.5rem)" }}
+        >
           {/*
             Ab sm liegt das Video in einer Box mit exakt seinem eigenen
             Seitenverhaeltnis (16:9) statt flaechendeckend darunter.
@@ -184,16 +195,15 @@ export default function GcHero({
         Die Kopfzeile ist `fixed` und bricht dort auf zwei Zeilen um. Der
         Kicker lag vorher exakt darunter und war unsichtbar.
       */}
-        <div className="huelle relative z-10 w-full min-w-0 pt-[7.75rem] pb-6 sm:pt-[7rem] sm:pb-8 md:pb-10">
+        <div
+          className="huelle relative z-10 w-full min-w-0 pb-6 sm:pb-8 md:pb-10"
+          style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 1.5rem)" }}
+        >
           {/* Schmaler als zuvor (34rem): Die Spalte muss vollstaendig innerhalb
               der deckenden Zone des Verlaufs liegen, damit kein Videobild den
               Text beruehrt. 28rem enden bei 1440 px Fensterbreite rund bei
               42 % - der Verlauf deckt bis 44 %. */}
           <div className="max-w-[32rem]">
-            {/* Ganz oben in der Textspalte, noch vor der Augenbraue: die
-                erste farbige Flaeche, die der Blick trifft. Wegklickbar -
-                siehe Begruendung in der Komponente. */}
-            <TerminHinweis />
             {/* Stille Augenbraue statt des frueheren umrandeten Abzeichens -
                 dieselbe Angabe, ohne den Blick als Erstes auf sich zu
                 ziehen. */}

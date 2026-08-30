@@ -35,7 +35,10 @@ export default function UeberMichSeite() {
           Kopf. Kein Video hier - auf dieser Seite geht es um einen Menschen,
           nicht um Atmosphäre.
           ------------------------------------------------------------------ */}
-      <section className="bg-grund-warm pt-[8.5rem] pb-[clamp(3rem,6vw,5rem)]">
+      <section
+        className="bg-grund-warm pb-[clamp(3rem,6vw,5rem)]"
+        style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}
+      >
         <div className="huelle grid items-end gap-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[1fr_0.75fr]">
           <div>
             <p className="augenbraue">{kopf.augenbraue}</p>
