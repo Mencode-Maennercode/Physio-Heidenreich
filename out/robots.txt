@@ -1,0 +1,54 @@
+User-Agent: *
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: GPTBot
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: OAI-SearchBot
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: ChatGPT-User
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: ClaudeBot
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: Claude-Web
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: anthropic-ai
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: Perplexity-User
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: Google-Extended
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: Applebot-Extended
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: CCBot
+Allow: /
+Disallow: /kontakt/danke/
+
+User-Agent: Bingbot
+Allow: /
+Disallow: /kontakt/danke/
+
+Host: https://www.nora-heidenreich.de
+Sitemap: https://www.nora-heidenreich.de/sitemap.xml

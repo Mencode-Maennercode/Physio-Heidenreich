@@ -1,6 +1,5 @@
 node_modules/
 .next/
-out/
 .env*.local
 *.tsbuildinfo
 next-env.d.ts
@@ -13,3 +12,14 @@ next-env.d.ts
 .sichtung/
 .pruefung/
 .blick/
+
+# out/ ist ABSICHTLICH NICHT hier drin - anders als sonst ueblich.
+#
+# Das Deployment laeuft ueber Plesks Git-Funktion bei netcup: Sie zieht nur,
+# was im Repository steht, und baut selbst nichts. Damit die Website
+# ausgeliefert werden kann, muss der fertig gebaute Ordner also mit im Repo
+# liegen - genau wie bei praesenzwert-motion, wo derselbe Weg schon laeuft.
+#
+# Ablauf bei jeder Aenderung: `npm run build`, dann `git add -A` (nimmt
+# Quellcode UND den neuen out/-Stand mit), commit, push. Plesk zieht den
+# Commit und kopiert `out/` per rsync in httpdocs.
