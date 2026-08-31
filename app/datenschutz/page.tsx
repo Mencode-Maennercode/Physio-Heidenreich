@@ -84,17 +84,20 @@ export default function DatenschutzSeite() {
           Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte
           Interesse liegt im technisch fehlerfreien Betrieb und in der
           Sicherheit der Website. Eine Zusammenführung dieser Daten mit anderen
-          Quellen findet nicht statt. Die Protokolle werden nach spätestens{" "}
-          <Platzhalter>
-            Aufbewahrungsfrist des Hosters eintragen — bei netcup üblicherweise
-            sieben Tage, bitte im Vertrag prüfen
-          </Platzhalter>{" "}
+          Quellen findet nicht statt. Laut dem mit dem Hosting-Anbieter
+          geschlossenen Auftragsverarbeitungsvertrag werden personenbezogene
+          Daten in Sicherungskopien (Backups) nach spätestens 14 Tagen
           gelöscht.
         </p>
         <p>
-          Gehostet wird bei der netcup GmbH, Daimlerstraße 25, 76185 Karlsruhe.
-          Mit dem Anbieter besteht ein Vertrag zur Auftragsverarbeitung nach
-          Art. 28 DSGVO. Die Server stehen in Deutschland.
+          Gehostet wird bei der netcup GmbH, Emmy-Noether-Straße 10, 76131
+          Karlsruhe. Mit dem Anbieter besteht ein Vertrag zur
+          Auftragsverarbeitung nach Art. 28 DSGVO. netcup gehört zur
+          Anexia-Unternehmensgruppe; die Verarbeitung kann daher auch durch
+          verbundene Unternehmen der Gruppe und über deren Infrastruktur
+          erfolgen. Die dafür genutzten Standorte liegen in Deutschland und
+          Österreich, also innerhalb der Europäischen Union — eine Übermittlung
+          in ein Drittland findet dadurch nicht statt.
         </p>
       </Abschnitt>
 
