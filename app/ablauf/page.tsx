@@ -124,7 +124,12 @@ export default function AblaufSeite() {
                         className="size-4 flex-none translate-y-1 text-leise"
                         aria-hidden="true"
                       />
-                      <span className="text-[0.98rem]">{punkt}</span>
+                      {/* `min-w-0`: Flex-Kinder schrumpfen sonst nie unter
+                          ihre Inhaltsbreite. Bei 130 % Textgroesse auf
+                          360 px ragte "Keine Behandlung ohne vorheriges
+                          Telefongespraech" dadurch ueber den Kartenrand -
+                          gemessen mit scripts/geraete.mjs. */}
+                      <span className="min-w-0 text-[0.98rem]">{punkt}</span>
                     </li>
                   ))}
                 </ul>

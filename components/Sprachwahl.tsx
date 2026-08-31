@@ -117,9 +117,13 @@ export default function Sprachwahl({ className }: { className?: string }) {
         <span className="h-[0.95rem] w-[1.55rem] flex-none overflow-hidden rounded-[3px]">
           <JetztFlagge id={`${kennung}-knopf`} />
         </span>
+        {/* Der Pfeil entfaellt auf dem Handy. Dort zaehlt jeder Pixel in
+            der Kopfzeile, und die Flagge allein ist als Knopf verstaendlich -
+            zumal sie in einem umrandeten Kreis sitzt wie die Nachbarknoepfe
+            auch. Die Ansage fuer Vorlesesoftware bleibt unveraendert. */}
         <ChevronDown
           className={cn(
-            "size-3.5 flex-none text-leise transition-transform",
+            "hidden size-3.5 flex-none text-leise transition-transform sm:block",
             offen && "rotate-180",
           )}
           aria-hidden="true"

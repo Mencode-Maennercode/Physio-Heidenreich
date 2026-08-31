@@ -45,7 +45,13 @@ export default function MatomoWiderspruch() {
     <button
       type="button"
       onClick={umschalten}
-      className="underline underline-offset-4 transition-colors hover:text-aktion"
+      /* 44 px hohe Tippflaeche (WCAG 2.5.5). Als reiner Textknopf war er
+         29 px hoch - fuer jemanden mit unsicherer Hand kaum zu treffen, und
+         ausgerechnet beim Widerspruch gegen eine Datenverarbeitung darf das
+         nicht an der Motorik scheitern. `inline-flex` statt eines
+         Innenabstands, damit die Unterstreichung weiterhin am Text sitzt
+         und nicht um eine leere Flaeche laeuft. */
+      className="inline-flex min-h-11 items-center underline underline-offset-4 transition-colors hover:text-aktion"
     >
       {abgemeldet
         ? "Zählung wieder zulassen"

@@ -40,11 +40,12 @@ export default function Lesefortschritt() {
   return (
     <motion.div
       aria-hidden="true"
-      className="fixed inset-x-0 top-0 z-40 h-[2px] origin-left"
-      style={{
-        scaleX: breite,
-        background: "var(--ui-akzent-warm)",
-      }}
+      /* Die Farbe steht in globals.css, nicht hier: Auf der Startseite gilt
+         die Golden-Calm-Palette (Gold), auf allen uebrigen Seiten der warme
+         Petrol-Akzent. Als Inline-Angabe waere das nicht zu unterscheiden -
+         Inline schlaegt jede Regel. */
+      className="lesefortschritt fixed inset-x-0 top-0 z-40 h-[2px] origin-left"
+      style={{ scaleX: breite }}
     />
   );
 }

@@ -57,12 +57,30 @@ export function Wortmarke({
 }) {
   return (
     <span className={cn("flex flex-col leading-none", className)}>
-      <span className="schrift-display text-[1.15rem] tracking-[0.06em] uppercase">
+      {/*
+        Auf dem Handy deutlich kleiner gesetzt - gerechnet, nicht geschaetzt.
+
+        Die Kopfzeile hat dort 390 px. Davon gehen 41 px Innenabstand ab,
+        166 px brauchen Barrierefreiheit, Sprache und Menue nebeneinander
+        (drei Tippflaechen zu 44 px plus Abstaende - die sind nicht
+        verhandelbar, siehe WCAG 2.5.5). Fuer die Marke bleiben damit
+        174 px, Bildmarke und Abstand eingerechnet.
+
+        Mit der Desktop-Groesse waren es 205 px, die Knopfgruppe brach in
+        eine zweite Zeile um, und die feste Leiste wuchs auf 122 px - fast
+        ein Siebtel des Bildschirms, dauerhaft. Gemessen mit
+        scripts/messen.mjs.
+
+        Bei vergroesserter Schrift wachsen alle Werte mit und die Zeile
+        bricht dann doch um. Das ist gewollt: Dort ist Lesbarkeit wichtiger
+        als eine kompakte Leiste.
+      */}
+      <span className="schrift-display text-[0.8rem] tracking-[0.04em] uppercase sm:text-[1.15rem] sm:tracking-[0.06em]">
         {seite.name}
       </span>
       <span
         className={cn(
-          "mt-1 text-[0.6rem] font-medium tracking-[0.24em] uppercase",
+          "mt-0.5 text-[0.45rem] font-medium tracking-[0.13em] uppercase sm:mt-1 sm:text-[0.6rem] sm:tracking-[0.24em]",
           aufDunkel ? "text-leise-dunkel" : "text-leise",
         )}
       >
@@ -84,13 +102,16 @@ export default function Logo({
       href="/"
       className={cn(
         // Mindesthöhe, damit die Marke auch als Tippfläche taugt.
-        "flex min-h-[2.75rem] items-center gap-3 transition-opacity hover:opacity-80",
+        "flex min-h-[2.75rem] items-center gap-2 transition-opacity hover:opacity-80 sm:gap-3",
         className,
       )}
       aria-label={`${seite.nameLang} — zur Startseite`}
     >
       <Bildmarke
-        className={cn("size-9 flex-none", aufDunkel ? "text-akzent-dunkel" : "text-aktion")}
+        className={cn(
+          "size-7 flex-none sm:size-9",
+          aufDunkel ? "text-akzent-dunkel" : "text-aktion",
+        )}
       />
       <Wortmarke aufDunkel={aufDunkel} />
     </Link>

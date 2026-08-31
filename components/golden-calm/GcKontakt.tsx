@@ -6,6 +6,7 @@ import Formular from "@/components/kontakt/Formular";
 import MagnetKnopf from "./MagnetKnopf";
 import { kontaktBand as kontaktBandDe } from "@/lib/content/golden-calm";
 import type { KontaktBand } from "@/lib/content/typen";
+import WortAuftritt from "@/components/motion/WortAuftritt";
 import { kontakt } from "@/lib/site-config";
 
 /**
@@ -30,7 +31,7 @@ export default function GcKontakt({
   return (
     <section
       id="kontakt"
-      className="gc-anker mt-[clamp(4.5rem,9vw,7rem)] py-[clamp(4.5rem,9vw,7rem)]"
+      className="gc-anker mt-[clamp(2.75rem,10vw,7rem)] py-[clamp(2.75rem,10vw,7rem)]"
       style={{ background: "var(--gc-braun)", color: "#F3EDE4" }}
     >
       {/*
@@ -40,22 +41,21 @@ export default function GcKontakt({
         dem Textblock - das war die Unruhe im Band. Mittig zueinander
         ausgerichtet liegt das Gewicht auf einer Linie.
       */}
-      <div className="mx-auto grid max-w-[1280px] items-center gap-14 px-[clamp(1.25rem,4vw,2.75rem)] md:grid-cols-2 md:gap-20">
+      <div className="mx-auto grid max-w-[1280px] items-center gap-9 px-[clamp(1.25rem,4vw,2.75rem)] md:grid-cols-2 md:gap-20">
         <div>
           <p
-            className="mb-[18px] text-[13px] tracking-[0.24em] uppercase"
+            className="gc-kicker mb-3 text-[13px] tracking-[0.24em] uppercase sm:mb-[18px]"
             style={{ color: "#E0C79A" }}
           >
             {kontaktBand.kicker}
           </p>
-          <h2
-            className="mb-6 font-[family-name:var(--font-cormorant)] font-normal text-[clamp(2.1rem,3.8vw,3.1rem)] leading-[1.15]"
+          <WortAuftritt
+            text={kontaktBand.titel}
+            className="gc-h2 mb-4 sm:mb-6 font-[family-name:var(--font-cormorant)] font-normal text-[clamp(2.1rem,3.8vw,3.1rem)] leading-[1.15]"
             style={{ color: "#FBF8F2" }}
-          >
-            {kontaktBand.titel}
-          </h2>
+          />
           <p
-            className="mb-9 max-w-[28em] text-[1.2rem]"
+            className="gc-lead mb-6 max-w-[28em] text-[1.2rem] sm:mb-9"
             style={{ color: "#E2D8C9" }}
           >
             {kontaktBand.text}

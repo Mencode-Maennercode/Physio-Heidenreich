@@ -93,7 +93,7 @@ export default function TerminHinweis() {
             Die Aufforderung steckt deshalb IM Absatz: Sie bricht mit dem
             Text um, statt eine eigene Zeile zu beanspruchen.
           */}
-          <div className="huelle flex min-h-[3rem] items-center gap-3 py-1.5">
+          <div className="huelle flex min-h-[2.5rem] items-center gap-2.5 py-1 sm:min-h-[3rem] sm:gap-3 sm:py-1.5">
             {/*
               Der orange umrandete Kreis ist der Blickfang des Streifens.
 
@@ -106,17 +106,17 @@ export default function TerminHinweis() {
             */}
             <span
               aria-hidden="true"
-              className="flex size-9 flex-none items-center justify-center rounded-full border"
+              className="flex size-7 flex-none items-center justify-center rounded-full border sm:size-9"
               style={{
                 borderColor: "var(--gc-signal)",
                 background: "color-mix(in srgb, var(--gc-signal) 14%, transparent)",
                 color: "var(--gc-signal)",
               }}
             >
-              <CalendarCheck className="size-[1.05rem]" />
+              <CalendarCheck className="size-[0.85rem] sm:size-[1.05rem]" />
             </span>
 
-            <p className="min-w-0 flex-1 text-[0.92rem] leading-snug">
+            <p className="min-w-0 flex-1 text-[0.8rem] leading-snug sm:text-[0.92rem]">
               {terminHinweis.text}{" "}
               {/* Das Datum ist die eigentliche Nachricht - es traegt die
                   Signalfarbe, nicht die ganze Zeile. */}
@@ -147,7 +147,11 @@ export default function TerminHinweis() {
               type="button"
               onClick={() => setzeWeg(true)}
               aria-label={texte.schliessen}
-              className="flex size-11 flex-none items-center justify-center rounded-full transition-colors hover:bg-white/15"
+              /* Die Tippflaeche bleibt 44 px hoch (WCAG 2.5.8), auch wenn
+                 der Streifen selbst schmaler ist - das Kreuz ragt einfach
+                 unsichtbar ueber ihn hinaus. Ein Knopf, den man nicht
+                 trifft, ist bei unsicheren Haenden dasselbe wie keiner. */
+              className="-my-2 flex size-11 flex-none items-center justify-center rounded-full transition-colors hover:bg-white/15"
             >
               <X className="size-4" aria-hidden="true" />
             </button>

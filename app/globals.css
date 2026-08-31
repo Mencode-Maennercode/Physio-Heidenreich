@@ -65,7 +65,12 @@
     0 24px 56px -24px rgba(37, 42, 42, 0.22);
 
   /* Rhythmus */
-  --sektion-luft: clamp(4.5rem, 9vw, 9rem);
+  /* Der untere Wert galt frueher ab 0 px und war eine Desktop-Zahl: 81 px
+     Luft ueber und unter jedem Abschnitt bedeuten auf einem 844 px hohen
+     Schirm, dass fast ein Fuenftel jedes Bildschirms leer ist, bevor der
+     naechste Inhalt beginnt. 3 rem sind dort genug Trennung; ab rund
+     900 px greift wieder derselbe Wert wie zuvor. */
+  --sektion-luft: clamp(3rem, 9vw, 9rem);
   --rand: clamp(1.25rem, 5vw, 4rem);
   /* Abstand der Werkzeuge in der Kopfzeile zum Bildschirmrand. */
   --kopf-aussen: clamp(1rem, 2vw, 1.75rem);
@@ -371,12 +376,22 @@ html[data-bewegung="reduziert"] *::after {
   der Reihe beziehen und damit falsch rechnen wuerde.
 */
 .kopf-werkzeuge {
-  margin-left: max(
-    0.75rem,
-    calc(
-      max(var(--rand), (100vw - 78rem) / 2 + var(--rand)) - var(--kopf-aussen)
-    )
-  );
+  /* Auf dem Handy gibt es keine Inhaltskante, von der man sich absetzen
+     koennte - dort steht ohnehin alles am Rand. Der Zusatzabstand entfaellt
+     deshalb und die 13,5 px kommen der Knopfreihe zugute, die auf 390 px
+     um genau diese Groessenordnung ringt. */
+  margin-left: 0;
+}
+
+@media (min-width: 640px) {
+  .kopf-werkzeuge {
+    margin-left: max(
+      0.75rem,
+      calc(
+        max(var(--rand), (100vw - 78rem) / 2 + var(--rand)) - var(--kopf-aussen)
+      )
+    );
+  }
 }
 
 .huelle-eng {
@@ -678,6 +693,12 @@ html {
   --gc-karte-rand: #ede6db;
   --gc-feld-rand: #ddd3c6;
 
+  /* Seitenrand der Golden-Calm-Abschnitte. Stand bisher als
+     `px-[clamp(1.25rem,4vw,2.75rem)]` an jedem Abschnitt einzeln; die
+     waagerechte Schiene muss denselben Wert kennen, um ihn negativ
+     auszugleichen - deshalb jetzt an einer Stelle. */
+  --gc-schiene-rand: clamp(1.25rem, 4vw, 2.75rem);
+
   --gc-schatten-weich: 0 24px 48px -34px rgba(44, 37, 35, 0.32);
   --gc-schatten-tief: 0 50px 90px -50px rgba(0, 0, 0, 0.5);
   --gc-schatten-hero: 0 70px 120px -70px rgba(44, 37, 35, 0.5);
@@ -785,4 +806,524 @@ html:not([data-bewegung="voll"]) .gc-schweben {
 .gc-kontext h2 span,
 .gc-kontext h3 span {
   font-family: inherit;
+}
+
+/* ==========================================================================
+   Handy-Fassung der Startseite.
+
+   Bis hierher war die Startseite eine Desktop-Gestaltung, die auf schmalen
+   Schirmen nur umbrach. Das ging aus drei Gruenden schief:
+
+   1. Die Grundgroesse betraegt 18 px (bewusst, siehe html-Regel oben). Mit
+      Zeilenhoehe 1,7 ergibt ein Absatz von 60 Woertern auf 390 px rund
+      290 px Hoehe - ein Drittel Bildschirm fuer einen Satz.
+   2. Die Ueberschriften-clamps rechnen mit vw. Bei 390 px liefert 4,2vw nur
+      16 px, es greift also immer der Mindestwert - der fuer den Desktop
+      gesetzt war. Die Ueberschrift stand mit 39 px auf einem 390-px-Schirm.
+   3. Kopfzeile (zweizeilig) plus Terminstreifen belegten 188 px, die feste
+      Anrufleiste weitere 62 px. Von 844 px blieben 594 px Inhalt.
+
+   Korrigiert wird nicht die Grundgroesse - die ist fuer diese Zielgruppe
+   richtig -, sondern der Rhythmus: engere Zeilen, kleinere Schaugroessen,
+   weniger Polster. Der Fliesstext bleibt gross genug zum Lesen.
+
+   Alle Regeln haengen an [data-gc] und gelten damit ausschliesslich fuer die
+   Startseite. Die uebrigen Seiten bleiben unangetastet.
+   ========================================================================== */
+
+@media (max-width: 639px) {
+  [data-gc] {
+    /* 1,62 statt 1,7: Auf 390 px sind das bei einem sechszeiligen Absatz
+       28 px weniger - sichtbar ruhiger, ohne die Lesbarkeit anzutasten.
+       Unter 1,55 wuerde es fuer aeltere Augen eng. */
+    line-height: 1.62;
+  }
+
+  /* Schaugroessen. Die Werte sind an 390 px gerechnet und wachsen bis zur
+     sm-Grenze mit; ab 640 px uebernehmen wieder die Desktop-clamps in den
+     Bausteinen selbst. */
+  [data-gc] .gc-h1 {
+    font-size: clamp(1.95rem, 8.4vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  [data-gc] .gc-h2 {
+    font-size: clamp(1.7rem, 6.9vw, 2.2rem);
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+  }
+
+  [data-gc] .gc-h3 {
+    font-size: 1.28rem;
+    line-height: 1.25;
+  }
+
+  /* Der Einleitungssatz unter jeder Ueberschrift. Er stand mit 1,2 rem
+     (21,6 px) fast so gross wie eine Zwischenueberschrift da. */
+  [data-gc] .gc-lead {
+    font-size: 1rem;
+  }
+
+  [data-gc] .gc-kicker {
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+  }
+
+  /* Karteninneres: 32 px Polster rundum kosten auf 390 px ein Sechstel der
+     Breite. 20 px lassen die Karte noch atmen. */
+  [data-gc] .gc-karte-innen {
+    padding: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Hero: auf dem Handy gestapelt statt uebereinandergelegt.
+
+   Auf dem Desktop liegt der Text links auf ruhiger Flaeche und das Video
+   rechts daneben - beides in einer Zeile. Auf dem Handy gibt es diese
+   zweite Spalte nicht. Bisher lag das Video deshalb als Hintergrund UNTER
+   dem Text, mit einem Verlauf in Grundfarbe darueber, damit die Schrift
+   lesbar bleibt. Das Ergebnis war ein Bild, das man nicht mehr sah: Die
+   Person verschwand zu 85 % hinter dem Schleier, und Schrift stand
+   trotzdem auf Bewegtbild.
+
+   Die richtige Uebersetzung von "nebeneinander" ist auf dem Handy
+   "untereinander", nicht "uebereinander". Der Text steht oben auf reiner
+   Flaeche, das Video darunter als vollbreites Band bis zur Kante. Beides
+   ist dadurch vollstaendig sichtbar, und der Verlauf entfaellt.
+   -------------------------------------------------------------------------- */
+
+.gc-hero-video {
+  position: relative;
+  /*
+    Raster statt einfachem Block: Das Kind darin (die Videobox) traegt
+    `h-full`, und eine Prozenthoehe braucht eine feste Bezugshoehe. Als
+    Flex-Kind mit `flex: 1 1 auto` hat dieses Element zwar am Ende eine
+    Hoehe, aber keine, die eine Prozentangabe aufloesen koennte - das Kind
+    fiel deshalb auf 0 zusammen, und das absolut darin liegende Video war
+    unsichtbar. Rasterzellen strecken ihre Kinder von sich aus, damit
+    stimmt die Hoehe unabhaengig von der Prozentrechnung.
+  */
+  display: grid;
+  width: 100%;
+  /* Das Band fuellt, was der Text uebrig laesst, faellt aber nie unter eine
+     Hoehe, in der das Motiv noch als Szene lesbar ist. */
+  flex: 1 1 auto;
+  /* Nur der Boden, nicht die Zielhoehe: Ueblicherweise bekommt das Band
+     ueber `flex: 1` deutlich mehr (rund 320 px auf einem 844 px hohen
+     Schirm). Der Mindestwert greift erst auf sehr flachen Geraeten und auf
+     Querformat - dort lieber ein schmales Band als gar keins. */
+  min-height: 26svh;
+}
+
+@media (min-width: 640px) {
+  /* Ab hier wieder die gepruefte Desktop-Anordnung: Das Video liegt
+     absolut hinter dem Text, beginnt unterhalb der Kopfzeile und endet am
+     unteren Rand der oberen Zone. */
+  .gc-hero-video {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    top: calc(var(--kopf-hoehe, 7.5rem) + 0.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Waagerechte Schiene fuer Kartenreihen auf dem Handy.
+
+   Fuenf Leistungskarten untereinander sind auf 390 px rund 3.400 px Weg -
+   vier Bildschirme nur fuer einen Abschnitt. Nebeneinander auf einer
+   Schiene sind es 480 px, und das Wischen ist auf dem Telefon die
+   natuerlichere Geste als Scrollen durch eine Liste.
+
+   `scroll-snap` sorgt dafuer, dass immer genau eine Karte steht. Die
+   angeschnittene naechste Karte am rechten Rand ist kein Zufall, sondern
+   der Hinweis, dass es weitergeht - ohne Pfeil, ohne Beschriftung.
+   -------------------------------------------------------------------------- */
+
+.gc-schiene {
+  display: flex;
+  gap: 0.875rem;
+  overflow-x: auto;
+  /*
+    `proximity`, nicht `mandatory`.
+
+    Mit `mandatory` rastet der Browser sofort beim Aufbau ein und schob die
+    Reihe dabei um genau den Innenabstand nach links (gemessen:
+    scrollLeft = 23) - die erste Karte klebte an der Bildschirmkante,
+    waehrend Ueberschrift und Text darueber eingerueckt standen.
+    `scroll-padding` hat daran nichts geaendert.
+
+    `proximity` rastet erst, wenn ohnehin in der Naehe einer Karte
+    losgelassen wird. Das Wischen fuehlt sich unveraendert an, die Reihe
+    startet aber dort, wo sie soll. Nebenbei ist es die freundlichere
+    Variante: `mandatory` kann Menschen, die mit vergroesserter Schrift oder
+    unsicherer Hand bedienen, gegen ihren Willen weiterziehen.
+  */
+  scroll-snap-type: x proximity;
+  /* Der negative Rand plus Innenabstand laesst die Schiene bis an beide
+     Bildschirmkanten laufen, waehrend die erste Karte trotzdem auf der
+     Textkante beginnt. Ohne das saehe die Reihe aus, als waere sie
+     abgeschnitten worden. */
+  margin-inline: calc(var(--gc-schiene-rand) * -1);
+  padding-inline: var(--gc-schiene-rand);
+  /*
+    Ohne diese Zeile klebt die erste Karte an der Bildschirmkante.
+
+    `scroll-snap-align: start` richtet die Karte am Anfang des Sichtbereichs
+    aus - und der beginnt standardmaessig an der Kante des Kastens, nicht am
+    Innenabstand. Bei `mandatory` rastet der Browser sofort dorthin ein und
+    scrollt den Innenabstand einfach weg: gemessen sass die erste Karte bei
+    x = 0 statt bei x = 22,5. `scroll-padding` verschiebt genau diesen
+    Bezugspunkt, damit die Reihe dort beginnt, wo auch Ueberschrift und
+    Fliesstext darueber beginnen.
+  */
+  scroll-padding-inline: var(--gc-schiene-rand);
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Die Balken der Fortschrittsanzeige uebernehmen diese Aufgabe. */
+  overscroll-behavior-x: contain;
+}
+
+.gc-schiene::-webkit-scrollbar {
+  display: none;
+}
+
+.gc-schiene > * {
+  scroll-snap-align: start;
+  /* 84 % laesst genau so viel von der naechsten Karte stehen, dass sie als
+     Karte erkennbar ist und nicht als abgeschnittener Rand. */
+  flex: 0 0 84%;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  /* Ab Tablet zurueck ins Raster - dort ist Platz fuer zwei oder drei
+     Karten nebeneinander, und Wischen waere dann der umstaendlichere Weg. */
+  .gc-schiene {
+    display: grid;
+    gap: 1.5rem;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-bottom: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gc-schiene > * {
+    flex: initial;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gc-schiene-drei {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Kopfzeile: faehrt beim Herunterscrollen weg.
+
+   Auf dem Handy belegte die feste Leiste dauerhaft 188 px von 844 px. Sie
+   ist beim Lesen aber nur im Weg - gebraucht wird sie in dem Moment, in dem
+   jemand zurueck nach oben will. Genau das ist die Geste, die sie zurueck
+   holt.
+
+   Umgesetzt ueber `transform`, nicht ueber `top`: Nur so laeuft die
+   Bewegung auf dem Compositor und ruckelt nicht mit dem Scrollen mit.
+   -------------------------------------------------------------------------- */
+
+.kopf-weg {
+  transform: translateY(-100%);
+}
+
+.kopf-da {
+  transform: translateY(0);
+}
+
+@media (min-width: 1024px) {
+  /* Auf grossen Schirmen bleibt die Leiste stehen: Dort kostet sie kaum
+     Platz, und eine Kopfzeile, die beim Scrollen verschwindet, ist mit der
+     Maus eher irritierend als hilfreich. */
+  .kopf-weg {
+    transform: translateY(0);
+  }
+}
+
+html[data-bewegung="reduziert"] .kopf-weg,
+html[data-bewegung="reduziert"] .kopf-da {
+  /* Bei "weniger Bewegung" bleibt die Leiste einfach stehen. Eine Leiste,
+     die kommt und geht, ist genau die Art unaufgeforderter Bewegung, die
+     hier abgeschaltet gehoert. */
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kopf-weg {
+    transform: translateY(0);
+  }
+}
+
+/*
+  Der Anfrage-Knopf im Hero wechselt zwischen Haupt- und Nebenrolle.
+
+  Handy: Er ist der einzige Knopf im Hero und traegt deshalb die volle
+  Gestalt - gefuellt in Navy, mit Schatten. Ab sm steht die Telefonnummer
+  als gefuellter Knopf daneben; dann waeren zwei gefuellte Knoepfe
+  nebeneinander zwei gleich laute Aufforderungen, und er faellt in die
+  zurueckhaltende Fassung mit Umrandung zurueck.
+
+  Als Klasse und nicht als Tailwind-Utilities, weil Hintergrund, Rand,
+  Textfarbe und Schatten gemeinsam umschlagen - vier zusammengehoerende
+  Werte, die als vier einzelne sm:-Varianten nur schwer lesbar waeren.
+*/
+.gc-hero-knopf {
+  background: var(--gc-navy);
+  border-color: transparent;
+  color: var(--gc-bg);
+  box-shadow: 0 18px 36px -18px rgba(30, 45, 59, 0.65);
+}
+
+@media (min-width: 640px) {
+  .gc-hero-knopf {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: var(--gc-feld-rand);
+    color: var(--gc-text);
+    box-shadow: none;
+  }
+}
+
+/*
+  Merkmalsleiste im Hero - auf dem Handy eine eigene Flaeche ueber dem Video.
+
+  Warum nicht einfach ein Verlauf im Bild: Der Text muesste ueber einem
+  hellen Fenster genauso sicher lesbar sein wie ueber einem dunklen Boden.
+  Ein Verlauf, der das leistet, deckt gut die halbe Bildhoehe ab - und damit
+  wieder das Motiv, das auf dem Handy endlich sichtbar geworden ist. Eine
+  abgesetzte Leiste deckt nur die 88 px, die sie braucht, und sagt
+  ausserdem, dass die drei Angaben zusammengehoeren.
+
+  Navy bei 78 % plus Weichzeichner: Das Bild bleibt darunter als Farbe und
+  Bewegung erkennbar, der Text steht trotzdem auf 8,9:1. Der haarfeine helle
+  Rand oben ist das, was die Flaeche als aufgelegt statt als Loch lesen
+  laesst - dasselbe Prinzip wie bei den Karten weiter unten, nur
+  seitenverkehrt, weil hier dunkel auf hell liegt.
+*/
+.gc-merkmale {
+  background: color-mix(in srgb, var(--gc-navy) 78%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.1rem;
+  /* Die Huelle liefert den seitlichen Abstand zum Bildschirmrand, hier
+     kommt nur das Innenpolster der Leiste selbst dazu. */
+  padding-block: 0.7rem;
+  padding-inline: 0.5rem;
+  /* Der Rand der Leiste darf nicht auf der Bildschirmkante kleben. */
+  margin-inline: var(--gc-schiene-rand);
+  width: auto;
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 640px) {
+  /* Ab Tablet steht die Reihe wieder auf cremefarbenem Grund unter dem
+     Video - dort braucht sie weder Flaeche noch Rand. */
+  .gc-merkmale {
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 0;
+    border-radius: 0;
+    margin-inline: auto;
+    box-shadow: none;
+    padding-block: clamp(1rem, 3vw, 2rem);
+  }
+}
+
+/*
+  Lesefortschritt: nimmt die Farbe der Seite an, auf der er laeuft.
+
+  Auf den Unterseiten der warme Petrol-Akzent, auf der Startseite Gold -
+  dort gilt die Golden-Calm-Palette, und ein dunkelgruener Strich ueber
+  einem cremefarbenen Hero waere der einzige Fremdkoerper im Bild.
+
+  `:has()` statt einer Eigenschaft am Baustein selbst: Die Linie liegt in
+  app/layout.tsx ausserhalb von [data-gc] und weiss von sich aus nicht, auf
+  welcher Seite sie steckt.
+*/
+.lesefortschritt {
+  background: var(--ui-akzent-warm);
+}
+
+body:has([data-gc]) .lesefortschritt {
+  background: var(--gc-gold);
+}
+
+/*
+  Konzept-Karte: Ziffer, Ueberschrift, Text - unterschiedlich angeordnet.
+
+  Desktop: Die Ziffer steht links neben dem gesamten Textblock, klassisch
+  wie in einer nummerierten Liste.
+
+  Handy: Diese Spalte kostet dort 50 px von 345 px. Der Fliesstext bekam
+  dadurch eine Spalte, in der jeder Satz vier- statt dreizeilig umbrach -
+  bei drei Karten rund 90 px verschenkte Hoehe, und der Text stand als
+  schmale Saeule neben viel Weiss. Auf dem Handy steht die Ziffer deshalb
+  nur noch neben der Ueberschrift, zu der sie gehoert; der Text laeuft
+  darunter ueber die volle Kartenbreite.
+
+  Die Zuordnung geht ueber die Position der Kinder, nicht ueber eigene
+  Klassen: Die Karte hat genau drei, ihre Reihenfolge ist inhaltlich
+  festgelegt (Ziffer, Titel, Text), und drei zusaetzliche Klassennamen
+  wuerden nichts erklaeren, was hier nicht ohnehin steht.
+*/
+.gc-konzept-karte {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.5rem;
+}
+
+/* Der Fliesstext ueber beide Spalten. */
+.gc-konzept-karte > :nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 640px) {
+  .gc-konzept-karte {
+    align-items: start;
+    column-gap: 1.5rem;
+    row-gap: 0.5rem;
+  }
+
+  .gc-konzept-karte > :nth-child(3) {
+    grid-column: 2;
+  }
+}
+
+/* ==========================================================================
+   Handy-Fassung der Unterseiten.
+
+   Derselbe Befund wie auf der Startseite, nur an anderen Klassen: Die
+   Schaugroessen sind ueber `clamp` gesetzt, und deren vw-Anteil liefert auf
+   390 px so wenig, dass immer der Mindestwert greift - ein Wert, der fuer
+   den Desktop gewaehlt wurde. `titel-gross` stand damit mit 47 px auf einem
+   390-px-Schirm; die Ueberschrift "Was ich bei Ihnen zu Hause mache"
+   brauchte dafuer zwei volle Bildschirmdrittel.
+
+   Korrigiert wird nur der Mindestwert und die Steigung, nicht die
+   Obergrenze: Ab etwa 640 px sieht alles aus wie zuvor.
+
+   Der Fliesstext bleibt bei seiner Groesse - 18 px sind fuer diese
+   Zielgruppe bewusst gewaehlt. Enger wird nur die Zeilenhoehe.
+   ========================================================================== */
+
+@media (max-width: 639px) {
+  body {
+    /* 1,7 auf 1,62. Bei einem sechszeiligen Absatz sind das 28 px weniger,
+       ohne dass die Zeilen fuer aeltere Augen zusammenruecken. */
+    line-height: 1.62;
+  }
+
+  .titel-gross {
+    font-size: clamp(1.85rem, 8.6vw, 2.7rem);
+  }
+
+  .titel-mittel {
+    font-size: clamp(1.5rem, 6.8vw, 2.2rem);
+  }
+
+  .titel-klein {
+    font-size: 1.25rem;
+  }
+}
+
+/* ==========================================================================
+   Auftritt des Hero beim Laden - ueber CSS, nicht ueber GSAP.
+
+   WARUM NICHT GSAP, wie ueberall sonst auf dieser Seite:
+
+   Alle anderen Auftritte haengen am Scrollen. Ihr Element ist beim Laden
+   noch unter der Falz, GSAP hat also Zeit, sich einzurichten, bevor es
+   jemand sieht. Der Hero ist der einzige Abschnitt, der schon dasteht.
+
+   Gemessen mit scripts/auftritt.mjs (Bild fuer Bild im Browser
+   mitgeschrieben): Die Ueberschrift stand von 127 ms bis 887 ms voll
+   sichtbar da - dann setzte GSAP nach der Hydrierung ihre Deckkraft auf 0
+   und blendete sie bis 1643 ms wieder ein. Also fast eine Sekunde lesen,
+   dann blinkt die Zeile weg und kommt zurueck. Auf einem Telefon mit
+   langsamerem JavaScript wird dieser Abstand groesser, nicht kleiner.
+
+   Eine CSS-Animation kennt dieses Problem nicht: Sie beginnt mit dem ersten
+   Bildaufbau, nicht wenn ein Skript fertig geladen hat. `backwards` sorgt
+   dafuer, dass der Anfangszustand schon waehrend der Verzoegerung gilt -
+   ohne diesen Wert waere genau dasselbe Aufblitzen zurueck, nur kuerzer.
+
+   `html[data-js]` ist die Sicherung: Verborgen wird nur, wenn das
+   Vorab-Skript in app/layout.tsx gelaufen ist. Ohne JavaScript steht der
+   Hero einfach da - dieselbe Regel wie bei allen anderen Auftritten
+   (siehe components/motion/Enthuellen.tsx), nur anders durchgesetzt.
+   ========================================================================== */
+
+@keyframes gc-auftritt {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html[data-js] .gc-hero-teil,
+html[data-js] .gc-hero-auftritt {
+  animation: gc-auftritt 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+  /* Der Versatz steht am Element selbst - die Reihenfolge ist inhaltlich
+     (Einordnung, Ueberschrift, Person, Aussage, Knopf, Merkmale) und
+     gehoert damit dorthin, wo der Inhalt steht, nicht in eine Zahlenkette
+     aus nth-child hier. */
+  animation-delay: var(--auftritt-verzug, 0s);
+}
+
+/* Das Videoband kommt zuletzt und aus etwas groesserer Tiefe: Damit liest
+   sich der Aufbau als eine Bewegung - der Text legt sich hin, dann hebt
+   sich das Bild darunter - und nicht als sechs einzelne. */
+@keyframes gc-auftritt-band {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html[data-js] .gc-hero-auftritt {
+  animation-name: gc-auftritt-band;
+  animation-duration: 0.9s;
+}
+
+/* Weniger Bewegung: Der Hero steht sofort vollstaendig da. Die allgemeine
+   Regel weiter oben kuerzt Animationen nur auf 0,01 ms - das genuegt hier
+   nicht, weil dann immer noch die Verzoegerung liefe und der Inhalt
+   waehrenddessen unsichtbar waere. */
+html[data-bewegung="reduziert"] .gc-hero-teil,
+html[data-bewegung="reduziert"] .gc-hero-auftritt {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-bewegung="voll"]) .gc-hero-teil,
+  html:not([data-bewegung="voll"]) .gc-hero-auftritt {
+    animation: none;
+  }
 }

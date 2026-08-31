@@ -1,7 +1,11 @@
 "use client";
 
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { Brain, House, Phone, UserRound } from "lucide-react";
 import RuhigesVideo from "@/components/RuhigesVideo";
+import { useRuhig } from "@/components/a11y/Einstellungen";
 import MagnetKnopf from "./MagnetKnopf";
 import { hero as heroDe, person as personDe } from "@/lib/content/golden-calm";
 import type { Hero, Person } from "@/lib/content/typen";
@@ -48,8 +52,48 @@ export default function GcHero({
      fuer blinde Nutzer der einzige Zugang zum Motiv. */
   videoBeschreibung?: string;
 } = {}) {
+  const rahmen = useRef<HTMLElement>(null);
+  const ruhig = useRuhig();
+
+  /*
+    Nur noch das sehr langsame Heranfahren des Bildes laeuft ueber GSAP.
+
+    Der eigentliche Auftritt des Hero steckt in einer CSS-Animation
+    (`.gc-hero-teil` in globals.css). Der Grund steht dort ausfuehrlich:
+    Eine ueber JavaScript gesteuerte Einblendung setzt erst nach der
+    Hydrierung ein - beim Hero, der schon sichtbar dasteht, blitzte die
+    Ueberschrift dadurch messbar auf und verschwand wieder.
+
+    Fuer das Heranfahren gilt das nicht: Es beginnt bei Groesse 1, also
+    genau dort, wo das Bild ohnehin steht. Es kann nichts aufblitzen, weil
+    es nichts verbirgt.
+
+    Warum ueberhaupt: Das Hero-Video laeuft 4,7 Sekunden und bleibt dann auf
+    dem letzten Bild stehen (siehe `schleife={false}`). Ohne diese Zugabe
+    steht ab Sekunde fuenf ein Standbild da - genau in dem Moment, in dem
+    die meisten noch lesen. 40 Sekunden fuer 5 % Groesse sind pro Sekunde
+    weniger als ein Promille: Man sieht die Bewegung nie, man merkt nur,
+    dass das Bild nicht tot ist.
+  */
+  useGSAP(
+    () => {
+      if (ruhig || !rahmen.current) return;
+
+      const bild = rahmen.current.querySelector(".gc-hero-video video");
+      if (!bild) return;
+
+      gsap.fromTo(
+        bild,
+        { scale: 1 },
+        { scale: 1.05, duration: 40, ease: "none", delay: 1 },
+      );
+    },
+    { scope: rahmen, dependencies: [ruhig] },
+  );
+
   return (
     <section
+      ref={rahmen}
       id="top"
       className="relative flex min-h-[calc(100svh-4.5rem)] w-full flex-col overflow-hidden sm:min-h-svh"
       style={{ background: "var(--gc-bg)" }}
@@ -61,7 +105,7 @@ export default function GcHero({
         Waere die Videoschicht an die ganze Sektion gehaengt, liefe sie hinter
         den Merkmalen weiter.
       */}
-      <div className="relative flex flex-1 items-center">
+      <div className="relative flex flex-1 flex-col sm:flex-row sm:items-center">
         {/*
           Die Videoschicht beginnt UNTERHALB der Kopfzeile, nicht am
           Seitenrand. Die Kopfzeile ist oben durchsichtig; laege das Video
@@ -82,9 +126,18 @@ export default function GcHero({
 
           Der Ersatzwert greift nur, bis das Skript uebernimmt.
         */}
+        {/*
+          `gc-hero-video` (globals.css) enthaelt beide Anordnungen: auf dem
+          Handy ein vollbreites Band UNTER dem Text, ab sm die gepruefte
+          Desktop-Fassung, in der das Video absolut hinter dem Text liegt
+          und unterhalb der Kopfzeile beginnt. Das gehoert in eine
+          CSS-Regel, weil der obere Abstand aus --kopf-hoehe kommt und
+          sich als Inline-Angabe nicht nach Bildschirmbreite unterscheiden
+          liesse.
+        */}
         <div
-          className="absolute inset-x-0 bottom-0 flex items-center justify-end"
-          style={{ top: "calc(var(--kopf-hoehe, 7.5rem) + 0.5rem)" }}
+          className="gc-hero-video gc-hero-auftritt order-2 sm:order-none"
+          style={{ "--auftritt-verzug": "0.3s" } as React.CSSProperties}
         >
           {/*
             Ab sm liegt das Video in einer Box mit exakt seinem eigenen
@@ -117,7 +170,12 @@ export default function GcHero({
               name="hero"
               beschreibung={videoBeschreibung}
               className="absolute inset-0 h-full w-full"
-              videoKlasse="h-full w-full translate-x-[12%] object-cover object-[50%_15%] sm:translate-x-0 sm:object-center"
+              /* Die Verschiebung um 12 % nach rechts stammt aus der Zeit,
+                 als der Text auf dem Handy UEBER dem Video lag: Sie schob
+                 die Person aus der Textspalte heraus. Seit der Text darueber
+                 auf eigener Flaeche steht, gibt es nichts mehr auszuweichen -
+                 die Person gehoert in die Mitte des Bandes. */
+              videoKlasse="h-full w-full object-cover object-[50%_22%] sm:object-center"
               schleife={false}
               /* Der Clip laeuft 4,7 s und bleibt dann stehen - damit greift
                WCAG 2.2.2 nicht, und der Knopf darf weg. Siehe die
@@ -161,16 +219,30 @@ export default function GcHero({
               }}
             />
 
-            {/* Unter sm fuellt das Video die Flaeche und der Text liegt darauf.
-              Dort braucht es weiterhin die deckende Abdeckung links und einen
-              Schleier von unten, sonst steht Schrift auf bewegtem Bild. */}
+            {/*
+              Handy: nur noch zwei schmale Saeume, kein Schleier mehr.
+
+              Vorher lag hier ein fast deckender Creme-Verlauf ueber dem
+              ganzen Bild - noetig, solange der Text darauf stand. Er kostete
+              das Motiv: Von der Person war praktisch nichts mehr zu sehen,
+              und gleichzeitig stand die Schrift trotzdem auf bewegtem Bild.
+              Beides ist behoben, seit der Text darueber auf eigener Flaeche
+              steht.
+
+              Geblieben sind: oben ein kurzer Saum, damit das Band nicht als
+              harte Kante gegen den Text stoesst, und unten eine leichte
+              Abdunklung. Sie deckt keinen Text ab - dafuer traegt die
+              Merkmalsleiste ihre eigene Flaeche - sondern gibt dem Band
+              unten Gewicht, damit es nicht in der hellen Leiste am
+              Bildschirmrand ausfranst.
+            */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 sm:hidden"
               style={{
                 background: [
-                  "linear-gradient(180deg, color-mix(in srgb, var(--gc-bg) 70%, transparent) 0%, color-mix(in srgb, var(--gc-bg) 92%, transparent) 55%, var(--gc-bg) 100%)",
-                  "linear-gradient(to bottom, var(--gc-bg) 0%, transparent 22%)",
+                  "linear-gradient(to bottom, var(--gc-bg) 0%, transparent 14%)",
+                  "linear-gradient(to top, color-mix(in srgb, var(--gc-navy) 55%, transparent) 0%, transparent 40%)",
                 ].join(", "),
               }}
             />
@@ -196,8 +268,8 @@ export default function GcHero({
         Kicker lag vorher exakt darunter und war unsichtbar.
       */}
         <div
-          className="huelle relative z-10 w-full min-w-0 pb-6 sm:pb-8 md:pb-10"
-          style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 1.5rem)" }}
+          className="huelle relative z-10 order-1 w-full min-w-0 pb-5 sm:order-none sm:pb-8 md:pb-10"
+          style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 1rem)" }}
         >
           {/* Schmaler als zuvor (34rem): Die Spalte muss vollstaendig innerhalb
               der deckenden Zone des Verlaufs liegen, damit kein Videobild den
@@ -208,14 +280,14 @@ export default function GcHero({
                 dieselbe Angabe, ohne den Blick als Erstes auf sich zu
                 ziehen. */}
             <p
-              className="mb-4 text-[12px] tracking-[0.2em] uppercase sm:mb-5"
-              style={{ color: "#6E5940" }}
+              className="gc-hero-teil gc-kicker mb-3 text-[12px] tracking-[0.2em] text-balance uppercase sm:mb-5"
+              style={{ color: "#6E5940", "--auftritt-verzug": "0.05s" } as React.CSSProperties}
             >
               {hero.augenbraue}
             </p>
             <h1
-              className="mb-4 font-[family-name:var(--font-cormorant)] font-normal sm:mb-6 text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.08] tracking-[-0.01em]"
-              style={{ color: "var(--gc-text)" }}
+              className="gc-hero-teil gc-h1 mb-3 font-[family-name:var(--font-cormorant)] font-normal sm:mb-6 text-[clamp(2.15rem,4.2vw,3.5rem)] leading-[1.08] tracking-[-0.01em]"
+              style={{ color: "var(--gc-text)", "--auftritt-verzug": "0.13s" } as React.CSSProperties}
             >
               {/*
                 Das Leerzeichen am Zeilenende ist kein Schoenheitsfehler,
@@ -246,26 +318,29 @@ export default function GcHero({
               ein Unterscheidungsmerkmal, kein Makel.
             */}
             <p
-              className="mb-1.5 text-[1.05rem] font-medium sm:mb-2"
-              style={{ color: "var(--gc-text)" }}
+              className="gc-hero-teil mb-1 text-[0.98rem] font-medium sm:mb-2 sm:text-[1.05rem]"
+              style={{ color: "var(--gc-text)", "--auftritt-verzug": "0.21s" } as React.CSSProperties}
             >
               {person.name}
             </p>
             <p
-              className="mb-5 text-[0.92rem] leading-relaxed sm:mb-7"
-              style={{ color: "var(--gc-text-fein)" }}
+              className="gc-hero-teil mb-4 text-[0.85rem] leading-snug sm:mb-7 sm:text-[0.92rem] sm:leading-relaxed"
+              style={{ color: "var(--gc-text-fein)", "--auftritt-verzug": "0.27s" } as React.CSSProperties}
             >
               {person.titel}
             </p>
 
             <p
-              className="mb-7 max-w-[28em] text-[1.1rem] leading-[1.7] sm:mb-9"
-              style={{ color: "var(--gc-text-leise)" }}
+              className="gc-hero-teil mb-5 max-w-[28em] text-[0.98rem] leading-[1.6] sm:mb-9 sm:text-[1.1rem] sm:leading-[1.7]"
+              style={{ color: "var(--gc-text-leise)", "--auftritt-verzug": "0.34s" } as React.CSSProperties}
             >
               {hero.text}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div
+              className="gc-hero-teil flex w-full flex-wrap items-center gap-4 sm:w-auto"
+              style={{ "--auftritt-verzug": "0.42s" } as React.CSSProperties}
+            >
               {/* Sehr zurueckhaltender Magnet-Effekt (Standard waere 0.35).
                   Die beiden wichtigsten Knoepfe der Seite sollen ruhig
                   liegen - ein Knopf, der dem Zeiger sichtbar ausweicht,
@@ -293,15 +368,23 @@ export default function GcHero({
                 </MagnetKnopf>
               </div>
 
+              {/*
+                Auf dem Handy ist das der einzige Knopf im Hero - und damit
+                der Hauptknopf. Er war bisher trotzdem in der
+                Nebenrolle gesetzt: fast weiss auf cremefarbenem Grund, also
+                praktisch unsichtbar. Auf dem Desktop stimmt diese Rolle
+                (daneben steht die gefuellte Telefonnummer), auf dem Handy
+                nicht - dort steht die Nummer in der Leiste am unteren Rand
+                und dieser Knopf muss allein tragen.
+
+                Deshalb wechselt er die Gestalt: gefuellt in Navy und ueber
+                die volle Spaltenbreite auf dem Handy, ab sm zurueck zur
+                zurueckhaltenden Umrandung neben dem Anruf-Knopf.
+              */}
               <MagnetKnopf
                 href="#kontakt"
                 stark={0.08}
-                className="min-h-16 rounded-full border px-7 text-[1.05rem]"
-                style={{
-                  background: "rgba(255,255,255,0.85)",
-                  borderColor: "var(--gc-feld-rand)",
-                  color: "var(--gc-text)",
-                }}
+                className="gc-hero-knopf min-h-14 w-full rounded-full border px-7 text-[1rem] sm:min-h-16 sm:w-auto sm:text-[1.05rem]"
               >
                 {anfrageLabel}
               </MagnetKnopf>
@@ -322,19 +405,42 @@ export default function GcHero({
         markiert den Wechsel von Aussage zu Beleg, ohne einen Balken
         einzuziehen.
       */}
-      <div className="relative z-10">
-        <ul className="huelle grid grid-cols-3 gap-x-4 gap-y-6 py-[clamp(1rem,3vw,2rem)] sm:gap-x-8">
+      {/*
+        Auf dem Handy liegen die Merkmale AUF dem Videoband, nicht darunter.
+
+        Darunter kosteten sie eine eigene Zeile von rund 90 px - auf 844 px
+        Bildschirmhoehe der Unterschied zwischen "Video ist ein Band" und
+        "Video ist ein Streifen".
+
+        Sie bringen ihre eigene Flaeche mit (siehe `.gc-merkmale` in
+        globals.css), statt sich auf einen Verlauf im Bild zu verlassen. Der
+        Grund ist Lesbarkeit: Ein Verlauf muesste die halbe Bildhoehe
+        abdunkeln, um drei Textzeilen ueber einem hellen Fenster sicher
+        lesbar zu machen - und haette damit genau das Motiv wieder
+        zugedeckt, das hier endlich zu sehen ist. Eine abgesetzte Leiste
+        deckt nur die 88 px, die sie wirklich braucht.
+
+        Ab sm stehen sie wieder unter dem Video auf cremefarbenem Grund -
+        dort ist Platz, und das Video liegt in seiner eigenen Box rechts.
+      */}
+      <div className="relative z-10 -mt-[6.25rem] sm:mt-0">
+        <ul
+          className="gc-hero-teil gc-merkmale huelle grid grid-cols-3 gap-x-3 gap-y-6 sm:gap-x-8"
+          style={{ "--auftritt-verzug": "0.55s" } as React.CSSProperties}
+        >
           {hero.merkmale.map((merkmal) => {
             const Symbol = SYMBOLE[merkmal.symbol];
             return (
               <li
                 key={merkmal.titel}
-                className="flex min-w-0 flex-col items-center gap-2 text-center"
+                className="flex min-w-0 flex-col items-center gap-1.5 text-center sm:gap-2"
               >
+                {/* Auf dem Navy-Sockel traegt Braun nicht (1,9:1). Gold
+                    kommt dort auf 5,4:1 und ist ohnehin die Akzentfarbe
+                    fuer alles, was auf dunklem Grund liegt. */}
                 <Symbol
-                  className="size-6 flex-none"
+                  className="size-[1.15rem] flex-none text-[#D9BE93] sm:size-6 sm:text-[#6E5940]"
                   strokeWidth={1.4}
-                  style={{ color: "#6E5940" }}
                   aria-hidden="true"
                 />
                 {/* `w-full`, nicht `min-w-0`: In einer Spalten-Flexbox
@@ -344,9 +450,18 @@ export default function GcHero({
                     schmalen Spalte und ragte in die Nachbarspalte. Erst
                     `w-full` zwingt ihn auf die Spaltenbreite - dann bricht
                     er innerhalb um. Gemessen mit scripts/geraete.mjs. */}
+                {/*
+                  `hyphens-none` ist hier Pflicht, nicht Geschmack: Die
+                  Seite trennt Woerter global automatisch (siehe body-Regel
+                  in globals.css, noetig fuer lange deutsche Komposita in
+                  schmalen Spalten). In einer 105 px breiten Spalte wurde
+                  daraus "Neurologisch- / e Erfahrung" - eine Trennung nach
+                  dem vorletzten Buchstaben. Bei nur drei kurzen
+                  Beschriftungen ist der Umbruch am Leerzeichen immer
+                  moeglich; die Trennung darf deshalb hier weg.
+                */}
                 <span
-                  className="w-full text-[clamp(0.85rem,1.6vw,1rem)] font-medium leading-tight text-balance"
-                  style={{ color: "var(--gc-text)" }}
+                  className="w-full text-[0.72rem] leading-tight font-medium text-balance hyphens-none text-[#F4EEE3] sm:text-[clamp(0.85rem,1.6vw,1rem)] sm:hyphens-auto sm:text-[color:var(--gc-text)]"
                 >
                   {merkmal.titel}
                 </span>

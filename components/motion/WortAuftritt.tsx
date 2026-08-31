@@ -35,14 +35,38 @@ gsap.registerPlugin(ScrollTrigger);
  * Vorlesesoftware liest den Satz normal, und Zeilenumbrueche funktionieren
  * wie bei jeder anderen Ueberschrift.
  */
+/**
+ * Laeuft dieser Auftritt ueberhaupt noch als Auftritt?
+ *
+ * Ein ScrollTrigger, dessen Element beim Einrichten schon im Bild steht,
+ * feuert sofort - und das ist genau der Fall, in dem die Animation nichts
+ * mehr bewirken kann ausser Schaden: Der Inhalt steht seit dem ersten
+ * Bildaufbau da, GSAP setzt ihn nach der Hydrierung auf Deckkraft 0 und
+ * blendet ihn erneut ein. Gemessen mit scripts/auftritt.mjs auf
+ * /behandlung/: Die Ueberschrift war von 0 bis 531 ms zu lesen, verschwand
+ * dann und war erst bei 918 ms wieder vollstaendig da.
+ *
+ * Ein Auftritt gehoert dem, der noch nicht angekommen ist. Wer schon liest,
+ * bekommt keinen mehr.
+ */
+function schonAngekommen(knoten: Element, anteil: number) {
+  return knoten.getBoundingClientRect().top < window.innerHeight * anteil;
+}
+
 export default function WortAuftritt({
   text,
   className,
+  style,
   als: Als = "h2",
   verzoegerung = 0,
 }: {
   text: string;
   className?: string;
+  /* Durchgereicht, weil die Startseite ihre Farben ueber CSS-Variablen
+     direkt am Element setzt (--gc-*) statt ueber Tailwind-Klassen. Ohne
+     diesen Durchgang muesste fuer jede Ueberschrift eine eigene Klasse
+     angelegt werden, nur um eine Farbe zu uebergeben. */
+  style?: React.CSSProperties;
   als?: "h1" | "h2" | "h3";
   verzoegerung?: number;
 }) {
@@ -55,6 +79,9 @@ export default function WortAuftritt({
 
       const worte = rahmen.current.querySelectorAll("[data-wort]");
       if (!worte.length) return;
+
+      /* 0.88 ist derselbe Wert wie `start: "top 88%"` weiter unten. */
+      if (schonAngekommen(rahmen.current, 0.88)) return;
 
       gsap.fromTo(
         worte,
@@ -82,7 +109,7 @@ export default function WortAuftritt({
   const worte = text.split(" ");
 
   return (
-    <Als ref={rahmen} className={className}>
+    <Als ref={rahmen} className={className} style={style}>
       {worte.map((wort, i) => (
         <Fragment key={`${wort}-${i}`}>
           {/*

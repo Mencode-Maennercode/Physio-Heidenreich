@@ -121,7 +121,12 @@ export const ueberMich = {
     "Deshalb komme ich zu meinen Patientinnen und Patienten nach Hause – mit festen Terminen, ausreichend Zeit und einer bewusst kleinen Kartei. Angehörige binde ich auf Wunsch ein, damit Übungen auch zwischen den Terminen sicher stattfinden.",
   ],
   fakten: [
-    { label: "Ausbildung", wert: "B.Sc. Physiotherapie, Niederlande" },
+    /* "Studium", nicht "Ausbildung" - das ist im Heilberuf ein Unterschied
+       mit Gewicht: Der Regelweg in die Physiotherapie ist in Deutschland
+       eine schulische Ausbildung, ein abgeschlossenes Studium haben die
+       wenigsten Mitbewerber. Dasselbe Wort steht aus demselben Grund im
+       Impressum und auf der Seite "Ueber mich". */
+    { label: "Studium", wert: "B.Sc. Physiotherapie, Niederlande" },
     { label: "Weiterbildung", wert: "M.A. Health Administration" },
     { label: "Schwerpunkt", wert: "Neurologische Rehabilitation" },
     { label: "Einsatzgebiet", wert: "Kreis Ahrweiler und Umgebung" },

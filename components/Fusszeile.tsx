@@ -17,8 +17,8 @@ function Spaltentitel({ children }: { children: React.ReactNode }) {
 export default function Fusszeile() {
   return (
     <footer className="auf-warm nicht-drucken">
-      <div className="huelle py-[clamp(3.5rem,6vw,5.5rem)]">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="huelle py-[clamp(2.5rem,6vw,5.5rem)]">
+        <div className="grid gap-8 md:grid-cols-2 md:gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
               <Bildmarke className="size-9 flex-none text-akzent-warm" />

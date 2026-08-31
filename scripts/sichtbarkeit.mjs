@@ -19,7 +19,9 @@ import { readFile, stat } from "node:fs/promises";
 import { join, extname } from "node:path";
 import puppeteer from "puppeteer-core";
 
-const PORT = 4322;
+/* Zufaelliger Port: Bleibt nach einem abgebrochenen Lauf ein
+   Node-Prozess haengen, blockiert er sonst jeden weiteren Versuch. */
+const PORT = 42000 + Math.floor(Math.random() * 2000);
 const WURZEL = new URL("../out/", import.meta.url).pathname.replace(/^\//, "");
 const DURCHGAENGE = 3;
 

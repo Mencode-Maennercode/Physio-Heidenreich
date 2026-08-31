@@ -131,7 +131,7 @@ export default function Formular({
       method="post"
       onSubmit={absenden}
       noValidate
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-6 sm:gap-8"
     >
       {/* Honigtopf. Nicht per display:none versteckt, sonst überspringen ihn
           manche Bots gezielt - stattdessen aus dem Sichtfeld geschoben und
@@ -165,7 +165,7 @@ export default function Formular({
         Aus demselben Grund haben BEIDE Felder einen Hinweis: Haette nur eins
         einen, endete die Spalte darunter auf unterschiedlicher Hoehe.
       */}
-      <div className="grid gap-8 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2 sm:gap-8">
         <Feld
           name="telefon"
           marke="Telefon"

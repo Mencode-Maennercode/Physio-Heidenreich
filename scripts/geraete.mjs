@@ -23,7 +23,9 @@ import puppeteer from "puppeteer-core";
 
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
 const AUSGABE = join(WURZEL, "out");
-const PORT = 4326;
+/* Zufaelliger Port: Bleibt nach einem abgebrochenen Lauf ein
+   Node-Prozess haengen, blockiert er sonst jeden weiteren Versuch. */
+const PORT = 42000 + Math.floor(Math.random() * 2000);
 
 const TYPEN = {
   ".html": "text/html; charset=utf-8",

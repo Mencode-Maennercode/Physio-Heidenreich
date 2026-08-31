@@ -1,6 +1,7 @@
 "use client";
 
 import Bild from "@/components/Bild";
+import WortAuftritt from "@/components/motion/WortAuftritt";
 import ParallaxBild from "./ParallaxBild";
 import { person as personDe, ueberMich as ueberMichDe } from "@/lib/content/golden-calm";
 import type { Person, UeberMich } from "@/lib/content/typen";
@@ -21,12 +22,15 @@ export default function GcUeberMich({
   return (
     <section
       id="ueber-mich"
-      className="gc-anker mx-auto max-w-[1280px] px-[clamp(1.25rem,4vw,2.75rem)] pt-[clamp(4.5rem,9vw,7rem)]"
+      className="gc-anker mx-auto max-w-[1280px] px-[clamp(1.25rem,4vw,2.75rem)] pt-[clamp(2.75rem,10vw,7rem)]"
     >
-      <div className="grid items-center gap-16 md:grid-cols-2 md:gap-20">
+      <div className="grid items-center gap-8 md:grid-cols-2 md:gap-20">
         <ParallaxBild
           staerke={10}
-          className="aspect-[4/5] rounded-[24px]"
+          /* Auf dem Handy flacher: Ein 4:5-Portraet ist dort 480 px hoch
+             und schiebt den Text komplett unter die Falz. 5:4 zeigt
+             dasselbe Motiv in 310 px. */
+          className="aspect-[5/4] rounded-[24px] sm:aspect-[4/5]"
           style={{ boxShadow: "0 60px 110px -60px rgba(44,37,35,0.5)" }}
         >
           <Bild
@@ -39,29 +43,28 @@ export default function GcUeberMich({
 
         <div>
           <p
-            className="mb-[18px] text-[13px] tracking-[0.24em] uppercase"
+            className="gc-kicker mb-3 text-[13px] tracking-[0.24em] uppercase sm:mb-[18px]"
             style={{ color: "#6E5940" }}
           >
             {ueberMich.kicker}
           </p>
-          <h2
-            className="mb-1 font-[family-name:var(--font-cormorant)] font-normal text-[clamp(2.1rem,3.8vw,3.1rem)] leading-[1.15]"
+          <WortAuftritt
+            text={ueberMich.titel}
+            className="gc-h2 mb-1 font-[family-name:var(--font-cormorant)] font-normal text-[clamp(2.1rem,3.8vw,3.1rem)] leading-[1.15]"
             style={{ color: "var(--gc-text)" }}
-          >
-            {ueberMich.titel}
-          </h2>
+          />
           <p
-            className="mb-7 font-[family-name:var(--font-jakarta)] text-[1.05rem]"
+            className="mb-5 font-[family-name:var(--font-jakarta)] text-[0.92rem] sm:mb-7 sm:text-[1.05rem]"
             style={{ color: "var(--gc-text-fein)" }}
           >
             {person.titel}
           </p>
 
-          <div className="mb-8 flex flex-col gap-5">
+          <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:gap-5">
             {ueberMich.absaetze.map((absatz) => (
               <p
                 key={absatz}
-                className="max-w-[32em] text-[1.2rem]"
+                className="gc-lead max-w-[32em] text-[1.2rem]"
                 style={{ color: "var(--gc-text-leise)" }}
               >
                 {absatz}
@@ -79,7 +82,7 @@ export default function GcUeberMich({
                    Zeile dadurch 8 px ueber den Fensterrand und die ganze
                    Seite liess sich seitlich scrollen. Mit `min-w-0` bricht
                    der Wert stattdessen um. */
-                className="flex justify-between gap-4 py-[18px] text-[1.05rem] sm:gap-6"
+                className="flex justify-between gap-4 py-3 text-[0.92rem] sm:gap-6 sm:py-[18px] sm:text-[1.05rem]"
                 style={{ borderBottom: "1px solid var(--gc-bg-sekundaer)" }}
               >
                 {/* Die Bezeichnung ist immer ein einzelnes Wort und darf

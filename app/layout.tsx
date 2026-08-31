@@ -48,15 +48,25 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 /**
- * Setzt die Barrierefreiheits-Einstellungen, bevor das erste Bild aufgebaut
- * wird. Ohne dieses Skript blitzt bei jedem Seitenaufruf kurz die normale
+ * Setzt `data-js` und die Barrierefreiheits-Einstellungen, bevor das erste
+ * Bild aufgebaut wird.
+ *
+ * `data-js` ist die Bedingung fuer jeden Auftritt, der etwas VERBIRGT, um es
+ * dann einzublenden (siehe `.gc-hero-teil` in globals.css). Ohne diese Marke
+ * duerfte nichts per CSS versteckt werden: Bei abgeschaltetem JavaScript
+ * bliebe es fuer immer unsichtbar. Das Setzen passiert ausserhalb des
+ * try-Blocks, weil es - anders als der Zugriff auf den lokalen Speicher -
+ * nicht fehlschlagen kann und auch im privaten Modus gelten muss.
+ *
+ * Der Rest: Ohne dieses Skript blitzt bei jedem Seitenaufruf kurz die normale
  * Darstellung auf, bevor React die gespeicherte Einstellung anwendet - fuer
  * jemanden, der die Schrift vergroessert hat, ist das jedes Mal ein Stolpern.
  *
  * Die Schluessel muessen mit SPEICHER in components/a11y/Einstellungen.tsx
  * uebereinstimmen.
  */
-const vorabSkript = `(function(){try{var d=document.documentElement,s=localStorage;
+const vorabSkript = `(function(){var d=document.documentElement;d.dataset.js="1";
+try{var s=localStorage;
 var t=s.getItem("nh-textgroesse");if(t)d.dataset.textgroesse=t;
 var k=s.getItem("nh-kontrast");if(k)d.dataset.kontrast=k;
 var b=s.getItem("nh-bewegung");if(b)d.dataset.bewegung=b;}catch(e){}})();`;

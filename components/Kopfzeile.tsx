@@ -36,11 +36,45 @@ export default function Kopfzeile() {
   const { navigation, ...beschriftung } = UI[sprache];
   const [gescrollt, setzeGescrollt] = useState(false);
   const [menueOffen, setzeMenueOffen] = useState(false);
+  const [versteckt, setzeVersteckt] = useState(false);
 
   const leiste = useRef<HTMLElement>(null);
 
+  /*
+    Zwei Dinge werden am Scrollen abgelesen, nicht eines.
+
+    `gescrollt` entscheidet ueber den milchigen Untergrund - das war schon
+    immer so. Neu ist `versteckt`: Auf schmalen Schirmen belegte die feste
+    Leiste samt Terminstreifen dauerhaft 188 px von 844 px. Beim Lesen ist
+    sie dort nur im Weg; gebraucht wird sie in dem Moment, in dem jemand
+    zurueck nach oben will - und genau diese Geste holt sie zurueck.
+
+    Die Schwelle von 8 px ist noetig, weil auf Telefonen jede Beruehrung
+    ein paar Pixel in beide Richtungen erzeugt. Ohne sie flackerte die
+    Leiste beim blossen Halten des Fingers.
+
+    Ueber 1024 px bleibt sie stehen: Dort kostet sie kaum Platz, und eine
+    Kopfzeile, die mit der Maus verschwindet, irritiert mehr, als sie
+    nuetzt. Das erledigt die Regel `.kopf-weg` in globals.css - der
+    Zustand hier wird trotzdem gefuehrt, damit beim Verkleinern des
+    Fensters nichts nachgeholt werden muss.
+  */
   useEffect(() => {
-    const pruefen = () => setzeGescrollt(window.scrollY > 32);
+    let letzte = window.scrollY;
+
+    const pruefen = () => {
+      const jetzt = window.scrollY;
+      setzeGescrollt(jetzt > 32);
+
+      const weg = jetzt - letzte;
+      if (Math.abs(weg) > 8) {
+        /* Im obersten Bereich bleibt sie immer da: Dort ist noch kein Platz
+           gewonnen, und der Terminhinweis soll beim Ankommen sichtbar sein. */
+        setzeVersteckt(weg > 0 && jetzt > 140);
+        letzte = jetzt;
+      }
+    };
+
     pruefen();
     window.addEventListener("scroll", pruefen, { passive: true });
     return () => window.removeEventListener("scroll", pruefen);
@@ -90,10 +124,12 @@ export default function Kopfzeile() {
       <header
         ref={leiste}
         className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
-          durchsichtig
-            ? "bg-transparent"
-            : "bg-grund/85 backdrop-blur-md",
+          "fixed inset-x-0 top-0 z-40 transition-[transform,background-color,backdrop-filter] duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)]",
+          durchsichtig ? "bg-transparent" : "bg-grund/85 backdrop-blur-md",
+          /* Beim Herunterscrollen faehrt die Leiste weg, beim
+             Hinaufscrollen kommt sie zurueck. Ab 1024 px hebt die Regel
+             in globals.css das wieder auf - dort bleibt sie stehen. */
+          versteckt && !menueOffen ? "kopf-weg" : "kopf-da",
         )}
       >
         {/* min-h statt h, plus flex-wrap: Bei sehr grosser Schrift auf
@@ -120,10 +156,15 @@ export default function Kopfzeile() {
           dem aeusseren Ende, das der Blick zuletzt und am sichersten
           trifft.
         */}
-        <div className="kopf-reihe flex min-h-[4.75rem] flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2">
+        {/* Auf dem Handy 3,5 rem statt 4,75 rem: Die Marke ist dort kleiner
+            gesetzt (siehe Logo.tsx), und die Knopfgruppe passt daneben in
+            dieselbe Zeile. Das spart zusammen mit dem kompakteren
+            Terminstreifen rund 90 px - auf 844 px Bildschirmhoehe ein
+            Neuntel des Sichtfelds. */}
+        <div className="kopf-reihe flex min-h-[3.5rem] flex-wrap items-center justify-between gap-x-2 gap-y-2 py-1.5 sm:min-h-[4.75rem] sm:gap-x-4 sm:py-2">
           <Logo />
 
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2 xl:gap-x-4">
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-2 sm:gap-x-3 xl:gap-x-4">
             <nav aria-label={beschriftung.menue} className="hidden xl:block">
               <ul className="flex items-center gap-0.5">
                 {navigation.map((eintrag) => {
@@ -166,7 +207,7 @@ export default function Kopfzeile() {
               className="hidden h-6 w-px bg-linie xl:block"
             />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/*
               Reihenfolge von innen nach aussen: erst die Kontaktaufnahme
               (Anruf, SMS), dann die stillen Werkzeuge (Barrierefreiheit,
@@ -202,9 +243,16 @@ export default function Kopfzeile() {
             {/* Deutlicher Abstand zur Kontaktaufnahme: Erst dadurch lesen sich
                 Barrierefreiheit und Sprache als eigene Gruppe am Rand und
                 nicht als Fortsetzung der Knopfreihe. */}
-            <div className="kopf-werkzeuge flex items-center gap-2">
+            {/*
+              Die Sprachwahl war bis md ausgeblendet - genau falsch herum
+              gedacht. Wer die englische Fassung braucht (Angehoerige aus
+              dem Bonner Umfeld, internationale Patienten), sitzt eher am
+              Telefon als am Schreibtisch. Auf dem Handy zeigt der Knopf
+              nur die Flagge, damit er in die eine Zeile passt.
+            */}
+            <div className="kopf-werkzeuge flex items-center gap-1.5 sm:gap-2">
               <BarrierefreiheitPanel />
-              <Sprachwahl className="hidden md:block" />
+              <Sprachwahl />
             </div>
 
             <Dialog.Root open={menueOffen} onOpenChange={setzeMenueOffen}>
@@ -265,7 +313,18 @@ export default function Kopfzeile() {
                         <Phone className="size-4" aria-hidden="true" />
                         {kontakt.telefonAnzeige}
                       </a>
-                      <SmsKnopf />
+                      {/*
+                        `border-linie-warm` statt der Voreinstellung: Im
+                        Menue liegt eine Greige-Flaeche, und `--ui-linie` ist
+                        genau dieses Greige - der Rand des SMS-Knopfes war
+                        dort unsichtbar, der Knopf sah aus wie ein
+                        freistehendes Wort neben einem echten Knopf.
+                        `w-full` bringt ihn auf dieselbe Breite wie die
+                        Telefonnummer darueber; ohne das schrumpfte er auf
+                        seine Textbreite und die beiden standen
+                        unterschiedlich breit uebereinander.
+                      */}
+                      <SmsKnopf className="w-full border-linie-warm" />
                     </div>
                   </nav>
                 </Dialog.Content>
@@ -285,7 +344,14 @@ export default function Kopfzeile() {
 
       {/* Feste Leiste am unteren Rand kleiner Schirme. Anrufen und SMS sind
           damit auf jeder Seite in Daumenreichweite, ohne zu scrollen. */}
-      <div className="nicht-drucken fixed inset-x-0 bottom-0 z-40 border-t border-linie bg-grund/95 px-3 py-2.5 backdrop-blur-md sm:hidden">
+      {/* 85 statt 95 Prozent Deckung: Bei 95 % war der Weichzeichner
+          dahinter wirkungslos - die Leiste lag als undurchsichtige Platte
+          auf der Seite. Mit etwas mehr Durchsicht schimmert der Inhalt
+          darunter durch und die Leiste liest sich als aufgelegte Schicht,
+          nicht als abgeschnittener Seitenrand. Der Text darauf bleibt bei
+          beiden Werten weit ueber der Kontrastschwelle, weil er in den
+          gefuellten Knoepfen sitzt. */}
+      <div className="nicht-drucken fixed inset-x-0 bottom-0 z-40 border-t border-linie bg-grund/85 px-3 py-2.5 backdrop-blur-xl sm:hidden">
         <div className="flex items-center gap-2">
           <a
             href={`tel:${kontakt.telefonLink}`}
