@@ -29,7 +29,7 @@ export default function KontaktSeite() {
           </h1>
           <p className="lesespalte-weit mt-7 text-[1.1rem]">
             Fünfzehn Minuten, kostenlos und unverbindlich. Danach wissen wir
-            beide, ob es passt — und Sie kennen den Preis.
+            beide, ob es passt.
           </p>
 
           {terminstatus ? (

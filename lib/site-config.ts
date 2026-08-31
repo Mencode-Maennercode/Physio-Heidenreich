@@ -139,10 +139,7 @@ export const kontakt = {
  * Ehrlich gepflegt erspart sie beiden Seiten aussichtslose Anfragen. `null`
  * blendet sie aus.
  */
-export const terminstatus: { text: string; stand: string } | null = {
-  text: "Aktuell nehme ich neue Patientinnen und Patienten auf.",
-  stand: "Stand: August 2026",
-};
+export const terminstatus: { text: string; stand: string } | null = null;
 
 /**
  * Hinweisstreifen auf der Startseite: aktuell freie Termine.

@@ -40,14 +40,12 @@ const SYMBOLE = {
 export default function GcHero({
   hero = heroDe,
   person = personDe,
-  anfrageLabel = "Hausbesuch anfragen",
   videoBeschreibung = "Ältere Frau geht mit einem Rollator durch ihr helles Wohnzimmer, bleibt stehen und lächelt",
 }: {
   hero?: Hero;
   person?: Person;
   /* Beschriftung des zweiten Knopfes. Sie steht nicht in den Inhalten,
      weil sie zur Bedienung gehoert, nicht zum Text der Seite. */
-  anfrageLabel?: string;
   /* Die Bildbeschreibung des Videos muss mit uebersetzt werden - sie ist
      fuer blinde Nutzer der einzige Zugang zum Motiv. */
   videoBeschreibung?: string;
@@ -368,25 +366,6 @@ export default function GcHero({
                 </MagnetKnopf>
               </div>
 
-              {/*
-                Auf dem Handy steht dieser Knopf NICHT hier, sondern erst
-                nach dem Video und den drei Merkmalen, direkt vor "Das
-                Konzept" (eigener Block weiter unten). Grund: Hier oben
-                waere er der vierte Text-Baustein in Folge, bevor ueberhaupt
-                etwas vom Motiv zu sehen war - auf Wunsch soll er stattdessen
-                der Abschluss des Hero sein, nachdem Video und Merkmale
-                gezeigt haben, worum es geht.
-
-                Ab sm bleibt er hier: Dort steht er neben der gefuellten
-                Telefonnummer, in der zurueckhaltenden Umrandung.
-              */}
-              <MagnetKnopf
-                href="#kontakt"
-                stark={0.08}
-                className="gc-hero-knopf hidden rounded-full border px-7 text-[1.05rem] sm:inline-flex sm:min-h-16"
-              >
-                {anfrageLabel}
-              </MagnetKnopf>
             </div>
           </div>
         </div>
@@ -477,25 +456,6 @@ export default function GcHero({
             );
           })}
         </ul>
-      </div>
-
-      {/*
-        Auf dem Handy der Abschluss des Hero: Video und Merkmale haben
-        gezeigt, worum es geht, jetzt kommt die Aufforderung - direkt vor
-        "Das Konzept". Ab sm entfaellt dieser Block, dort steht der Knopf
-        schon oben im Text neben der Telefonnummer (siehe dort).
-      */}
-      <div className="huelle relative z-10 pt-6 pb-8 sm:hidden">
-        {/* Kein `gc-hero-teil`: Dieser Block liegt unterhalb der Falz, der
-            Knopf ist also laengst fertig eingeblendet, bevor er ueberhaupt
-            in den Blick kommt - der Auftritt waere reine Verschwendung. */}
-        <MagnetKnopf
-          href="#kontakt"
-          stark={0.08}
-          className="gc-hero-knopf min-h-14 w-full rounded-full border px-7 text-[1rem]"
-        >
-          {anfrageLabel}
-        </MagnetKnopf>
       </div>
 
       {/* Das schwebende "60 Minuten"-Abzeichen ist bewusst entfernt, nicht

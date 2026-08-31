@@ -2,6 +2,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Accessibility, X } from "lucide-react";
 import {
@@ -114,6 +115,26 @@ export default function BarrierefreiheitPanel({
 }) {
   const [offen, setzeOffen] = useState(false);
   const e = useEinstellungen();
+  const pfad = usePathname();
+  const router = useRouter();
+
+  /*
+    "Alles zuruecksetzen" setzte bisher nur Textgroesse, Kontrast und
+    Bewegung zurueck - stand man auf /einfache-sprache/, blieb man dort
+    stehen, obwohl "alles" zurueckgesetzt wurde. Die einfache Sprache ist
+    zwar keine der drei Einstellungen (sie hat keinen gespeicherten
+    Zustand, sondern ist schlicht eine andere Seite), gehoert aus Sicht des
+    Knopfes aber erkennbar dazu - wer zuruecksetzt, will die normale
+    Ansicht der Seite, nicht nur normale Textgroesse auf der vereinfachten
+    Seite.
+  */
+  const zuruecksetzen = () => {
+    e.zuruecksetzen();
+    if (pfad === "/einfache-sprache/" || pfad === "/einfache-sprache") {
+      setzeOffen(false);
+      router.push("/");
+    }
+  };
 
   return (
     <Dialog.Root open={offen} onOpenChange={setzeOffen}>
@@ -264,7 +285,7 @@ export default function BarrierefreiheitPanel({
 
               <button
                 type="button"
-                onClick={e.zuruecksetzen}
+                onClick={zuruecksetzen}
                 className="self-start text-[0.9rem] text-leise underline underline-offset-4 transition-colors hover:text-text"
               >
                 Alles zurücksetzen

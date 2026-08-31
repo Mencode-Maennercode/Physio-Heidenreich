@@ -1071,35 +1071,6 @@ html[data-bewegung="reduziert"] .kopf-da {
 }
 
 /*
-  Der Anfrage-Knopf im Hero wechselt zwischen Haupt- und Nebenrolle.
-
-  Handy: Er ist der einzige Knopf im Hero und traegt deshalb die volle
-  Gestalt - gefuellt in Navy, mit Schatten. Ab sm steht die Telefonnummer
-  als gefuellter Knopf daneben; dann waeren zwei gefuellte Knoepfe
-  nebeneinander zwei gleich laute Aufforderungen, und er faellt in die
-  zurueckhaltende Fassung mit Umrandung zurueck.
-
-  Als Klasse und nicht als Tailwind-Utilities, weil Hintergrund, Rand,
-  Textfarbe und Schatten gemeinsam umschlagen - vier zusammengehoerende
-  Werte, die als vier einzelne sm:-Varianten nur schwer lesbar waeren.
-*/
-.gc-hero-knopf {
-  background: var(--gc-navy);
-  border-color: transparent;
-  color: var(--gc-bg);
-  box-shadow: 0 18px 36px -18px rgba(30, 45, 59, 0.65);
-}
-
-@media (min-width: 640px) {
-  .gc-hero-knopf {
-    background: rgba(255, 255, 255, 0.85);
-    border-color: var(--gc-feld-rand);
-    color: var(--gc-text);
-    box-shadow: none;
-  }
-}
-
-/*
   Merkmalsleiste im Hero - auf dem Handy eine eigene Flaeche ueber dem Video.
 
   Warum nicht einfach ein Verlauf im Bild: Der Text muesste ueber einem
