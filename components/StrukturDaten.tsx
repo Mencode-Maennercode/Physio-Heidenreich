@@ -47,6 +47,10 @@ export default function StrukturDaten() {
     url: seite.domain,
     telephone: kontakt.telefonLink,
     email: kontakt.email,
+    /* Fuer das Logo neben dem Suchergebnis und im Knowledge Panel -
+       quadratisch, transparenter Hintergrund, mindestens 112x112px. */
+    logo: `${seite.domain}/logo/logo-512.png`,
+    image: `${seite.domain}/logo/logo-512.png`,
     address: adresse,
     /* Keine Laufkundschaft: Die Praxis kommt zum Patienten. Genau das sagt
        diese Kombination aus - Google zeigt die Adresse dann nicht als
@@ -124,6 +128,7 @@ export default function StrukturDaten() {
     description:
       "Physiotherapeutin mit Studium in den Niederlanden und langjähriger Klinikerfahrung, Schwerpunkt Neurologie. Behandelt im Hausbesuch im Kreis Ahrweiler.",
     url: `${seite.domain}/ueber-mich/`,
+    image: `${seite.domain}/media/bilder/portraet.jpg`,
     worksFor: { "@id": `${seite.domain}/#praxis` },
     hasCredential: [grade.bachelor, grade.master].map((titel) => ({
       "@type": "EducationalOccupationalCredential",
