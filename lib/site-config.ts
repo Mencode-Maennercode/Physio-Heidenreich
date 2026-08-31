@@ -217,9 +217,9 @@ export const analyse = {
    * Beide Felder LEER lassen heisst: aus, kein Skript im HTML.
    */
   /** z. B. "https://stats.nora-heidenreich.de/" - mit Schraegstrich am Ende. */
-  matomoUrl: "",
+  matomoUrl: "https://stats.nora-heidenreich.de/",
   /** Numerische Website-ID aus Matomo, meist "1" bei der ersten Seite dort. */
-  matomoSiteId: "",
+  matomoSiteId: "1",
 } as const;
 
 /** Praxisumfang - bewusst klein. Steuert die Formulierungen zur Kapazitaet. */

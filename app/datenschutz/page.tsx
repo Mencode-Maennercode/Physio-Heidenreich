@@ -196,6 +196,13 @@ export default function DatenschutzSeite() {
             Bewegungsprofile über mehrere Websites hinweg.
           </p>
           <p>
+            Die dabei anfallenden Einzeldaten werden nach{" "}
+            <strong>sechs Monaten automatisch gelöscht</strong>. Erhalten
+            bleiben nur zusammengefasste Auswertungen — etwa wie oft eine Seite
+            insgesamt aufgerufen wurde —, die sich keinem einzelnen Besuch mehr
+            zuordnen lassen.
+          </p>
+          <p>
             Rechtsgrundlage ist mein berechtigtes Interesse daran, zu
             verstehen, wie die Website genutzt wird, um sie gezielt zu
             verbessern (Art. 6 Abs. 1 lit. f DSGVO). Weil weder Cookies noch
