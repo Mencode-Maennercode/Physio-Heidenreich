@@ -6,6 +6,7 @@ import {
   Rechtsseite,
 } from "@/components/Rechtstext";
 import MessungWiderrufen from "@/components/MessungWiderrufen";
+import MatomoWiderspruch from "@/components/MatomoWiderspruch";
 import { analyse, kontakt, seite } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -27,20 +28,12 @@ export const metadata: Metadata = {
  */
 export default function DatenschutzSeite() {
   const misst = Boolean(analyse.googleId);
+  const trackt = Boolean(analyse.matomoUrl && analyse.matomoSiteId);
 
   return (
     <Rechtsseite titel="Datenschutzerklärung" stand="Stand: August 2026">
       <Abschnitt titel="Das Wichtigste zuerst">
-        {misst ? (
-          <p>
-            Diese Website lädt <strong>keine Inhalte von fremden Servern</strong>{" "}
-            nach — Schriften, Bilder und Videos liegen auf demselben Server wie
-            die Seite selbst. Zur Reichweitenmessung wird Google Analytics
-            eingesetzt, aber <strong>ausschließlich nach Ihrer ausdrücklichen
-            Zustimmung</strong>. Solange Sie nicht zugestimmt haben, wird nichts
-            geladen, nichts gespeichert und nichts übertragen.
-          </p>
-        ) : (
+        {!misst && !trackt ? (
           <p>
             Diese Website setzt <strong>keine Cookies</strong>, bindet{" "}
             <strong>keine Analyse- oder Werbedienste</strong> ein und lädt{" "}
@@ -49,6 +42,31 @@ export default function DatenschutzSeite() {
             Deshalb gibt es hier auch kein Einwilligungsbanner — es gäbe nichts,
             worin Sie einwilligen müssten.
           </p>
+        ) : (
+          <>
+            <p>
+              Diese Website lädt <strong>keine Inhalte von fremden Servern</strong>{" "}
+              nach — Schriften, Bilder und Videos liegen auf demselben Server wie
+              die Seite selbst.
+            </p>
+            {trackt ? (
+              <p>
+                Zur anonymen Reichweitenmessung wird das{" "}
+                <strong>selbst gehostete Tool Matomo</strong> eingesetzt — ohne
+                Cookies, ohne Speicherung auf Ihrem Gerät und ohne Weitergabe an
+                Dritte. Dafür ist keine Einwilligung nötig, Sie können der
+                Messung aber jederzeit widersprechen.
+              </p>
+            ) : null}
+            {misst ? (
+              <p>
+                Zusätzlich wird Google Analytics eingesetzt, aber{" "}
+                <strong>ausschließlich nach Ihrer ausdrücklichen
+                Zustimmung</strong>. Solange Sie nicht zugestimmt haben, wird
+                nichts geladen, nichts gespeichert und nichts übertragen.
+              </p>
+            ) : null}
+          </>
         )}
       </Abschnitt>
 
@@ -157,6 +175,47 @@ export default function DatenschutzSeite() {
           alles Medizinische besprechen wir am Telefon.
         </p>
       </Abschnitt>
+
+      {trackt ? (
+        <Abschnitt titel="Reichweitenmessung mit Matomo">
+          <p>
+            Um zu erkennen, welche Inhalte gelesen werden und wie ich die
+            Website verbessern kann, setze ich das Open-Source-Tool Matomo
+            ein. Anders als bei den meisten Analysediensten läuft es auf einem
+            eigenen Server, nicht bei einem fremden Anbieter — Ihre Daten
+            verlassen damit meinen Verantwortungsbereich nicht.
+          </p>
+          <p>
+            Matomo ist so eingestellt, dass es <strong>keine Cookies</strong>{" "}
+            setzt und nichts auf Ihrem Gerät speichert. Erhoben werden
+            aufgerufene Seiten, die ungefähre Verweildauer, ob Sie über einen
+            Link oder eine Suchmaschine gekommen sind, sowie grobe technische
+            Angaben wie Bildschirmgröße und Browsertyp. Ihre IP-Adresse wird
+            vor der Speicherung anonymisiert; ein Rückschluss auf Sie
+            persönlich ist damit nicht möglich, es entstehen keine
+            Bewegungsprofile über mehrere Websites hinweg.
+          </p>
+          <p>
+            Rechtsgrundlage ist mein berechtigtes Interesse daran, zu
+            verstehen, wie die Website genutzt wird, um sie gezielt zu
+            verbessern (Art. 6 Abs. 1 lit. f DSGVO). Weil weder Cookies noch
+            andere Informationen auf Ihrem Gerät gespeichert oder ausgelesen
+            werden, ist hierfür keine Einwilligung nach § 25 TDDDG
+            erforderlich.
+          </p>
+          <p>
+            <strong>
+              Sie können der Verarbeitung jederzeit widersprechen
+            </strong>{" "}
+            (Art. 21 DSGVO), mit Wirkung für die Zukunft:{" "}
+            <MatomoWiderspruch />. Diese Entscheidung merkt sich Ihr Browser in
+            einem kleinen, technisch dafür notwendigen Speicherwert — es ist
+            die einzige Information, die diese Website ohne Zustimmung auf
+            Ihrem Gerät ablegt, und sie dient ausschließlich dazu, Ihren
+            Widerspruch nicht bei jedem Besuch zu vergessen.
+          </p>
+        </Abschnitt>
+      ) : null}
 
       {misst ? (
         <Abschnitt titel="Reichweitenmessung mit Google Analytics">

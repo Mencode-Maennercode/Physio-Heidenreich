@@ -203,6 +203,23 @@ export const analyse = {
   googleId: "",
   /** PLATZHALTER - Bestaetigungscode aus der Google Search Console. */
   sucheNachweis: "",
+
+  /**
+   * Selbst gehostetes Matomo - anonyme Reichweitenmessung ohne Cookies.
+   *
+   * Anders als Google Analytics NICHT hinter dem Einwilligungsbanner: Ohne
+   * Cookies und ohne Speicherung im Browser greift § 25 TDDDG nicht, es
+   * braucht also keine Zustimmung. Rechtsgrundlage ist stattdessen das
+   * berechtigte Interesse an der Verbesserung des Angebots (Art. 6 Abs. 1
+   * lit. f DSGVO) - siehe components/Matomo.tsx und die
+   * Datenschutzerklaerung.
+   *
+   * Beide Felder LEER lassen heisst: aus, kein Skript im HTML.
+   */
+  /** z. B. "https://stats.nora-heidenreich.de/" - mit Schraegstrich am Ende. */
+  matomoUrl: "",
+  /** Numerische Website-ID aus Matomo, meist "1" bei der ersten Seite dort. */
+  matomoSiteId: "",
 } as const;
 
 /** Praxisumfang - bewusst klein. Steuert die Formulierungen zur Kapazitaet. */

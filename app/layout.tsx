@@ -10,6 +10,7 @@ import Kopfzeile from "@/components/Kopfzeile";
 import Fusszeile from "@/components/Fusszeile";
 import Lesefortschritt from "@/components/Lesefortschritt";
 import Einwilligung from "@/components/Einwilligung";
+import Matomo from "@/components/Matomo";
 import StrukturDaten from "@/components/StrukturDaten";
 import { EinstellungenProvider } from "@/components/a11y/Einstellungen";
 import { analyse, seite } from "@/lib/site-config";
@@ -151,6 +152,10 @@ export default function RootLayout({
             {children}
           </main>
           <Fusszeile />
+          {/* Matomo braucht - anders als Einwilligung/Google Analytics -
+              keinen Banner, siehe Begruendung in der Komponente. Sie steht
+              deshalb unabhaengig davon im Baum, nicht dahinter. */}
+          <Matomo />
           <Einwilligung />
         </EinstellungenProvider>
       </body>
