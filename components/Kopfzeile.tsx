@@ -202,7 +202,7 @@ export default function Kopfzeile() {
             {/* Deutlicher Abstand zur Kontaktaufnahme: Erst dadurch lesen sich
                 Barrierefreiheit und Sprache als eigene Gruppe am Rand und
                 nicht als Fortsetzung der Knopfreihe. */}
-            <div className="ml-2 flex items-center gap-2 sm:ml-[clamp(1rem,3vw,3rem)]">
+            <div className="kopf-werkzeuge flex items-center gap-2">
               <BarrierefreiheitPanel />
               <Sprachwahl className="hidden md:block" />
             </div>

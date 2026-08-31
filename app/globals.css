@@ -67,6 +67,8 @@
   /* Rhythmus */
   --sektion-luft: clamp(4.5rem, 9vw, 9rem);
   --rand: clamp(1.25rem, 5vw, 4rem);
+  /* Abstand der Werkzeuge in der Kopfzeile zum Bildschirmrand. */
+  --kopf-aussen: clamp(1rem, 2vw, 1.75rem);
   --schrift-faktor: 1;
 
   /* Bewegung: wird bei "weniger Bewegung" auf 0.01ms gesetzt */
@@ -335,23 +337,46 @@ html[data-bewegung="reduziert"] *::after {
 }
 
 /*
-  Reihe der Kopfzeile - links auf der Inhaltskante, rechts am Bildschirmrand.
+  Kopfzeile: Inhalt auf der Inhaltskante, nur die Werkzeuge am Rand.
 
-  Links wird genau die linke Kante von `.huelle` nachgebildet. Das ist keine
-  Spielerei: Der Hero-Text richtet sich exakt am Logo aus, und diese Flucht
-  war eine bewusste Entscheidung. Wuerde die Kopfzeile einfach ueber die
-  volle Breite laufen, rutschte das Logo nach links weg und die Ausrichtung
-  waere hin.
-
-  Rechts dagegen faellt die Zentrierung weg: Barrierefreiheit und Sprache
-  sollen am aeusseren Rand sitzen, nicht auf der Inhaltskante. Dadurch
-  entsteht die Luecke zur Telefonnummer, die beide Gruppen voneinander
-  trennt.
+  `--kopf-aussen` ist der schmale Abstand, den Barrierefreiheit und Sprache
+  zum Bildschirmrand behalten.
 */
 .kopf-reihe {
   width: 100%;
+  /*
+    Links wird genau die linke Kante von `.huelle` nachgebildet. Das ist
+    keine Spielerei: Der Hero-Text richtet sich exakt am Logo aus, und
+    diese Flucht war eine bewusste Entscheidung. Liefe die Kopfzeile
+    einfach ueber die volle Breite, rutschte das Logo nach links weg.
+
+    `100%` statt `100vw`: 100vw enthaelt die Bildlaufleiste und waere
+    einige Pixel zu breit - genau diese Pixel wuerden die Flucht brechen.
+  */
   padding-left: max(var(--rand), calc((100% - 78rem) / 2 + var(--rand)));
-  padding-right: clamp(1rem, 2vw, 1.75rem);
+  padding-right: var(--kopf-aussen);
+}
+
+/*
+  Barrierefreiheit und Sprache ruecken als Einzige nach aussen.
+
+  Der Abstand entspricht genau der Strecke von der rechten Inhaltskante bis
+  zum aeusseren Rand. Dadurch enden Navigation, Telefon und SMS weiterhin
+  dort, wo auch der Seiteninhalt endet - und nur diese beiden Knoepfe
+  stehen davon abgesetzt am Rand.
+
+  Hier ist `100vw` richtig: Gemessen wird nicht die Kante selbst, sondern
+  ein Abstand. Die wenigen Pixel der Bildlaufleiste fallen dabei nicht ins
+  Gewicht, waehrend `100%` sich auf die bereits eingerueckte Innenbreite
+  der Reihe beziehen und damit falsch rechnen wuerde.
+*/
+.kopf-werkzeuge {
+  margin-left: max(
+    0.75rem,
+    calc(
+      max(var(--rand), (100vw - 78rem) / 2 + var(--rand)) - var(--kopf-aussen)
+    )
+  );
 }
 
 .huelle-eng {
