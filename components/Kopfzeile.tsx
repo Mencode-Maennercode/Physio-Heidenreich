@@ -120,7 +120,7 @@ export default function Kopfzeile() {
           dem aeusseren Ende, das der Blick zuletzt und am sichersten
           trifft.
         */}
-        <div className="huelle flex min-h-[4.75rem] flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2">
+        <div className="kopf-reihe flex min-h-[4.75rem] flex-wrap items-center justify-between gap-x-4 gap-y-2 py-2">
           <Logo />
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 xl:gap-x-4">
@@ -199,7 +199,10 @@ export default function Kopfzeile() {
               <SmsKnopf nurSymbol />
             </div>
 
-            <div className="ml-1 flex items-center gap-2 sm:ml-1.5">
+            {/* Deutlicher Abstand zur Kontaktaufnahme: Erst dadurch lesen sich
+                Barrierefreiheit und Sprache als eigene Gruppe am Rand und
+                nicht als Fortsetzung der Knopfreihe. */}
+            <div className="ml-2 flex items-center gap-2 sm:ml-[clamp(1rem,3vw,3rem)]">
               <BarrierefreiheitPanel />
               <Sprachwahl className="hidden md:block" />
             </div>

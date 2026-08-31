@@ -334,6 +334,26 @@ html[data-bewegung="reduziert"] *::after {
   padding-inline: var(--rand);
 }
 
+/*
+  Reihe der Kopfzeile - links auf der Inhaltskante, rechts am Bildschirmrand.
+
+  Links wird genau die linke Kante von `.huelle` nachgebildet. Das ist keine
+  Spielerei: Der Hero-Text richtet sich exakt am Logo aus, und diese Flucht
+  war eine bewusste Entscheidung. Wuerde die Kopfzeile einfach ueber die
+  volle Breite laufen, rutschte das Logo nach links weg und die Ausrichtung
+  waere hin.
+
+  Rechts dagegen faellt die Zentrierung weg: Barrierefreiheit und Sprache
+  sollen am aeusseren Rand sitzen, nicht auf der Inhaltskante. Dadurch
+  entsteht die Luecke zur Telefonnummer, die beide Gruppen voneinander
+  trennt.
+*/
+.kopf-reihe {
+  width: 100%;
+  padding-left: max(var(--rand), calc((100% - 78rem) / 2 + var(--rand)));
+  padding-right: clamp(1rem, 2vw, 1.75rem);
+}
+
 .huelle-eng {
   width: 100%;
   max-width: 62rem;
