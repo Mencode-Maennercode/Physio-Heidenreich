@@ -125,7 +125,7 @@ export default function Kopfzeile() {
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 xl:gap-x-4">
             <nav aria-label={beschriftung.menue} className="hidden xl:block">
-              <ul className="flex items-center gap-1">
+              <ul className="flex items-center gap-0.5">
                 {navigation.map((eintrag) => {
                   const aktiv =
                     eintrag.pfad === "/"
@@ -138,7 +138,7 @@ export default function Kopfzeile() {
                         href={eintrag.pfad}
                         aria-current={aktiv ? "page" : undefined}
                         className={cn(
-                          "relative flex min-h-[2.75rem] items-center px-2.5 text-[0.92rem] transition-opacity",
+                          "relative flex min-h-[2.75rem] items-center px-2 text-[0.92rem] transition-opacity",
                           aktiv ? "opacity-100" : "opacity-70 hover:opacity-100",
                         )}
                       >
@@ -147,7 +147,7 @@ export default function Kopfzeile() {
                           <span
                             aria-hidden="true"
                             className={cn(
-                              "absolute inset-x-2.5 bottom-1.5 h-px bg-akzent",
+                              "absolute inset-x-2 bottom-1.5 h-px bg-akzent",
                             )}
                           />
                         ) : null}
@@ -167,52 +167,22 @@ export default function Kopfzeile() {
             />
 
           <div className="flex items-center gap-2">
-            {/* Sprachwahl vor der Barrierefreiheit, beide vor dem Telefon:
-                Es sind stille Werkzeuge, die selten gebraucht werden. Ganz
-                links neben dem Logo waeren sie an der zweitstaerksten
-                Stelle der Zeile gelandet - dort gehoert nichts hin, was
-                man einmal im Jahr braucht.
+            {/*
+              Reihenfolge von innen nach aussen: erst die Kontaktaufnahme
+              (Anruf, SMS), dann die stillen Werkzeuge (Barrierefreiheit,
+              Sprache). Der Abstand dazwischen trennt beide Gruppen -
+              ohne ihn lasen sich alle vier Knoepfe als eine gleichrangige
+              Reihe und die Zeile wirkte gequetscht.
 
-                Unter md entfaellt die Sprachwahl. Dort ist der Kopf fuer
-                Logo, Telefon und Menue schon voll, und die englische Seite
-                bleibt ueber den Fuss erreichbar. */}
-            {/* Zwei Gruppen mit sichtbarem Abstand statt einer langen
-                Reihe: links die stillen Werkzeuge, die man selten braucht,
-                rechts die Kontaktaufnahme. Ohne die Trennung wirkte die
-                Zeile gequetscht - alle fuenf Knoepfe lasen sich als
-                gleichrangig. */}
-            <div className="mr-2 flex items-center gap-1 sm:mr-3">
-              <Sprachwahl className="hidden md:flex" />
-              <BarrierefreiheitPanel />
-            </div>
+              Der Anruf ist der einzige gefuellte Knopf und steht vorn in
+              seiner Gruppe: Ein grosser Teil der Anfragen kommt von
+              aelteren Menschen, die anrufen statt zu tippen.
 
-            {/* SMS als reines Symbol - der zweite Weg, nicht der erste.
-
-                Die Sichtbarkeit ist gestaffelt, weil der Platz es verlangt:
-                Unter sm traegt die feste Leiste am unteren Rand einen
-                vollbreiten SMS-Knopf. Zwischen lg und xl erscheint zusaetzlich
-                die Navigation, und dann ist die Zeile so voll, dass die
-                Knopfgruppe umbrechen wuerde - dort weicht SMS als
-                schwaechstes Element. Ab xl ist wieder Platz.
-
-                SMS bleibt in jedem Fall erreichbar: unten in der Leiste, auf
-                der Kontaktseite und im Fuss. */}
-            <div className="hidden sm:block xl:hidden 2xl:block">
-              <SmsKnopf nurSymbol />
-            </div>
-
-            {/* Der Anruf steht ganz aussen und ist der einzige gefuellte
-                Knopf im Kopf. Beides mit Absicht: Ein grosser Teil der
-                Anfragen kommt von aelteren Menschen, die anrufen statt zu
-                tippen, und das aeussere Ende einer Zeile ist die Stelle,
-                die der Blick am sichersten trifft.
-
-                Unter sm bleibt er verborgen - nicht weil Telefonieren dort
-                unwichtig waere, sondern im Gegenteil: Die feste Leiste am
-                unteren Rand deckt denselben Zweck mit einer groesseren
-                Flaeche ab. Zwei Anruf-Knoepfe uebereinander waeren nur
-                Verdopplung, und bei vergroesserter Schrift reicht der Platz
-                im Kopf dann ohnehin nicht mehr. */}
+              Unter sm entfallen Anruf und SMS hier - die feste Leiste am
+              unteren Rand deckt beide dort mit voller Breite ab. Zwei
+              Anruf-Knoepfe uebereinander waeren nur Verdopplung, und bei
+              vergroesserter Schrift reicht der Platz im Kopf ohnehin nicht.
+            */}
             <a
               href={`tel:${kontakt.telefonLink}`}
               className={cn(
@@ -224,6 +194,15 @@ export default function Kopfzeile() {
                 {kontakt.telefonAnzeige}
               </span>
             </a>
+
+            <div className="hidden sm:block">
+              <SmsKnopf nurSymbol />
+            </div>
+
+            <div className="ml-1 flex items-center gap-2 sm:ml-1.5">
+              <BarrierefreiheitPanel />
+              <Sprachwahl className="hidden md:block" />
+            </div>
 
             <Dialog.Root open={menueOffen} onOpenChange={setzeMenueOffen}>
               <Dialog.Trigger asChild>

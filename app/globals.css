@@ -613,6 +613,20 @@ html {
   --gc-text: #2c2523;
   --gc-text-leise: #5c534e;
   --gc-text-fein: #7a6e64;
+  /*
+    Signalfarbe - ausschliesslich fuer den Terminhinweis.
+
+    Die Palette kennt sonst kein Orange, und das ist Absicht: Auf einer
+    Gesundheitsseite ist Rot Alarm und Gelb Warnung. Orange liegt dazwischen
+    und heisst "beachte das", ohne zu beunruhigen. Genau ein Einsatzort,
+    sonst nirgends - eine Signalfarbe, die ueberall auftaucht, signalisiert
+    nichts mehr.
+
+    6,18:1 auf dem Navy des Streifens, also auch als Text sicher lesbar
+    (nicht nur als Zierrat).
+  */
+  --gc-signal: #e89a63;
+
   --gc-navy: #1e2d3b;
   --gc-navy-dunkel: #16222d;
   --gc-braun: #5c4530;

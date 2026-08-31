@@ -28,34 +28,29 @@ import { spracheAus } from "@/lib/sprache";
  * faehrt er nach oben zusammen; die Seite rueckt weich nach, weil die
  * Kopfzeile ihre Hoehe fortlaufend meldet.
  *
+ * WICHTIG - kein Gedaechtnis: Das Wegklicken gilt nur fuer den aktuellen
+ * Besuch. Beim naechsten Aufruf ist der Streifen wieder da. Das ist eine
+ * bewusste Entscheidung gegen die uebliche Loesung mit lokalem Speicher:
+ * Ein Terminhinweis ist eine Nachricht, keine Einstellung. Wer die Seite
+ * Wochen spaeter erneut oeffnet, soll ihn wiedersehen - sonst erfaehrt
+ * ausgerechnet der wiederkehrende Interessent als Einziger nichts von den
+ * freien Terminen. Der Preis ist gering: Innerhalb eines Besuchs bleibt er
+ * weg, weil dieser Baustein in der Kopfzeile steht und beim Wechsel
+ * zwischen Seiten nicht neu aufgebaut wird.
+ *
  * Bei "Bewegung reduzieren" steht er sofort da und verschwindet sofort -
  * ohne Gleiten, aber mit demselben Inhalt.
  */
-
-const SCHLUESSEL = "np-termin-gesehen";
-
 export default function TerminHinweis() {
   const ruhig = useRuhig();
-  const [weg, setzeWeg] = useState(true);
+  const [weg, setzeWeg] = useState(false);
   const [montiert, setzeMontiert] = useState(false);
   const [sprache, setzeSprache] = useState<"de" | "en">("de");
-
-  /* Der Schluessel traegt das Datum: Ein neuer Termin ist ein neuer
-     Hinweis und darf wieder erscheinen, ohne dass jemand etwas
-     zuruecksetzen muss. */
-  const marke = terminHinweis
-    ? `${SCHLUESSEL}:${terminHinweis.bisWann}`
-    : SCHLUESSEL;
 
   useEffect(() => {
     setzeMontiert(true);
     setzeSprache(spracheAus(window.location.pathname));
-    try {
-      setzeWeg(window.localStorage.getItem(marke) === "ja");
-    } catch {
-      setzeWeg(false);
-    }
-  }, [marke]);
+  }, []);
 
   if (!terminHinweis) return null;
 
@@ -64,23 +59,13 @@ export default function TerminHinweis() {
      in der Vergangenheit waere schlechter als gar kein Hinweis. */
   if (new Date() >= new Date(terminHinweis.bisWann)) return null;
 
-  function schliessen() {
-    try {
-      window.localStorage.setItem(marke, "ja");
-    } catch {
-      /* ohne Speicher gilt es nur fuer diese Sitzung - harmlos */
-    }
-    setzeWeg(true);
-  }
-
   const texte =
     sprache === "en"
       ? { anfrage: "Request an appointment", schliessen: "Hide this notice" }
       : { anfrage: "Termin anfragen", schliessen: "Hinweis ausblenden" };
 
-  /* Bis der Browser uebernommen hat, wird nichts gezeigt - sonst blitzt der
-     Streifen bei jemandem auf, der ihn laengst weggeklickt hat, und die
-     Seite ruckt beim Laden. */
+  /* Erst nach dem Aufbau im Browser zeigen, damit der Streifen sauber
+     hereingleitet statt beim Laden zu springen. */
   const sichtbar = montiert && !weg;
 
   return (
@@ -105,18 +90,42 @@ export default function TerminHinweis() {
             Mit `flex-wrap` sprang auf schmalen Schirmen zuerst das Symbol
             allein in eine Zeile, dann der Text, dann der Link - der Kopf
             wurde 244 px hoch und schob den halben ersten Bildschirm weg.
-            Symbol und Aufforderung stecken deshalb IM Absatz: Sie brechen
-            dann mit dem Text um, statt eigene Zeilen zu beanspruchen.
+            Die Aufforderung steckt deshalb IM Absatz: Sie bricht mit dem
+            Text um, statt eine eigene Zeile zu beanspruchen.
           */}
           <div className="huelle flex min-h-[3rem] items-center gap-3 py-1.5">
-            <CalendarCheck
-              className="size-[1.05rem] flex-none"
+            {/*
+              Der orange umrandete Kreis ist der Blickfang des Streifens.
+
+              Ein Ring statt einer gefuellten Flaeche: Gefuellt waere es ein
+              Warnzeichen, wie man es von Fehlermeldungen kennt. Der Ring
+              mit der nur angedeuteten Fuellung wirkt wie eine Markierung -
+              er zieht den Blick, ohne Dringlichkeit zu behaupten. Dieselbe
+              Farbe traegt unten die Datumsangabe, damit Blickfang und
+              eigentliche Nachricht zusammengehoeren.
+            */}
+            <span
               aria-hidden="true"
-            />
+              className="flex size-9 flex-none items-center justify-center rounded-full border"
+              style={{
+                borderColor: "var(--gc-signal)",
+                background: "color-mix(in srgb, var(--gc-signal) 14%, transparent)",
+                color: "var(--gc-signal)",
+              }}
+            >
+              <CalendarCheck className="size-[1.05rem]" />
+            </span>
 
             <p className="min-w-0 flex-1 text-[0.92rem] leading-snug">
               {terminHinweis.text}{" "}
-              <strong className="font-medium">{terminHinweis.betonung}</strong>
+              {/* Das Datum ist die eigentliche Nachricht - es traegt die
+                  Signalfarbe, nicht die ganze Zeile. */}
+              <strong
+                className="font-medium"
+                style={{ color: "var(--gc-signal)" }}
+              >
+                {terminHinweis.betonung}
+              </strong>
               {/* Auf dem Handy entfaellt die Aufforderung: Der Streifen
                   sagt bereits, worum es geht, und die feste Leiste am
                   unteren Rand traegt dort Anruf und SMS in voller Breite. */}
@@ -132,12 +141,11 @@ export default function TerminHinweis() {
             </p>
 
             {/* Der Schliessen-Knopf sitzt aussen rechts und ist 44 px gross.
-                Ein Hinweis, den man nicht loswird, wird beim zweiten Besuch
-                zur Stoerung - und ein Knopf, den man nicht trifft, ist bei
-                unsicheren Haenden dasselbe wie keiner. */}
+                Ein Knopf, den man nicht trifft, ist bei unsicheren Haenden
+                dasselbe wie keiner. */}
             <button
               type="button"
-              onClick={schliessen}
+              onClick={() => setzeWeg(true)}
               aria-label={texte.schliessen}
               className="flex size-11 flex-none items-center justify-center rounded-full transition-colors hover:bg-white/15"
             >
