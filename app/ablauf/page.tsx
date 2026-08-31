@@ -91,7 +91,37 @@ export default function AblaufSeite() {
                 {zusagen.titel}
               </h2>
 
-              <Staffel alsListe className="mt-10 flex flex-col">
+              {/*
+                Zwei Fassungen, wie bei den Behandlungen auf der
+                Nachbarseite: Auf dem Handy vier eigene Kacheln statt vier
+                Bloecke, die nur eine Haarlinie trennt - bei vier kurzen
+                Zusagen war das zwar nie so ueberladen wie die acht
+                Behandlungen, aber derselbe Effekt in klein. Ab lg bleibt
+                die schlichte, hairline-getrennte Liste - dort steht die
+                Spalte schmal genug, dass eine Liste ruhiger wirkt als ein
+                Kachelraster mit nur zwei Spalten.
+              */}
+              <Staffel className="mt-10 grid grid-cols-2 gap-3 lg:hidden">
+                {zusagen.punkte.map((punkt) => (
+                  <StaffelKind
+                    key={punkt.titel}
+                    className="shadow-weich flex min-w-0 flex-col gap-2 rounded-[18px] border border-linie-fein bg-grund p-4"
+                  >
+                    <Check
+                      className="size-5 flex-none text-akzent-warm"
+                      aria-hidden="true"
+                    />
+                    <h3 className="text-[0.92rem] font-medium leading-tight">
+                      {punkt.titel}
+                    </h3>
+                    <p className="text-[0.82rem] leading-snug text-leise">
+                      {punkt.text}
+                    </p>
+                  </StaffelKind>
+                ))}
+              </Staffel>
+
+              <Staffel alsListe className="mt-10 hidden flex-col lg:flex">
                 {zusagen.punkte.map((punkt) => (
                   <StaffelKind
                     key={punkt.titel}
@@ -117,9 +147,20 @@ export default function AblaufSeite() {
               <div className="rounded-lg border border-linie-warm p-[clamp(1.75rem,4vw,2.5rem)]">
                 <h2 className="schrift-display titel-klein">{grenzen.titel}</h2>
                 <p className="mt-4 text-[0.98rem] text-leise">{grenzen.text}</p>
-                <ul className="mt-8 flex flex-col gap-4">
+                {/*
+                  Auf dem Handy bekommt jede Zeile ihre eigene, leicht
+                  getoente Flaeche statt nur einer Haarlinie zur naechsten -
+                  die aeussere Karte allein reichte nicht, um fuenf
+                  Verneinungen hintereinander lesbar zu halten. Ab sm ist
+                  wieder Platz genug, dass die schlichte Liste ruhiger
+                  wirkt als fuenf gestapelte Kaesten.
+                */}
+                <ul className="mt-8 flex flex-col gap-2.5 sm:gap-4">
                   {grenzen.punkte.map((punkt) => (
-                    <li key={punkt} className="flex gap-4">
+                    <li
+                      key={punkt}
+                      className="flex gap-4 rounded-[14px] bg-grund px-4 py-3 sm:rounded-none sm:bg-transparent sm:px-0 sm:py-0"
+                    >
                       <X
                         className="size-4 flex-none translate-y-1 text-leise"
                         aria-hidden="true"

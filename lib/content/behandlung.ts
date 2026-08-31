@@ -136,16 +136,39 @@ export const weitereBehandlungen = {
   augenbraue: "Leistungen",
   titel: "Was ich behandle",
   text: "Vollständig und ohne Abstriche — ein Hausbesuch ist kein reduziertes Programm.",
+  /*
+    `symbol` und `schlagworte` sind NUR fuer die Handy-Kachelansicht
+    (app/behandlung/page.tsx, unter md). Der Desktop zeigt weiterhin die
+    volle Zeile mit `was` und `fuerWen` als ausgeschriebenen Satz - die
+    Kacheln sind eine verdichtete Zweitfassung, kein Ersatz.
+
+    `schlagworte` uebersetzt den `fuerWen`-Satz in zwei bis drei kurze
+    Stichworte statt eines Satzes, damit acht Eintraege auf dem Handy als
+    Kacheln statt als Textwand lesbar sind.
+  */
   liste: [
     {
+      symbol: "neurologie" as const,
       titel: "Neurologische Behandlung",
       was: "Gang, Gleichgewicht, Feinmotorik und Sicherheit im Alltag — mehr dazu im Abschnitt weiter unten.",
       fuerWen: "Nach Schlaganfall, bei Parkinson, Multipler Sklerose oder Polyneuropathie.",
+      schlagworte: ["Schlaganfall", "Parkinson", "MS"],
     },
     {
-      titel: "Krankengymnastik",
+      symbol: "kraft" as const,
+      /* Weicher Trennstrich (U+00AD) vor "gymnastik": In der schmalen
+         Handy-Kachel (siehe app/behandlung/page.tsx) ist die Spalte
+         schmaler als jede Stelle, an der das automatische
+         Silbentrennungswoerterbuch des Browsers einen Bruch fuer dieses
+         eine Wort findet - es riss deshalb ohne Trennstrich mitten im
+         Wort ("Krankengymnasti" / "k"). Der weiche Trennstrich erzwingt
+         eine sprachlich korrekte Stelle und ist unsichtbar, solange dort
+         nicht umgebrochen wird - auf dem Desktop und ueberall sonst also
+         ohne jede Wirkung. */
+      titel: "Kranken­gymnastik",
       was: "Aktive und passive Übungsbehandlung für Kraft, Beweglichkeit und Koordination.",
       fuerWen: "Bei Beschwerden an Gelenken, Wirbelsäule und Muskulatur.",
+      schlagworte: ["Gelenke", "Wirbelsäule", "Muskulatur"],
     },
     {
       /* Bewusst NICHT "Manuelle Therapie": Das ist in Deutschland eine
@@ -157,34 +180,49 @@ export const weitereBehandlungen = {
          Die Techniken selbst duerfen beschrieben werden, nur eben nicht
          unter dem geschuetzten Namen. Sobald das Zertifikat vorliegt, kann
          hier der Fachbegriff stehen. */
+      symbol: "haende" as const,
       titel: "Mobilisation von Gelenken und Muskulatur",
       was: "Behandlung mit den Händen: Gelenke beweglicher machen, verkürzte Muskulatur dehnen, Gewebe lockern.",
       fuerWen: "Bei eingeschränkter Beweglichkeit, Steifigkeit und muskulärer Verspannung.",
+      schlagworte: ["Beweglichkeit", "Steifigkeit", "Verspannung"],
     },
     {
+      symbol: "nachsorge" as const,
       titel: "Nachsorge nach Operationen",
       was: "Weiterführung der Behandlung nach Klinik und Anschlussheilbehandlung, abgestimmt auf die Belastungsvorgaben.",
       fuerWen: "Nach Gelenkersatz, Wirbelsäulen- und Weichteiloperationen.",
+      schlagworte: ["Gelenkersatz", "Wirbelsäulen-OP", "Weichteil-OP"],
     },
     {
+      symbol: "sturz" as const,
       titel: "Sturzprophylaxe und Gangschule",
       was: "Gleichgewicht, sicheres Aufstehen, Umgang mit Gehhilfen — und ein Blick auf die Wohnung.",
       fuerWen: "Bei Gangunsicherheit, Schwindel und nach Stürzen.",
+      schlagworte: ["Gangunsicherheit", "Schwindel", "Nach Stürzen"],
     },
     {
+      symbol: "lymph" as const,
       titel: "Manuelle Lymphdrainage",
       was: "Sanfte Grifftechnik zur Anregung des Lymphabflusses, bei Bedarf mit Bandagierung.",
       fuerWen: "Bei Schwellungen nach Operationen und bei Lymphödemen.",
+      schlagworte: ["Schwellungen", "Lymphödem"],
     },
     {
+      symbol: "chronisch" as const,
       titel: "Begleitung bei chronischen Beschwerden",
-      was: "Längerfristige Betreuung mit Übungsprogramm für zwischendurch.",
+      /* Gleicher Fall wie bei "Kranken­gymnastik" oben: weicher
+         Trennstrich, damit das Wort in der schmalen Kachel nicht
+         "Übungsprogram" / "m" reisst. */
+      was: "Längerfristige Betreuung mit Übungs­programm für zwischendurch.",
       fuerWen: "Bei Verläufen, die nicht mit sechs Terminen abgeschlossen sind.",
+      schlagworte: ["Langfristig", "Übungsprogramm"],
     },
     {
+      symbol: "angehoerige" as const,
       titel: "Anleitung von Angehörigen",
       was: "Lagerung, Transfer, Hilfestellung beim Gehen — Handgriffe, die den Alltag sicherer machen.",
       fuerWen: "Für alle, die zu Hause mitpflegen und dabei den eigenen Rücken schonen wollen.",
+      schlagworte: ["Lagerung", "Transfer", "Pflegende"],
     },
   ],
 } as const;

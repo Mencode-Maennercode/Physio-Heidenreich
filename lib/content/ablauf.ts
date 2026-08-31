@@ -219,7 +219,10 @@ export const zusagen = {
     },
     {
       titel: "Absage bis 24 Stunden vorher",
-      text: "Kostenfrei. Bei einer akuten Verschlechterung selbstverständlich auch kurzfristiger.",
+      /* Weicher Trennstrich vor "verstaendlich" - derselbe Fall wie bei
+         "Kranken­gymnastik" in lib/content/behandlung.ts: In der schmalen
+         Handy-Kachel riss das Wort sonst "selbstverstaendlic" / "h". */
+      text: "Kostenfrei. Bei einer akuten Verschlechterung selbst­verständlich auch kurzfristiger.",
     },
   ],
 } as const;

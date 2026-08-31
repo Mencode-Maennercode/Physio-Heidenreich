@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
-import { Phone } from "lucide-react";
+import {
+  Activity,
+  Brain,
+  ClipboardCheck,
+  Droplet,
+  Footprints,
+  Hand,
+  HeartPulse,
+  Phone,
+  Repeat,
+  UsersRound,
+} from "lucide-react";
 import Bild from "@/components/Bild";
 import Knopf from "@/components/Knopf";
 import Sektionskopf from "@/components/Sektionskopf";
@@ -44,6 +55,18 @@ export const metadata: Metadata = {
  * Gold/Navy/Cormorant um (siehe app/globals.css). Deshalb kein Nachbau
  * dieser Bausteine noetig, nur die Umgebung stimmt jetzt.
  */
+/** Nur fuer die Handy-Kachelansicht - siehe Kommentar bei `weitereBehandlungen`. */
+const SYMBOLE = {
+  neurologie: Brain,
+  kraft: Activity,
+  haende: Hand,
+  nachsorge: ClipboardCheck,
+  sturz: Footprints,
+  lymph: Droplet,
+  chronisch: Repeat,
+  angehoerige: UsersRound,
+} as const;
+
 export default function BehandlungSeite() {
   return (
     <div className="gc-kontext" data-gc>
@@ -66,7 +89,66 @@ export default function BehandlungSeite() {
               text={weitereBehandlungen.text}
             />
 
-            <Staffel alsListe className="mt-14 border-t border-linie-fein">
+            {/*
+              Zwei Fassungen derselben Liste, nicht eine responsive.
+
+              Auf dem Desktop war die Zeilentabelle (Titel | Was | Fuer wen)
+              schon immer richtig - drei Spalten nebeneinander lassen sich
+              gut ueberfliegen. Gestapelt auf dem Handy wurde daraus aber
+              acht Mal derselbe Block: Titel, Satz, Satz, Haarlinie - ohne
+              Kante, Farbe oder Icon, an der das Auge einen Eintrag vom
+              naechsten unterscheiden kann. Eine durchgehende Textwand.
+
+              Die Handy-Fassung ist deshalb ein 2-spaltiges Kachelraster:
+              eigene Flaeche mit Schatten pro Eintrag (wie die Karten auf
+              der Startseite), ein Icon als Anker fuers Auge, und statt des
+              ausgeschriebenen `fuerWen`-Satzes kurze Stichwort-Chips - die
+              lassen sich in einem Blick erfassen statt gelesen zu werden.
+            */}
+            <Staffel className="mt-10 grid grid-cols-2 gap-3 md:hidden">
+              {weitereBehandlungen.liste.map((eintrag) => {
+                const Symbol = SYMBOLE[eintrag.symbol];
+                return (
+                  <StaffelKind
+                    key={eintrag.titel}
+                    className="shadow-weich flex min-w-0 flex-col gap-2.5 rounded-[18px] border border-linie-fein bg-grund p-4"
+                  >
+                    <Symbol
+                      className="size-5 flex-none text-akzent-warm"
+                      strokeWidth={1.6}
+                      aria-hidden="true"
+                    />
+                    {/* `text-balance`: Ohne das riss "Krankengymnastik" in
+                        der schmalen Spalte auf "Krankengymnasti" / "k" -
+                        ein einzelner Buchstabe allein in der zweiten Zeile.
+                        `text-wrap: balance` verteilt Ueberschriften genau
+                        dafuer neu, dass keine Zeile so ein Waisenkind
+                        wird. */}
+                    <h3 className="schrift-display text-[1.05rem] leading-tight text-balance">
+                      {eintrag.titel}
+                    </h3>
+                    <p className="text-[0.85rem] leading-snug text-leise">
+                      {eintrag.was}
+                    </p>
+                    <ul className="mt-auto flex flex-wrap gap-1.5 pt-1.5">
+                      {eintrag.schlagworte.map((wort) => (
+                        <li
+                          key={wort}
+                          className="rounded-full border border-linie px-2.5 py-1 text-[0.72rem] text-leise"
+                        >
+                          {wort}
+                        </li>
+                      ))}
+                    </ul>
+                  </StaffelKind>
+                );
+              })}
+            </Staffel>
+
+            <Staffel
+              alsListe
+              className="mt-14 hidden border-t border-linie-fein md:block"
+            >
               {weitereBehandlungen.liste.map((eintrag) => (
                 <StaffelKind
                   key={eintrag.titel}
