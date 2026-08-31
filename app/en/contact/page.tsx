@@ -108,7 +108,7 @@ export default function ContactPage() {
             <ul className="mt-4 divide-y divide-linie-fein border-y border-linie-fein">
               <li className="grid grid-cols-[minmax(0,10rem)_1fr] gap-5 py-4">
                 <span className="text-leise">Monday to Friday</span>
-                <span>8–9 am and 5–7 pm</span>
+                <span>8 am – 6 pm</span>
               </li>
               <li className="grid grid-cols-[minmax(0,10rem)_1fr] gap-5 py-4">
                 <span className="text-leise">Outside those hours</span>

@@ -127,8 +127,7 @@ export default function EinfacheSpracheSeite() {
               nicht. Auf den anderen Seiten steht es, hier fehlte es. */}
           <Block frage="Wann kann ich anrufen?">
             <p>Von Montag bis Freitag.</p>
-            <p>Morgens von 8 bis 9 Uhr.</p>
-            <p>Abends von 17 bis 19 Uhr.</p>
+            <p>Von 8 bis 18 Uhr.</p>
             <p>Sonst geht der Anrufbeantworter an.</p>
             <p>Dann rufe ich Sie zurück.</p>
           </Block>

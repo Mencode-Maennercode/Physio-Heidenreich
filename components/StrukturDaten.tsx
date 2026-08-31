@@ -81,27 +81,17 @@ export default function StrukturDaten() {
       description: "Kreis Ahrweiler",
     },
     /*
-      Erreichbarkeit fuer Anfragen - NICHT Behandlungszeiten. Google zeigt
-      das als Oeffnungszeiten an; deshalb stehen hier genau die Zeiten, zu
-      denen tatsaechlich jemand ans Telefon geht. Falsche Zeiten sind hier
-      schaedlicher als gar keine: Wer vergeblich anruft, ruft nicht wieder
-      an.
+      Bewusst KEIN openingHoursSpecification.
+
+      Das Schema ist fuer "wann ist geoeffnet/erreichbar" gedacht und passt
+      auf diese Praxis nicht sauber: Telefonisch ist Mo-Fr 8-18 Uhr jemand
+      erreichbar, tatsaechliche Hausbesuche finden aber nur an einzelnen
+      Tagen statt - und das aendert sich, je mehr Patienten dazukommen.
+      Ein Eintrag wuerde in die eine oder andere Richtung falsch sein:
+      "Mo-Fr 8-18" suggeriert Behandlung rund um die Uhr, "nur Mo+Fr"
+      suggeriert an allen anderen Tagen "geschlossen", obwohl das Telefon
+      erreichbar ist. Kein Eintrag ist hier ehrlicher als ein falscher.
     */
-    openingHoursSpecification: [
-      { oeffnet: "08:00", schliesst: "09:00" },
-      { oeffnet: "17:00", schliesst: "19:00" },
-    ].map((zeit) => ({
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-      ],
-      opens: zeit.oeffnet,
-      closes: zeit.schliesst,
-    })),
     availableLanguage: [
       { "@type": "Language", name: "German", alternateName: "de" },
       { "@type": "Language", name: "English", alternateName: "en" },

@@ -128,7 +128,7 @@ export const kontakt = {
   },
 
   erreichbarkeit: [
-    { zeit: "Montag bis Freitag", detail: "8 – 9 Uhr und 17 – 19 Uhr" },
+    { zeit: "Montag bis Freitag", detail: "8 – 18 Uhr" },
     { zeit: "Außerhalb dieser Zeiten", detail: "Anrufbeantworter, ich rufe zurück" },
   ],
 } as const;

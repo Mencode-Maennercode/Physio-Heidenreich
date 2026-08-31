@@ -60,9 +60,9 @@ export default function DatenschutzSeite() {
           <br />
           {kontakt.anschrift.plz} {kontakt.anschrift.ort}
           <br />
-          Telefon: <Platzhalter>{kontakt.telefonAnzeige}</Platzhalter>
+          Telefon: {kontakt.telefonAnzeige}
           <br />
-          E-Mail: <Platzhalter>{kontakt.email}</Platzhalter>
+          E-Mail: {kontakt.email}
         </p>
         <p>
           Eine Datenschutzbeauftragte oder ein Datenschutzbeauftragter muss

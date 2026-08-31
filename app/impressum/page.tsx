@@ -47,11 +47,11 @@ export default function ImpressumSeite() {
 
       <Abschnitt titel="Kontakt">
         <p>
-          Telefon: <Platzhalter>{kontakt.telefonAnzeige}</Platzhalter>
+          Telefon: {kontakt.telefonAnzeige}
           <br />
-          Mobil: <Platzhalter>{kontakt.mobilAnzeige}</Platzhalter>
+          Mobil: {kontakt.mobilAnzeige}
           <br />
-          E-Mail: <Platzhalter>{kontakt.email}</Platzhalter>
+          E-Mail: {kontakt.email}
         </p>
       </Abschnitt>
 
@@ -66,12 +66,10 @@ export default function ImpressumSeite() {
         <p>
           Gesetzliche Berufsbezeichnung: <strong>Physiotherapeutin</strong>
           <br />
-          Verliehen in: <Platzhalter>
-            Bundesrepublik Deutschland — bitte bestätigen: Die Erlaubnis zum
-            Führen der Berufsbezeichnung wurde nach der Ausbildung in den
-            Niederlanden anerkannt. Einzutragen ist der Staat, der die Erlaubnis
-            erteilt hat, sowie unten die Behörde, die sie ausgestellt hat.
-          </Platzhalter>
+          Verliehen in: Bundesrepublik Deutschland. Die Erlaubnis zum Führen
+          der Berufsbezeichnung wurde nach dem Studium in den Niederlanden
+          in Deutschland anerkannt (siehe „Zuständige Aufsichtsbehörde“
+          unten).
         </p>
         <p>
           Akademische Grade: {grade.bachelor}, {grade.master}
@@ -109,14 +107,14 @@ export default function ImpressumSeite() {
 
       <Abschnitt titel="Zuständige Aufsichtsbehörde">
         <p>
+          Stadt Münster
+          <br />
           <Platzhalter>
-            Einzutragen ist die Behörde, die die Erlaubnis zum Führen der
-            Berufsbezeichnung erteilt hat — bei einer in den Niederlanden
-            erworbenen Ausbildung die Stelle, die sie anerkannt hat. In
-            Rheinland-Pfalz ist das üblicherweise das Landesamt für Soziales,
-            Jugend und Versorgung, Rheinallee 97–101, 55118 Mainz; wurde die
-            Anerkennung während der Zeit in Münster beantragt, ist es die
-            Bezirksregierung Münster. Bitte im Anerkennungsbescheid nachsehen.
+            Genaue Dienststelle und Anschrift ergänzen — auf der
+            Anerkennungsurkunde steht der Stempel „Stadt Münster“; welches
+            Amt innerhalb der Stadtverwaltung zuständig war, steht im
+            Anerkennungsbescheid selbst und sollte dort nachgeschlagen
+            werden.
           </Platzhalter>
         </p>
         <p>
@@ -134,24 +132,25 @@ export default function ImpressumSeite() {
           befreit. Auf Rechnungen wird daher keine Umsatzsteuer ausgewiesen.
         </p>
         <p>
+          Vereinzelt angebotene Kurse ohne Heilbehandlungscharakter fallen
+          nicht unter diese Befreiung. Da der Gesamtumsatz die Grenzen des{" "}
           <Platzhalter>
-            Falls zusätzlich umsatzsteuerpflichtige Leistungen erbracht werden
-            (etwa reine Präventions- oder Trainingsangebote ohne
-            Heilbehandlungscharakter): Hier ergänzen, ob die
-            Kleinunternehmerregelung nach § 19 UStG in Anspruch genommen wird
-            oder eine Umsatzsteuer-Identifikationsnummer nach § 27 a UStG
-            vorliegt.
-          </Platzhalter>
+            § 19 UStG nicht überschreitet — bitte mit der Anmeldung beim
+            Finanzamt (Fragebogen zur steuerlichen Erfassung) abgleichen —
+          </Platzhalter>{" "}
+          wird die Kleinunternehmerregelung nach § 19 UStG in Anspruch
+          genommen; es wird keine Umsatzsteuer ausgewiesen.
         </p>
       </Abschnitt>
 
       <Abschnitt titel="Berufshaftpflichtversicherung">
         <p>
+          Continentale Sachversicherung AG, Ruhrallee 92, 44139 Dortmund
+          <br />
+          Räumlicher Geltungsbereich: Bundesrepublik Deutschland
+          <br />
           <Platzhalter>
-            Nach Abschluss eintragen: Name und Anschrift des Versicherers sowie
-            der räumliche Geltungsbereich. Vorgesehen ist die Continentale
-            Sachversicherung AG, Ruhrallee 92, 44139 Dortmund, mit einem
-            Geltungsbereich für die Bundesrepublik Deutschland.
+            Versicherungsschein-Nummer nach Vertragsabschluss ergänzen.
           </Platzhalter>
         </p>
       </Abschnitt>
