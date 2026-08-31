@@ -27,6 +27,22 @@ export default function GcUeberMich({
       <div className="grid items-center gap-8 md:grid-cols-2 md:gap-20">
         <ParallaxBild
           staerke={10}
+          /*
+            `fokusY={6}`: Ohne diese Angabe schnitt der Parallax-Rahmen
+            (siehe ParallaxBild.tsx - er vergroessert das Bild um 12 % nach
+            aussen, damit beim Scrollen nichts leer wird) rundum gleich viel
+            weg. Auf dem Handy kommt dazu noch das abweichende
+            Seitenverhaeltnis (5:4-Box gegen ein 4:5-Foto), das zusaetzlich
+            beschneidet. In der Summe endete das Portraet an den
+            Augenbrauen, kein Haaransatz mehr sichtbar - obwohl am Foto
+            selbst reichlich Platz ueber dem Kopf ist (siehe die Rohdatei).
+            6 verschiebt den Ausschnitt fast an den oberen Rand; ein kleiner Rest
+            bleibt als Puffer fuer die Scroll-Bewegung von ParallaxBild, damit
+            am unteren Ende des Scroll-Bereichs kein leerer Streifen
+            entstehen kann (siehe ParallaxBild.tsx). Unten bleibt ohnehin nur
+            Schulterpartie, die nicht die Aussage des Bildes traegt.
+          */
+          fokusY={6}
           /* Auf dem Handy flacher: Ein 4:5-Portraet ist dort 480 px hoch
              und schiebt den Text komplett unter die Falz. 5:4 zeigt
              dasselbe Motiv in 310 px. */

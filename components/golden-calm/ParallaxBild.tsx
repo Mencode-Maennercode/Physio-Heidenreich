@@ -24,16 +24,37 @@ export default function ParallaxBild({
   className,
   style,
   staerke = 18,
+  fokusY = 50,
 }: {
   children: React.ReactNode;
   className?: string;
   style?: CSSProperties;
   /** Versatz in Prozent der Bildhoehe - 12 dezent, 25 deutlich. */
   staerke?: number;
+  /**
+   * Vertikaler Ankerpunkt des Ausschnitts, 0-100. 50 (Voreinstellung) ist
+   * mittig - so war es bisher fest verdrahtet.
+   *
+   * Der innere Rahmen liegt 12 % ueber jeden Rand hinaus (siehe unten), damit
+   * beim Scrollen nie ein leerer Streifen entsteht. Passt das
+   * Seitenverhaeltnis der Box nicht zum Foto, addiert sich dieser Ueberstand
+   * zum ohnehin noetigen Zuschnitt - bei einem Portraet in einer breiteren
+   * Box endete das Bild dadurch an den Augenbrauen, obwohl am Foto selbst
+   * nichts falsch war. `fokusY` verschiebt, wie die 24 % Gesamt-Ueberstand
+   * (12 oben + 12 unten) zwischen oben und unten aufgeteilt werden, OHNE die
+   * Gesamthoehe und damit das Seitenverhaeltnis des inneren Rahmens zu
+   * aendern: Bei 0 faellt der gesamte Ueberstand nach unten (maximal viel
+   * vom oberen Bildrand sichtbar), bei 100 umgekehrt.
+   */
+  fokusY?: number;
 }) {
   const rahmen = useRef<HTMLDivElement>(null);
   const bild = useRef<HTMLDivElement>(null);
   const ruhig = useRuhig();
+
+  const gesamtUeberstand = 24;
+  const obenUeberstand = (gesamtUeberstand * fokusY) / 100;
+  const untenUeberstand = gesamtUeberstand - obenUeberstand;
 
   useGSAP(
     () => {
@@ -62,7 +83,11 @@ export default function ParallaxBild({
       className={cn("relative overflow-hidden", className)}
       style={style}
     >
-      <div ref={bild} className="absolute inset-[-12%]">
+      <div
+        ref={bild}
+        className="absolute inset-x-[-12%]"
+        style={{ top: `-${obenUeberstand}%`, bottom: `-${untenUeberstand}%` }}
+      >
         {children}
       </div>
     </div>

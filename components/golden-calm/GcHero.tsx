@@ -369,22 +369,21 @@ export default function GcHero({
               </div>
 
               {/*
-                Auf dem Handy ist das der einzige Knopf im Hero - und damit
-                der Hauptknopf. Er war bisher trotzdem in der
-                Nebenrolle gesetzt: fast weiss auf cremefarbenem Grund, also
-                praktisch unsichtbar. Auf dem Desktop stimmt diese Rolle
-                (daneben steht die gefuellte Telefonnummer), auf dem Handy
-                nicht - dort steht die Nummer in der Leiste am unteren Rand
-                und dieser Knopf muss allein tragen.
+                Auf dem Handy steht dieser Knopf NICHT hier, sondern erst
+                nach dem Video und den drei Merkmalen, direkt vor "Das
+                Konzept" (eigener Block weiter unten). Grund: Hier oben
+                waere er der vierte Text-Baustein in Folge, bevor ueberhaupt
+                etwas vom Motiv zu sehen war - auf Wunsch soll er stattdessen
+                der Abschluss des Hero sein, nachdem Video und Merkmale
+                gezeigt haben, worum es geht.
 
-                Deshalb wechselt er die Gestalt: gefuellt in Navy und ueber
-                die volle Spaltenbreite auf dem Handy, ab sm zurueck zur
-                zurueckhaltenden Umrandung neben dem Anruf-Knopf.
+                Ab sm bleibt er hier: Dort steht er neben der gefuellten
+                Telefonnummer, in der zurueckhaltenden Umrandung.
               */}
               <MagnetKnopf
                 href="#kontakt"
                 stark={0.08}
-                className="gc-hero-knopf min-h-14 w-full rounded-full border px-7 text-[1rem] sm:min-h-16 sm:w-auto sm:text-[1.05rem]"
+                className="gc-hero-knopf hidden rounded-full border px-7 text-[1.05rem] sm:inline-flex sm:min-h-16"
               >
                 {anfrageLabel}
               </MagnetKnopf>
@@ -478,6 +477,25 @@ export default function GcHero({
             );
           })}
         </ul>
+      </div>
+
+      {/*
+        Auf dem Handy der Abschluss des Hero: Video und Merkmale haben
+        gezeigt, worum es geht, jetzt kommt die Aufforderung - direkt vor
+        "Das Konzept". Ab sm entfaellt dieser Block, dort steht der Knopf
+        schon oben im Text neben der Telefonnummer (siehe dort).
+      */}
+      <div className="huelle relative z-10 pt-6 pb-8 sm:hidden">
+        {/* Kein `gc-hero-teil`: Dieser Block liegt unterhalb der Falz, der
+            Knopf ist also laengst fertig eingeblendet, bevor er ueberhaupt
+            in den Blick kommt - der Auftritt waere reine Verschwendung. */}
+        <MagnetKnopf
+          href="#kontakt"
+          stark={0.08}
+          className="gc-hero-knopf min-h-14 w-full rounded-full border px-7 text-[1rem]"
+        >
+          {anfrageLabel}
+        </MagnetKnopf>
       </div>
 
       {/* Das schwebende "60 Minuten"-Abzeichen ist bewusst entfernt, nicht
