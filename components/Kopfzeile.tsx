@@ -10,7 +10,7 @@ import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
 import SmsKnopf from "./SmsKnopf";
 import Sprachwahl from "@/components/Sprachwahl";
 import TerminHinweis from "@/components/TerminHinweis";
-import { kontakt } from "@/lib/site-config";
+import { kontakt, rechtsnavigation } from "@/lib/site-config";
 import { UI, spracheAus } from "@/lib/sprache";
 import { cn } from "@/lib/utils";
 
@@ -326,6 +326,35 @@ export default function Kopfzeile() {
                       */}
                       <SmsKnopf className="w-full border-linie-warm" />
                     </div>
+
+                    {/*
+                      Impressum und Datenschutz standen bisher nur im Fuss
+                      der Seite - auf dem Handy heisst das: bis ganz ans
+                      Seitenende scrollen, vorbei an Kontaktzeilen,
+                      Seiten-Liste und Einsatzgebiet-Text, in derselben
+                      leisen Schrift wie der Rest. Leicht zu uebersehen,
+                      obwohl der Link technisch da ist. Hier im Menue ist er
+                      von jeder Seite aus in einem Tipp erreichbar - nur
+                      Deutsch, weil auch nur die deutsche Seite diese
+                      Unterseiten hat.
+                    */}
+                    {sprache === "de" ? (
+                      <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 border-t border-linie-warm pt-6 text-[0.85rem] text-leise">
+                        {rechtsnavigation
+                          .filter((eintrag) => eintrag.pfad !== "/en/")
+                          .map((eintrag) => (
+                            <li key={eintrag.pfad}>
+                              <Link
+                                href={eintrag.pfad}
+                                onClick={() => setzeMenueOffen(false)}
+                                className="inline-flex min-h-11 items-center transition-colors hover:text-text"
+                              >
+                                {eintrag.name}
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
+                    ) : null}
                   </nav>
                 </Dialog.Content>
               </Dialog.Portal>

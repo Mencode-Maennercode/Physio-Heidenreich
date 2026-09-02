@@ -94,6 +94,9 @@ export type KontaktBand = {
   readonly formularTitel: string;
   readonly formularText: string;
   readonly formularLink: string;
+  /* Nur fuer die englische Fassung genutzt (kein Formular dort, siehe
+     GcKontakt.tsx) - deshalb optional, das Deutsche braucht es nicht. */
+  readonly smsLabel?: string;
 };
 
 /* Die deutschen Inhalte muessen zu den Formen passen. Diese Zeilen

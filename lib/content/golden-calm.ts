@@ -70,7 +70,7 @@ export const konzept = {
     {
       nummer: "02",
       titel: "Zugewandte Betreuung",
-      text: "Ein fester Ansprechpartner, ruhige Anfahrt, volle Vertraulichkeit. Auf Wunsch mit Abstimmung im Familienkreis.",
+      text: "Ein fester Ansprechpartner, volle Vertraulichkeit. Auf Wunsch mit Abstimmung im Familienkreis.",
     },
     {
       nummer: "03",

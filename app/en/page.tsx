@@ -56,7 +56,7 @@ export default function EnglishHome() {
       <GcKonzept konzept={konzept} />
       <GcLeistungen leistungen={leistungen} />
       <GcUeberMich person={person} ueberMich={ueberMich} />
-      <GcKontakt kontaktBand={kontaktBand} />
+      <GcKontakt kontaktBand={kontaktBand} formular={false} />
     </div>
   );
 }

@@ -85,7 +85,7 @@ export const warumZuHause = {
 export const wohnungsweg = {
   augenbraue: "Ein Tag, fünf Stellen",
   titel: "Wo eine Behandlung zu Hause wirklich stattfindet",
-  text: "Nicht im Behandlungsraum, sondern auf dem Weg, den Sie ohnehin jeden Tag gehen. Scrollen Sie mit.",
+  text: "Nicht im Behandlungsraum, sondern auf dem Weg, den Sie ohnehin jeden Tag gehen.",
   stationen: [
     {
       marke: "Am Bett",

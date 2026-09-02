@@ -123,6 +123,7 @@ export const kontaktBand = {
   anrufLabel: "Call directly",
   sprechzeiten: "Times for enquiries: Monday to Friday, 8 am – 6 pm",
   formularTitel: "Prefer to write?",
-  formularText: "Three details are enough – I will call you back.",
+  formularText: "Send me an e-mail or a text message - I get back to you.",
   formularLink: "Full form with preferred time and message",
+  smsLabel: "Text message",
 } as const;

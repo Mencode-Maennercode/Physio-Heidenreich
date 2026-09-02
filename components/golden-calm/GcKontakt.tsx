@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { Mail, MessageSquare, Phone } from "lucide-react";
 import Formular from "@/components/kontakt/Formular";
 import MagnetKnopf from "./MagnetKnopf";
 import { kontaktBand as kontaktBandDe } from "@/lib/content/golden-calm";
@@ -25,8 +25,20 @@ import { kontakt } from "@/lib/site-config";
 */
 export default function GcKontakt({
   kontaktBand = kontaktBandDe,
+  formular = true,
 }: {
   kontaktBand?: KontaktBand;
+  /*
+    Auf Deutsch immer `true`. Auf Englisch `false`: Formular.tsx ist
+    unuebersetzt (Feldbeschriftungen, Datenschutz-Hinweis, Bestaetigung -
+    alles Deutsch) UND versendet ueber kontakt.php mit einer deutschen
+    Danke-Seite. Dieselbe Begruendung, aus der /en/contact/ von Anfang an
+    ganz ohne Formular auskommt (siehe dort) - sie galt hier nur bisher
+    nicht, weil GcKontakt uebersehen wurde, als die englische Seite
+    entstand. Ein englisch beschrifteter Rahmen um ein deutsches Formular
+    waere schlechter als gar keines.
+  */
+  formular?: boolean;
 } = {}) {
   return (
     <section
@@ -138,20 +150,45 @@ export default function GcKontakt({
             {kontaktBand.formularText}
           </p>
 
-          <Formular kompakt />
+          {formular ? (
+            <>
+              <Formular kompakt />
 
-          {/* Der Weg zur vollstaendigen Fassung bleibt sichtbar - wer die
-              Wunschzeit angeben oder etwas schildern will, soll das nicht
-              suchen muessen. */}
-          <p className="mt-7 text-[0.9rem]">
-            <Link
-              href="/kontakt/"
-              className="underline underline-offset-4"
-              style={{ color: "var(--gc-text-leise)" }}
-            >
-              {kontaktBand.formularLink}
-            </Link>
-          </p>
+              {/* Der Weg zur vollstaendigen Fassung bleibt sichtbar - wer
+                  die Wunschzeit angeben oder etwas schildern will, soll
+                  das nicht suchen muessen. */}
+              <p className="mt-7 text-[0.9rem]">
+                <Link
+                  href="/kontakt/"
+                  className="underline underline-offset-4"
+                  style={{ color: "var(--gc-text-leise)" }}
+                >
+                  {kontaktBand.formularLink}
+                </Link>
+              </p>
+            </>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <MagnetKnopf
+                href={`mailto:${kontakt.email}`}
+                stark={0.08}
+                className="min-h-[3.25rem] gap-3 rounded-full border px-6"
+                style={{ borderColor: "var(--gc-feld-rand)", color: "var(--gc-text)" }}
+              >
+                <Mail className="size-4 flex-none" aria-hidden="true" />
+                {kontakt.email}
+              </MagnetKnopf>
+              <MagnetKnopf
+                href={kontakt.sms}
+                stark={0.08}
+                className="min-h-[3.25rem] gap-3 rounded-full border px-6"
+                style={{ borderColor: "var(--gc-feld-rand)", color: "var(--gc-text)" }}
+              >
+                <MessageSquare className="size-4 flex-none" aria-hidden="true" />
+                {kontaktBand.smsLabel ?? "SMS"}
+              </MagnetKnopf>
+            </div>
+          )}
         </div>
       </div>
     </section>

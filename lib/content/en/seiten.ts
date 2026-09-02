@@ -122,7 +122,7 @@ export const warumZuHause = {
 export const wohnungswegText = {
   augenbraue: "One day, five places",
   titel: "Where a treatment at home actually happens",
-  text: "Not in a treatment room, but along the route you walk every day anyway. Scroll along.",
+  text: "Not in a treatment room, but along the route you walk every day anyway.",
   stationen: [
     {
       marke: "At the bed",
