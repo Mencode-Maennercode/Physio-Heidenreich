@@ -50,11 +50,28 @@ const SPERRE = 60;
 
 header('X-Content-Type-Options: nosniff');
 
+/*
+  `strpos(...) !== false` statt `str_contains(...)`.
+
+  Das war der Fehler, an dem das Formular auf dem Server gescheitert ist:
+  `str_contains()` gibt es erst ab PHP 8.0. Der netcup-Webspace laeuft mit
+  einer aelteren Fassung, dort bricht die Zeile mit einem schweren Fehler
+  ab - der Server antwortet mit 500 und leerem Rumpf (Fehlermeldungen sind
+  oben bewusst abgeschaltet). Nachweisbar daran, dass die Kopfzeile
+  X-Content-Type-Options aus der Zeile darueber noch mitkam, die Antwort
+  aber danach abbrach.
+
+  `strpos` gibt es in jeder PHP-Fassung und tut hier dasselbe.
+*/
 $perFetch = isset($_SERVER['HTTP_X_ANGEFORDERT_MIT'])
-    || (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json'));
+    || (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false);
 
 /** Antwort geben und beenden - je nach Weg als Text oder als Weiterleitung. */
-function antworten(int $status, string $text, bool $perFetch, string $ziel = ''): never
+/* `void` statt `never`: `never` gibt es erst ab PHP 8.1. Auf aelteren
+   Fassungen wuerde PHP es als Klassennamen lesen - hier zwar folgenlos,
+   weil die Funktion immer per `exit` endet, aber es gibt keinen Grund,
+   sich darauf zu verlassen. */
+function antworten(int $status, string $text, bool $perFetch, string $ziel = ''): void
 {
     if ($perFetch) {
         http_response_code($status);

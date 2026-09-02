@@ -120,8 +120,13 @@ export default function TerminHinweis() {
               {terminHinweis.text}{" "}
               {/* Das Datum ist die eigentliche Nachricht - es traegt die
                   Signalfarbe, nicht die ganze Zeile. */}
+              {/* `whitespace-nowrap`: Ein Datum ist eine Einheit. Ohne die
+                  Angabe trennte die globale Silbentrennung es mitten im
+                  Monatsnamen ("1. Ok-" / "tober 2026") - auf einem schmalen
+                  Android-Geraet gemeldet. Jetzt rutscht das Datum als
+                  Ganzes in die zweite Zeile, wenn der Platz nicht reicht. */}
               <strong
-                className="font-medium"
+                className="font-medium whitespace-nowrap"
                 style={{ color: "var(--gc-signal)" }}
               >
                 {terminHinweis.betonung}

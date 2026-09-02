@@ -429,17 +429,31 @@ export default function GcHero({
                     `w-full` zwingt ihn auf die Spaltenbreite - dann bricht
                     er innerhalb um. Gemessen mit scripts/geraete.mjs. */}
                 {/*
-                  `hyphens-none` ist hier Pflicht, nicht Geschmack: Die
-                  Seite trennt Woerter global automatisch (siehe body-Regel
-                  in globals.css, noetig fuer lange deutsche Komposita in
-                  schmalen Spalten). In einer 105 px breiten Spalte wurde
-                  daraus "Neurologisch- / e Erfahrung" - eine Trennung nach
-                  dem vorletzten Buchstaben. Bei nur drei kurzen
-                  Beschriftungen ist der Umbruch am Leerzeichen immer
-                  moeglich; die Trennung darf deshalb hier weg.
+                  `hyphens-manual` statt `hyphens-none`.
+
+                  Die Seite trennt global automatisch (body-Regel in
+                  globals.css, noetig fuer lange deutsche Komposita). In der
+                  105 px schmalen Spalte hier riss das "Neurologische" nach
+                  dem vorletzten Buchstaben auf. `hyphens-none` sollte das
+                  abstellen - schaltet aber auch die WEICHEN Trennstriche im
+                  Text mit ab, und genau die brauchen wir: "Neurologische"
+                  passt in keine Zeile dieser Breite, ohne Trennstelle
+                  bricht der Browser stumpf mitten im Wort. `manual`
+                  bedeutet: keine automatische Trennung, aber die im Text
+                  gesetzten Stellen gelten (siehe lib/content/golden-calm.ts).
                 */}
                 <span
-                  className="w-full text-[0.72rem] leading-tight font-medium text-balance hyphens-none text-[#F4EEE3] sm:text-[clamp(0.85rem,1.6vw,1rem)] sm:hyphens-auto sm:text-[color:var(--gc-text)]"
+                  /*
+                    Kein `text-balance` auf dem Handy: Chrome schaltet mit
+                    `text-wrap: balance` die Silbentrennung ab - gemessen,
+                    die Spalte ist hier nur 76 px breit und "Neurologische"
+                    wurde dadurch stumpf als "Neurol|ogische" zerrissen,
+                    obwohl im Text ein weicher Trennstrich sitzt. Ohne
+                    balance greift er und es heisst sauber "Neuro-/logische".
+                    Ab sm sind die Spalten breit genug, dort ist balance ein
+                    Gewinn und die Trennung ohnehin selten noetig.
+                  */
+                  className="w-full text-[0.7rem] leading-tight font-medium hyphens-manual text-[#F4EEE3] sm:text-balance sm:text-[clamp(0.85rem,1.6vw,1rem)] sm:hyphens-auto sm:text-[color:var(--gc-text)]"
                 >
                   {merkmal.titel}
                 </span>

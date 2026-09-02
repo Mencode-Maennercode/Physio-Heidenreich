@@ -98,7 +98,20 @@ export default function GcUeberMich({
                    Zeile dadurch 8 px ueber den Fensterrand und die ganze
                    Seite liess sich seitlich scrollen. Mit `min-w-0` bricht
                    der Wert stattdessen um. */
-                className="flex justify-between gap-4 py-3 text-[0.92rem] sm:gap-6 sm:py-[18px] sm:text-[1.05rem]"
+                /*
+                  Auf dem Handy untereinander statt nebeneinander.
+
+                  Nebeneinander blieben fuer den Wert rund 200 px - zu wenig
+                  fuer "B.Sc. Physiotherapie, Niederlande". Die automatische
+                  Silbentrennung riss daraus "Niederlan-de",
+                  "Rehabilitati-on" und "Umge-bung": Trennungen nach dem
+                  vorletzten Buchstaben, weil an keiner sprachlich richtigen
+                  Stelle noch Platz war. Untereinander steht der Wert ueber
+                  die volle Breite und bricht, wenn ueberhaupt, am
+                  Leerzeichen um. Ab sm ist die Zeile breit genug fuer die
+                  ruhigere zweispaltige Fassung.
+                */
+                className="flex flex-col gap-0.5 py-3 text-[0.92rem] sm:flex-row sm:justify-between sm:gap-6 sm:py-[18px] sm:text-[1.05rem]"
                 style={{ borderBottom: "1px solid var(--gc-bg-sekundaer)" }}
               >
                 {/* Die Bezeichnung ist immer ein einzelnes Wort und darf
@@ -112,8 +125,13 @@ export default function GcUeberMich({
                 >
                   {fakt.label}
                 </span>
+                {/* `hyphens-none` auf dem Handy: Dort steht der Wert ueber
+                    die volle Breite, eine Trennung ist nicht mehr noetig -
+                    und die automatische Trennung war genau das Problem
+                    (siehe oben). Ab sm wieder erlaubt, weil die schmale
+                    zweite Spalte sie dort gelegentlich braucht. */}
                 <span
-                  className="min-w-0 text-right break-words"
+                  className="min-w-0 hyphens-none break-words sm:text-right sm:hyphens-auto"
                   style={{ color: "var(--gc-text)" }}
                 >
                   {fakt.wert}

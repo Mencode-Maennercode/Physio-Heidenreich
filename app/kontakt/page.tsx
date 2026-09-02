@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import { Mail, MessageSquare, Phone, ShieldAlert, Smartphone } from "lucide-react";
 import Einsatzgebiet from "@/components/Einsatzgebiet";
 import Formular from "@/components/kontakt/Formular";
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 export default function KontaktSeite() {
   return (
     <div className="gc-kontext" data-gc>
+      <Brotkrumen titel="Kontakt" pfad="/kontakt/" />
+
       <section
         className="bg-grund-warm pb-[clamp(3rem,6vw,4.5rem)]"
         style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}

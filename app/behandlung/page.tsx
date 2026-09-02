@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import {
   Activity,
   Brain,
@@ -70,6 +71,8 @@ const SYMBOLE = {
 export default function BehandlungSeite() {
   return (
     <div className="gc-kontext" data-gc>
+      <Brotkrumen titel="Behandlung" pfad="/behandlung/" />
+
       <GcSeitenKopf
         kicker={kopf.augenbraue}
         titel={kopf.titel}
@@ -105,7 +108,11 @@ export default function BehandlungSeite() {
               ausgeschriebenen `fuerWen`-Satzes kurze Stichwort-Chips - die
               lassen sich in einem Blick erfassen statt gelesen zu werden.
             */}
-            <Staffel className="mt-10 grid grid-cols-2 gap-3 md:hidden">
+            {/* Unter 380 px eine Spalte - gleiche Begruendung wie bei den
+                Zusagen auf /ablauf/: Zwei Kacheln lassen dort nur rund
+                145 px, in denen deutsche Komposita unschoen getrennt
+                werden. */}
+            <Staffel className="mt-10 grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 md:hidden">
               {weitereBehandlungen.liste.map((eintrag) => {
                 const Symbol = SYMBOLE[eintrag.symbol];
                 return (

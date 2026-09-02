@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import Link from "next/link";
 import { Mail, MessageSquare, Phone, ShieldAlert, Smartphone } from "lucide-react";
 import Einsatzgebiet from "@/components/Einsatzgebiet";
@@ -66,6 +67,8 @@ const WEGE = [
 export default function ContactPage() {
   return (
     <div lang="en" className="gc-kontext" data-gc>
+      <Brotkrumen titel="Contact" pfad="/en/contact/" wurzel="Home" wurzelPfad="/en/" />
+
       <GcSeitenKopf
         kicker="Contact"
         titel="Request a home visit"

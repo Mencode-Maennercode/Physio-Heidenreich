@@ -170,6 +170,21 @@ body {
     keine gueltige Trennstelle hat. Es greift nur dann und zerlegt sonst
     nichts. Die Sprache steht am <html>-Element, sonst weiss der Browser
     nicht, nach welchen Regeln er trennen soll.
+
+    WICHTIG fuer kuenftige Pruefungen: Headless-Chrome (Puppeteer, also
+    scripts/geraete.mjs und scripts/trennung.mjs) bringt KEINE
+    Silbentrennungs-Woerterbuecher mit. `hyphens: auto` bleibt dort
+    wirkungslos, jedes lange Wort faellt auf diese Regel zurueck und wird
+    stumpf zerrissen. Im Messprotokoll sieht das nach einem Fehler aus,
+    ist auf echten Geraeten aber sauber getrennt - die Bildschirmfotos aus
+    der Praxis zeigen dort korrekte Trennstriche ("Versiche-rung").
+
+    Die Regel wurde einmal versuchsweise entfernt, weil sie in der
+    Headless-Messung als Ursache haesslicher Umbrueche erschien. Ergebnis:
+    Bei 130 % Textgroesse ragte danach echter Text aus seiner Spalte
+    (Impressum, Hero-Merkmale, Ablauf-Listen - gemessen mit
+    scripts/geraete.mjs). Sie bleibt deshalb. Gegen zu enge Umbrueche hilft
+    das Layout, nicht diese Regel: breitere Spalten auf schmalen Schirmen.
   */
   hyphens: auto;
   overflow-wrap: break-word;

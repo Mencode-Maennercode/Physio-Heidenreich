@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import { Phone } from "lucide-react";
 import Bild from "@/components/Bild";
 import Knopf from "@/components/Knopf";
@@ -49,6 +50,8 @@ export const metadata: Metadata = {
 export default function TreatmentsPage() {
   return (
     <div lang="en" className="gc-kontext" data-gc>
+      <Brotkrumen titel="Treatments" pfad="/en/treatments/" wurzel="Home" wurzelPfad="/en/" />
+
       <GcSeitenKopf
         kicker={kopf.augenbraue}
         titel={kopf.titel}

@@ -34,7 +34,8 @@ export const hero = {
     },
     {
       symbol: "neurologie",
-      titel: "Neurological experience",
+      /* Weicher Trennstrich, siehe die deutsche Fassung. */
+      titel: "Neuro­logical experience",
       text: "From clinical practice",
     },
     {
@@ -53,7 +54,7 @@ export const konzept = {
     {
       nummer: "01",
       titel: "Comfort at home",
-      text: "No transport service, no stairs in unfamiliar buildings, no waiting. The appointment starts when it is meant to start.",
+      text: "Mobile physiotherapy right where you live: flexible, individual and without the stress. Your treatment fits around your day, not the other way round.",
     },
     {
       nummer: "02",
@@ -63,7 +64,7 @@ export const konzept = {
     {
       nummer: "03",
       titel: "Time and expertise",
-      text: "Enough time per treatment, documented progress and regular professional development – with a focus on neurology.",
+      text: "Every treatment gets the time it needs – and is documented, so your progress stays traceable. Focus on neurology, deepened through continuous professional development.",
     },
   ],
 } as const;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import { Check, Phone, X } from "lucide-react";
 import Bild from "@/components/Bild";
 import Einsatzgebiet from "@/components/Einsatzgebiet";
@@ -48,6 +49,8 @@ export const metadata: Metadata = {
 export default function AblaufSeite() {
   return (
     <div className="gc-kontext" data-gc>
+      <Brotkrumen titel="Ablauf" pfad="/ablauf/" />
+
       <GcSeitenKopf
         kicker={kopf.augenbraue}
         titel={kopf.titel}
@@ -101,7 +104,17 @@ export default function AblaufSeite() {
                 Spalte schmal genug, dass eine Liste ruhiger wirkt als ein
                 Kachelraster mit nur zwei Spalten.
               */}
-              <Staffel className="mt-10 grid grid-cols-2 gap-3 lg:hidden">
+              {/*
+                Unter 380 px eine Spalte statt zwei.
+
+                Zwei Kacheln nebeneinander lassen dort rund 145 px pro
+                Kachel - zu wenig fuer deutsche Komposita. Die Trennung riss
+                daraus "Versiche-rung", "Bei-hilfe", "Verschlechte-rung":
+                regelkonform, aber unruhig und schwer zu lesen. Eine Spalte
+                gibt jedem Wort wieder Platz. Gemeldet von einem schmalen
+                Android-Geraet.
+              */}
+              <Staffel className="mt-10 grid grid-cols-1 gap-3 min-[380px]:grid-cols-2 lg:hidden">
                 {zusagen.punkte.map((punkt) => (
                   <StaffelKind
                     key={punkt.titel}

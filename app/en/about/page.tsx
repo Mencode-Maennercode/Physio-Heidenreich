@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Brotkrumen from "@/components/Brotkrumen";
 import { Phone } from "lucide-react";
 import Bild from "@/components/Bild";
 import Knopf from "@/components/Knopf";
@@ -34,6 +35,8 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div lang="en" className="gc-kontext" data-gc>
+      <Brotkrumen titel="About me" pfad="/en/about/" wurzel="Home" wurzelPfad="/en/" />
+
       {/* ------------------------------------------------------------------
           Kopf. Kein Video hier - auf dieser Seite geht es um einen Menschen,
           nicht um Atmosphäre.

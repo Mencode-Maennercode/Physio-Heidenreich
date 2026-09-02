@@ -161,10 +161,25 @@ export default function Kopfzeile() {
             dieselbe Zeile. Das spart zusammen mit dem kompakteren
             Terminstreifen rund 90 px - auf 844 px Bildschirmhoehe ein
             Neuntel des Sichtfelds. */}
-        <div className="kopf-reihe flex min-h-[3.5rem] flex-wrap items-center justify-between gap-x-2 gap-y-2 py-1.5 sm:min-h-[4.75rem] sm:gap-x-4 sm:py-2">
-          <Logo />
+        {/*
+          Unter 380 px zwei bewusste Zeilen statt eines zufaelligen Umbruchs.
 
-          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-2 sm:gap-x-3 xl:gap-x-4">
+          Gemessen (scripts/schmal.mjs): Ab 380 px passen Marke und die drei
+          Knoepfe nebeneinander, bei 376 px und darunter nicht mehr - dort
+          rutschte die Knopfgruppe bisher in eine zweite Zeile und stand
+          dort linksbuendig unter dem Logo. Das sah nach Unfall aus, nicht
+          nach Absicht.
+
+          Jetzt bekommt die Marke unterhalb der Schwelle die volle Breite,
+          die Knopfgruppe ebenso - und innerhalb der Gruppe schiebt
+          `justify-between` Barrierefreiheit und Sprache nach links, das
+          Menue nach rechts. Damit steht das Menue dort, wo der Daumen es
+          erwartet, und die zweite Zeile liest sich als eigene Ebene.
+        */}
+        <div className="kopf-reihe flex min-h-[3.5rem] flex-wrap items-center justify-between gap-x-2 gap-y-2 py-1.5 sm:min-h-[4.75rem] sm:gap-x-4 sm:py-2">
+          <Logo className="max-[379px]:w-full" />
+
+          <div className="flex flex-wrap items-center gap-x-1.5 gap-y-2 max-[379px]:w-full sm:gap-x-3 xl:gap-x-4">
             <nav aria-label={beschriftung.menue} className="hidden xl:block">
               <ul className="flex items-center gap-0.5">
                 {navigation.map((eintrag) => {
@@ -207,7 +222,7 @@ export default function Kopfzeile() {
               className="hidden h-6 w-px bg-linie xl:block"
             />
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1.5 max-[379px]:w-full max-[379px]:justify-between sm:gap-2">
             {/*
               Reihenfolge von innen nach aussen: erst die Kontaktaufnahme
               (Anruf, SMS), dann die stillen Werkzeuge (Barrierefreiheit,

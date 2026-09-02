@@ -46,7 +46,12 @@ export const hero = {
     },
     {
       symbol: "neurologie",
-      titel: "Neurologische Erfahrung",
+      /* Weicher Trennstrich: In der 105 px schmalen Spalte der
+         Merkmalsleiste passt "Neurologische" nicht in eine Zeile. Ohne
+         Trennstelle riss der Browser stumpf nach dem vorletzten Buchstaben
+         ("Neurologisch" / "e Erfahrung") - gemeldet von einem Android-Geraet.
+         Mit dieser Stelle bricht es sauber als "Neuro-" / "logische". */
+      titel: "Neuro­logische Erfahrung",
       text: "Aus der klinischen Praxis",
     },
     {
@@ -65,7 +70,7 @@ export const konzept = {
     {
       nummer: "01",
       titel: "Komfort zu Hause",
-      text: "Kein Fahrdienst, keine Treppen in fremden Häusern, keine Wartezeit. Der Termin beginnt, wenn er beginnen soll.",
+      text: "Mobile Physiotherapie direkt bei Ihnen zu Hause: flexibel, individuell und ohne Stress. Ihre Behandlung passt sich Ihrem Alltag an, nicht umgekehrt.",
     },
     {
       nummer: "02",
@@ -75,7 +80,7 @@ export const konzept = {
     {
       nummer: "03",
       titel: "Zeit und Kompetenz",
-      text: "Ausreichend Zeit pro Behandlung, dokumentierter Verlauf und regelmäßige Fortbildung – Schwerpunkt Neurologie.",
+      text: "Jede Behandlung bekommt die Zeit, die sie braucht – und wird dokumentiert, sodass Ihr Verlauf nachvollziehbar bleibt. Schwerpunkt Neurologie, laufend durch Fortbildungen vertieft.",
     },
   ],
 } as const;
