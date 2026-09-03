@@ -35,9 +35,10 @@ export default function RuhigesVideo({
   /**
    * Die Hintergrundclips (Schatten, Haende) sind absichtslose Atmosphaere und
    * loopen deshalb endlos. Das Hero-Video erzaehlt dagegen eine kleine
-   * Szene mit einem Schluss (die Person bleibt stehen und laechelt) - ein
-   * Loop wuerde genau diesen Moment zerschneiden. Einmal abspielen und auf
-   * dem letzten Bild stehen bleiben ist hier die richtige Wahl.
+   * Szene mit einem Schluss (die Kamera faehrt heran und haelt auf einem
+   * Portrait der Therapeutin) - ein Loop wuerde genau diesen Moment
+   * zerschneiden. Einmal abspielen und auf dem letzten Bild stehen bleiben
+   * ist hier die richtige Wahl.
    */
   schleife?: boolean;
   /**

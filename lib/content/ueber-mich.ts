@@ -31,7 +31,7 @@ export const einleitung = {
  */
 export const werdegang = {
   augenbraue: "Werdegang",
-  titel: "Wo ich das gelernt habe",
+  titel: "Ausbildung und berufliche Stationen",
   stationen: [
     {
       zeit: "2015",

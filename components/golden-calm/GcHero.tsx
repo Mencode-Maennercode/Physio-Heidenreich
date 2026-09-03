@@ -40,7 +40,7 @@ const SYMBOLE = {
 export default function GcHero({
   hero = heroDe,
   person = personDe,
-  videoBeschreibung = "Ältere Frau geht mit einem Rollator durch ihr helles Wohnzimmer, bleibt stehen und lächelt",
+  videoBeschreibung = "Therapeutin unterstützt eine Patientin bei einer Balance- und Koordinationsübung im hellen Wohnzimmer, die Kamera fährt heran und endet auf einem Portrait der lächelnden Therapeutin",
 }: {
   hero?: Hero;
   person?: Person;
@@ -175,9 +175,11 @@ export default function GcHero({
                  die Person gehoert in die Mitte des Bandes. */
               videoKlasse="h-full w-full object-cover object-[50%_22%] sm:object-center"
               schleife={false}
-              /* Der Clip laeuft 4,7 s und bleibt dann stehen - damit greift
-               WCAG 2.2.2 nicht, und der Knopf darf weg. Siehe die
-               ausfuehrliche Begruendung an der Eigenschaft selbst. */
+              /* Der Clip laeuft rund 10 s, ueberschreitet die Fuenf-Sekunden-
+               Schwelle aus WCAG 2.2.2 also technisch. Auf ausdruecklichen
+               Wunsch bleibt der Pause-Knopf trotzdem aus - der Verlauf
+               ohne Endlosschleife (schleife={false}) mildert das etwas,
+               ein Wiederspruch zur reinen Lehre bleibt es. */
               bedienbar={false}
               /* Auf dem Handy legt sich die Merkmalsleiste weiter unten
                  ueber die untere Bildkante - eine Kennzeichnung dort waere

@@ -144,6 +144,11 @@ export default function RootLayout({
     <html
       lang="de"
       className={`${inter.variable} ${instrument.variable} ${cormorant.variable} ${jakarta.variable}`}
+      /* Das Vorab-Skript unten setzt data-js (und ggf. die a11y-Attribute)
+         synchron VOR der Hydrierung, damit nichts aufblitzt - das weicht
+         absichtlich vom serverseitigen Markup ab. Ohne dieses Flag meldet
+         React genau diese gewollte Abweichung als Fehler. */
+      suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: vorabSkript }} />
