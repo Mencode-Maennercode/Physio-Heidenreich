@@ -43,6 +43,7 @@ export default function GcUeberMich({
             Schulterpartie, die nicht die Aussage des Bildes traegt.
           */
           fokusY={6}
+          ki
           /* Auf dem Handy flacher: Ein 4:5-Portraet ist dort 480 px hoch
              und schiebt den Text komplett unter die Falz. 5:4 zeigt
              dasselbe Motiv in 310 px. */
@@ -54,6 +55,7 @@ export default function GcUeberMich({
             className="h-full overflow-hidden"
             bildKlasse="h-full"
             groessen="(min-width: 768px) 42vw, 100vw"
+            ohneKiZeichen
           />
         </ParallaxBild>
 

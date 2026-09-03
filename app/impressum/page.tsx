@@ -168,11 +168,13 @@ export default function ImpressumSeite() {
       <Abschnitt titel="Bildnachweis">
         <p>
           Die Aufnahmen, auf denen die Inhaberin zu sehen ist, wurden eigens für
-          diese Website erstellt. Sie entstanden rechnergestützt auf Grundlage
-          eigener Fotografien; die dabei dargestellten Patientinnen und
-          Patienten sind keine realen Personen, sondern frei erfunden. Es werden
-          keine tatsächlichen Behandlungssituationen und keine echten
-          Patientinnen oder Patienten gezeigt.
+          diese Website erstellt: mit künstlicher Intelligenz bearbeitet oder
+          erstellt, auf Grundlage eigener Fotografien; die dabei dargestellten
+          Patientinnen und Patienten sind keine realen Personen, sondern frei
+          erfunden. Es werden keine tatsächlichen Behandlungssituationen und
+          keine echten Patientinnen oder Patienten gezeigt. Ein entsprechender
+          Hinweis steht am jeweiligen Bild sowie am Ende jeder Seite, auf der
+          solche Aufnahmen erscheinen.
         </p>
         <p>
           Einzelne Raum- und Landschaftsaufnahmen ohne Personen stammen von{" "}

@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { KI_HINWEIS, KI_HINWEIS_EN } from "@/lib/ki-medien";
 import { Mail, Phone, Smartphone } from "lucide-react";
 import { Bildmarke } from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
@@ -9,12 +13,24 @@ import {
   rechtsnavigation,
   seite,
 } from "@/lib/site-config";
+import { spracheAus } from "@/lib/sprache";
+
+/*
+  "use client" nur wegen dieser einen Zeile: Der KI-Hinweis muss auf /en/
+  auf Englisch stehen, und ein Server-Baustein kennt seinen eigenen Pfad
+  nicht von selbst. Der Rest der Fusszeile ist noch komplett Deutsch, auch
+  auf der englischen Seite - ein bereits bekannter, groesserer Umbau, der
+  hier bewusst nicht miterledigt wird. Diese eine Zeile war aber neu und
+  sollte nicht denselben Fehler von Anfang an mitbringen.
+*/
 
 function Spaltentitel({ children }: { children: React.ReactNode }) {
   return <h2 className="feld-marke mb-5">{children}</h2>;
 }
 
 export default function Fusszeile() {
+  const sprache = spracheAus(usePathname());
+
   return (
     <footer className="auf-warm nicht-drucken">
       <div className="huelle py-[clamp(2.5rem,6vw,5.5rem)]">
@@ -128,6 +144,22 @@ export default function Fusszeile() {
             116 117
           </a>
           .
+        </p>
+
+        {/*
+          Aufloesung des "KI"-Zeichens an den Bildern.
+
+          Sie steht bewusst hier und nicht nur im Impressum: Artikel 50 der
+          EU-KI-Verordnung verlangt die Offenlegung dort, wo der Inhalt zu
+          sehen ist - eine eigene Rechtsseite, die man erst ansteuern muss,
+          genuegt ausdruecklich nicht. Das Kuerzel am Bild traegt die
+          Aussage, dieser Satz macht sie vollstaendig.
+
+          Normale Fusszeilengroesse und -farbe, kein Kleingedrucktes: Auch
+          das ist Vorgabe, "blasse" oder versteckte Hinweise zaehlen nicht.
+        */}
+        <p className="mb-4 text-[0.88rem] text-leise">
+          {sprache === "en" ? KI_HINWEIS_EN : KI_HINWEIS}
         </p>
 
         <div className="flex flex-col gap-4 text-[0.88rem] text-leise sm:flex-row sm:items-center sm:justify-between">

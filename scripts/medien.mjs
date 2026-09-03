@@ -22,6 +22,48 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import sharp from "sharp";
 
+/*
+  Welche Bilder mit KI entstanden sind - dieselbe Liste, die auch die
+  Anzeige nutzt (lib/ki-medien.ts liest dieselbe Datei). Doppelt gepflegte
+  Listen wuerden auseinanderlaufen, und dann waere ein Bild entweder
+  unmarkiert oder falsch markiert.
+*/
+const kiListe = JSON.parse(
+  await readFile(new URL("../lib/ki-medien.json", import.meta.url), "utf8"),
+);
+const KI_BILDER = new Set(kiListe.bilder);
+
+/**
+ * Maschinenlesbare Herkunftsangabe nach IPTC.
+ *
+ * Ergaenzt die sichtbare Kennzeichnung am Bild, ersetzt sie NICHT: Artikel
+ * 50 der EU-KI-Verordnung verlangt ausdruecklich eine fuer Menschen
+ * wahrnehmbare Angabe, eine reine Dateimarkierung genuegt dafuer nicht.
+ * Ihr Nutzen liegt woanders - Google liest dieses Feld und kennzeichnet
+ * Treffer in der Bildersuche entsprechend. Kostet nichts und aendert am
+ * Bild selbst nichts.
+ *
+ * `trainedAlgorithmicMedia` ist der IPTC-Code fuer "mit einem trainierten
+ * Modell erzeugt".
+ */
+function xmpFuerKi(beschreibung) {
+  const text = beschreibung.replace(/[<>&]/g, (z) =>
+    z === "<" ? "&lt;" : z === ">" ? "&gt;" : "&amp;",
+  );
+  return `<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:Iptc4xmpExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+   <Iptc4xmpExt:DigitalSourceType>http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia</Iptc4xmpExt:DigitalSourceType>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">${text}</rdf:li></rdf:Alt></dc:description>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>`;
+}
+
 const ausfuehren = promisify(execFile);
 const WURZEL = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -250,6 +292,7 @@ async function bilderVerarbeiten() {
 
     const quelle = sharp(roh);
     const { width: originalBreite } = await quelle.metadata();
+    const xmp = xmpFuerKi(bild.alt);
 
     for (const breite of BREITEN) {
       // Nicht ueber die Originalgroesse hinaus hochrechnen - das erzeugt nur
@@ -257,10 +300,11 @@ async function bilderVerarbeiten() {
       if (originalBreite && breite > originalBreite) continue;
 
       const hoehe = Math.round(breite / bild.seitenverhaeltnis);
-      const basis = sharp(roh).resize(breite, hoehe, {
+      let basis = sharp(roh).resize(breite, hoehe, {
         fit: "cover",
         position: bild.zuschnitt,
       });
+      if (KI_BILDER.has(bild.name)) basis = basis.withXmp(xmp);
 
       await basis
         .clone()
@@ -274,11 +318,13 @@ async function bilderVerarbeiten() {
     }
 
     // Ein JPEG als letzte Rueckfalloption fuer sehr alte Browser.
-    await sharp(roh)
-      .resize(1600, Math.round(1600 / bild.seitenverhaeltnis), {
-        fit: "cover",
-        position: bild.zuschnitt,
-      })
+    let gross = sharp(roh).resize(
+      1600,
+      Math.round(1600 / bild.seitenverhaeltnis),
+      { fit: "cover", position: bild.zuschnitt },
+    );
+    if (KI_BILDER.has(bild.name)) gross = gross.withXmp(xmp);
+    await gross
       .jpeg({ quality: 78, mozjpeg: true })
       .toFile(join(ZIEL, "bilder", `${bild.name}.jpg`));
 

@@ -1,0 +1,17 @@
+{
+  "_hinweis": "Einzige Quelle dafuer, welche Medien mit KI entstanden sind. Gelesen von lib/ki-medien.ts (Anzeige) UND scripts/medien.mjs (XMP-Metadaten). Deshalb JSON und nicht TypeScript - das Bauskript kann kein TS lesen.",
+  "bilder": [
+    "hero",
+    "haende",
+    "behandlung",
+    "angehoerige",
+    "treppe",
+    "wohnraum",
+    "portraet",
+    "portraet-start",
+    "lymphdrainage",
+    "kinesiotaping",
+    "flur"
+  ],
+  "videos": []
+}

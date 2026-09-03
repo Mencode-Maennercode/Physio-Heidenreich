@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
+import KiZeichen from "@/components/KiZeichen";
 import { useRuhig } from "@/components/a11y/Einstellungen";
+import { KI_VIDEOS } from "@/lib/ki-medien";
 import { breiten } from "@/lib/bilder";
 import { cn } from "@/lib/utils";
 
@@ -93,10 +95,15 @@ export default function RuhigesVideo({
     </picture>
   );
 
+  /* Auch das Standbild braucht die Kennzeichnung: Bei "weniger Bewegung"
+     ist es das Einzige, was zu sehen ist. */
+  const ki = KI_VIDEOS.has(name);
+
   if (ruhig) {
     return (
       <div className={cn("relative overflow-hidden", className)}>
         {standbild}
+        {ki ? <KiZeichen /> : null}
       </div>
     );
   }
@@ -146,6 +153,8 @@ export default function RuhigesVideo({
           )}
         </button>
       ) : null}
+
+      {ki ? <KiZeichen /> : null}
     </div>
   );
 }

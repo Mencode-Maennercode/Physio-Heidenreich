@@ -1,4 +1,6 @@
 import { bilder, breiten, type BildName } from "@/lib/bilder";
+import KiZeichen from "@/components/KiZeichen";
+import { KI_BILDER } from "@/lib/ki-medien";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,6 +20,7 @@ export default function Bild({
   bildKlasse,
   groessen = "100vw",
   vorrang = false,
+  ohneKiZeichen = false,
 }: {
   name: BildName;
   alt?: string;
@@ -27,6 +30,15 @@ export default function Bild({
   groessen?: string;
   /** Nur fuer das erste sichtbare Bild einer Seite setzen. */
   vorrang?: boolean;
+  /**
+   * Kennzeichnung hier weglassen, weil sie ein aeusserer Rahmen setzt.
+   *
+   * Noetig bei ParallaxBild: Das Bild liegt dort in einem absichtlich zu
+   * grossen Kasten, der ueber alle Raender hinausragt und beschnitten wird -
+   * ein Zeichen an seiner Unterkante laege ausserhalb des Sichtbaren. Es
+   * gehoert dann an den aeusseren, sichtbaren Rahmen.
+   */
+  ohneKiZeichen?: boolean;
 }) {
   const daten = bilder[name];
   const quelle = (endung: "avif" | "webp") =>
@@ -34,8 +46,17 @@ export default function Bild({
       .map((b) => `/media/bilder/${name}-${b}.${endung} ${b}w`)
       .join(", ");
 
-  return (
-    <picture className={cn("block", className)}>
+  const ki = KI_BILDER.has(name) && !ohneKiZeichen;
+
+  /*
+    Ohne KI-Kennzeichnung bleibt alles wie bisher: ein <picture>, das die
+    uebergebenen Klassen traegt. Mit Kennzeichnung kommt eine Huelle darum,
+    die die Klassen uebernimmt - das Zeichen braucht einen Bezugsrahmen, an
+    dem es sich ausrichten kann, und <picture> darf laut Norm nur <source>
+    und <img> enthalten.
+  */
+  const inhalt = (
+    <picture className={cn("block", ki ? "h-full w-full" : className)}>
       <source type="image/avif" srcSet={quelle("avif")} sizes={groessen} />
       <source type="image/webp" srcSet={quelle("webp")} sizes={groessen} />
       <img
@@ -60,5 +81,14 @@ export default function Bild({
         }
       />
     </picture>
+  );
+
+  if (!ki) return inhalt;
+
+  return (
+    <span className={cn("relative block", className)}>
+      {inhalt}
+      <KiZeichen />
+    </span>
   );
 }

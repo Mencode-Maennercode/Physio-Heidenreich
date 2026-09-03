@@ -4,6 +4,7 @@ import { useRef, type CSSProperties } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import KiZeichen from "@/components/KiZeichen";
 import { useRuhig } from "@/components/a11y/Einstellungen";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ export default function ParallaxBild({
   style,
   staerke = 18,
   fokusY = 50,
+  ki = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -47,6 +49,16 @@ export default function ParallaxBild({
    * vom oberen Bildrand sichtbar), bei 100 umgekehrt.
    */
   fokusY?: number;
+  /**
+   * KI-Kennzeichnung an den sichtbaren Rahmen setzen.
+   *
+   * Sie kann nicht am Bild selbst haengen: Der innere Kasten ragt bewusst
+   * ueber alle Raender hinaus (siehe unten) und wird beschnitten - ein
+   * Zeichen an seiner Unterkante waere unsichtbar. Das Bild bekommt
+   * deshalb `ohneKiZeichen`, und hier steht es an der Stelle, die man
+   * wirklich sieht.
+   */
+  ki?: boolean;
 }) {
   const rahmen = useRef<HTMLDivElement>(null);
   const bild = useRef<HTMLDivElement>(null);
@@ -90,6 +102,7 @@ export default function ParallaxBild({
       >
         {children}
       </div>
+      {ki ? <KiZeichen /> : null}
     </div>
   );
 }
