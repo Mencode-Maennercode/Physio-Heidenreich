@@ -135,8 +135,8 @@ export default function Fusszeile() {
           >
             112
           </a>
-          , bei dringenden ärztlichen Fragen außerhalb der Sprechzeiten den
-          ärztlichen Bereitschaftsdienst unter{" "}
+          , bei dringenden ärztlichen Fragen außerhalb der Sprechzeiten
+          erreichen Sie den ärztlichen Bereitschaftsdienst unter{" "}
           <a
             href="tel:116117"
             className="font-medium text-text underline underline-offset-4"

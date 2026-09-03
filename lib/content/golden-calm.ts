@@ -65,7 +65,7 @@ export const hero = {
 export const konzept = {
   kicker: "Das Konzept",
   titel: "Therapie, die sich Ihrem Leben anpasst – nicht umgekehrt.",
-  text: "Sie bleiben zuhause. Ich bringe alles mit, was für die Behandlung nötig ist, und arbeite in der Umgebung, in der Sie sich ohnehin bewegen. Das macht Fortschritte im Alltag sofort sichtbar.",
+  text: "Sie bleiben zu Hause. Ich bringe alles mit, was für die Behandlung nötig ist, und arbeite in der Umgebung, in der Sie sich ohnehin bewegen. Das macht Fortschritte im Alltag sofort sichtbar.",
   karten: [
     {
       nummer: "01",
