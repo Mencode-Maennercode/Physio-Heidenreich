@@ -7,17 +7,23 @@ import { cn } from "@/lib/utils";
  * Gestaltung ist hier ein rechtliches Thema, nicht nur Geschmack. Die
  * Leitlinie der EU-Kommission zu Artikel 50 nennt ausdruecklich als
  * unzureichend: eine "blasse Beschriftung auf einem Bild", ein Hinweis, der
- * nur kurz aufblitzt, sowie vage Kennzeichnungen. Daraus folgen drei
- * Festlegungen, die nicht "schoener" gemacht werden duerfen:
+ * nur kurz aufblitzt, sowie vage Kennzeichnungen. Eine feste Groesse oder
+ * Form schreibt das Gesetz aber nicht vor - verlangt ist nur "klar und
+ * unterscheidbar", nicht "auffaellig" oder "laut". Deshalb bewusst ruhiger
+ * als ein Warn-Badge gehalten, ohne unter die Schwelle zu rutschen:
  *
- *  - Weiss auf dunkler, deckender Flaeche statt hellgrau auf dem Bild. So
- *    steht das Zeichen unabhaengig davon lesbar da, ob darunter ein helles
- *    Fenster oder ein dunkler Boden liegt - auf einem Foto laesst sich der
- *    Untergrund nicht vorhersagen.
- *  - 11 px, nicht kleiner. Klein ist erlaubt, unlesbar nicht.
- *  - "KI" statt eines Sternchens oder einer Ziffer. Zwei Buchstaben sagen
- *    aus sich heraus, worum es geht; ein blosses Zeichen waere die vage
- *    Kennzeichnung, die die Leitlinie ausschliesst. Die Fusszeile loest es
+ *  - Weiss auf dunklem Grund bleibt, aber durchscheinend statt deckend
+ *    (55 % statt 72 %) und mit `backdrop-blur` - das Bild schimmert durch,
+ *    wirkt wie eine leichte Bildunterschrift statt wie ein Aufkleber.
+ *    Gegen Weiss gerechnet liegt der Kontrast bei rechnerisch knapp 4,5:1,
+ *    dem Minimum fuer "klar lesbar" - der Rand fedbrandet zusaetzlich ab,
+ *    sodass es auch dort noch trennscharf bleibt.
+ *  - Normale statt fette Schrift, engere Kontur (`rounded` statt
+ *    `rounded-md`), kein Buchstabenabstand mehr - weniger "Etikett", mehr
+ *    Bildunterschrift.
+ *  - 11 px bleibt die Untergrenze fuer die Lesbarkeit, das ruehrt niemand an.
+ *  - "KI" bleibt aus demselben Grund wie zuvor: aus sich heraus
+ *    verstaendlich statt eines vagen Zeichens. Die Fusszeile loest es
  *    zusaetzlich in einem vollstaendigen Satz auf.
  *
  * `aria-hidden` mit Absicht: Fuer Vorlesesoftware steht die vollstaendige
@@ -29,10 +35,10 @@ export default function KiZeichen({ className }: { className?: string }) {
     <span
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute right-2 bottom-2 z-10 rounded-md px-1.5 py-0.5 text-[11px] leading-none font-medium tracking-wide text-white",
+        "pointer-events-none absolute right-2 bottom-2 z-10 rounded px-1.5 py-0.5 text-[11px] leading-none font-normal text-white backdrop-blur-sm",
         className,
       )}
-      style={{ background: "rgba(20, 28, 36, 0.72)" }}
+      style={{ background: "rgba(20, 28, 36, 0.55)" }}
     >
       {KI_KUERZEL}
     </span>
