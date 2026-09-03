@@ -29,13 +29,20 @@ import { cn } from "@/lib/utils";
  * `aria-hidden` mit Absicht: Fuer Vorlesesoftware steht die vollstaendige
  * Aussage im Fusszeilensatz - dort als ganzer Satz, nicht als zwei
  * Buchstaben, die vorgelesen "kah ih" ergeben wuerden.
+ *
+ * `z-20`, nicht `z-10`: Im Hero-Video (siehe GcHero.tsx) legt sich auf dem
+ * Handy die Merkmalsleiste mit demselben `z-10` und spaeterer
+ * Reihenfolge im Quelltext ueber die untere rechte Ecke - genau dort, wo
+ * dieses Zeichen sitzt. Bei gleichem Wert entscheidet die Reihenfolge, und
+ * das Zeichen verschwand darunter. Eine Stufe hoeher gewinnt es unabhaengig
+ * davon, was später im Quelltext folgt.
  */
 export default function KiZeichen({ className }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute right-2 bottom-2 z-10 rounded px-1.5 py-0.5 text-[11px] leading-none font-normal text-white backdrop-blur-sm",
+        "pointer-events-none absolute right-2 bottom-2 z-20 rounded px-1.5 py-0.5 text-[11px] leading-none font-normal text-white backdrop-blur-sm",
         className,
       )}
       style={{ background: "rgba(20, 28, 36, 0.55)" }}

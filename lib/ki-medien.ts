@@ -42,9 +42,13 @@ export const KI_BILDER: ReadonlySet<string> = new Set(liste.bilder);
 /**
  * Videonamen aus components/RuhigesVideo.tsx, die mit KI entstanden sind.
  *
- * Noch leer und bewusst so: Die Herkunft der drei Clips ist nicht sicher
- * geklaert. Sobald feststeht, welche davon KI sind, gehoeren sie in die
- * JSON-Datei - dann erscheint das Kuerzel automatisch auch dort.
+ * Nur "hero": Das ist der einzige der drei Clips, der tatsaechlich mit KI
+ * erzeugt wurde. Behandlung und Ablauf sind reale Aufnahmen mit hoechstens
+ * technischer Nachbearbeitung (Schnitt, Farbe, Kompression) - nichts, das
+ * einen Eindruck erweckt, der nicht stimmt, und damit ausserhalb dessen,
+ * was Artikel 50 als offenlegungspflichtig meint. Zur Erinnerung: Die
+ * Pflicht greift bei Inhalten, die kuenstlich erzeugt wurden UND echt
+ * wirken koennten - nicht bei jeder Art von Videobearbeitung.
  */
 export const KI_VIDEOS: ReadonlySet<string> = new Set(liste.videos);
 

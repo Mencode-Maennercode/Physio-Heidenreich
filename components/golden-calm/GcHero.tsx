@@ -179,6 +179,13 @@ export default function GcHero({
                WCAG 2.2.2 nicht, und der Knopf darf weg. Siehe die
                ausfuehrliche Begruendung an der Eigenschaft selbst. */
               bedienbar={false}
+              /* Auf dem Handy legt sich die Merkmalsleiste weiter unten
+                 ueber die untere Bildkante - eine Kennzeichnung dort waere
+                 fuer sehende Nutzer nicht mehr wahrnehmbar. Oben rechts
+                 gibt es diese Ueberlappung nicht. Ab sm liegt das Video in
+                 seiner eigenen Box ohne Overlay, dort bleibt die gewohnte
+                 untere Ecke. */
+              kiKlasse="top-2 right-2 bottom-auto sm:top-auto sm:bottom-2"
             />
 
             {/*

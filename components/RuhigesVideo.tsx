@@ -25,6 +25,7 @@ export default function RuhigesVideo({
   videoKlasse,
   schleife = true,
   bedienbar = true,
+  kiKlasse,
 }: {
   name: "hero" | "behandlung" | "ablauf";
   /** Was zu sehen ist - fuer alle, die das Bild nicht sehen. */
@@ -51,6 +52,18 @@ export default function RuhigesVideo({
    * Voreinstellung und die Ausnahme muss ausdruecklich gesetzt werden.
    */
   bedienbar?: boolean;
+  /**
+   * Abweichende Position der KI-Kennzeichnung fuer diesen einen Aufruf.
+   *
+   * Noetig beim Hero-Video: Dort legt sich auf dem Handy die
+   * Merkmalsleiste ueber die untere Bildkante - accessibility-technisch
+   * unproblematisch (die Kennzeichnung bleibt im DOM und wird vorgelesen),
+   * aber fuer sehende Nutzer nicht mehr an der Stelle sichtbar, an der ein
+   * Zeichen "beim ersten Kontakt" auch wahrgenommen werden kann. GcHero.tsx
+   * setzt die Ecke fuer diesen Fall auf oben rechts, ausserhalb der
+   * Ueberlappung.
+   */
+  kiKlasse?: string;
 }) {
   const ruhig = useRuhig();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -103,7 +116,7 @@ export default function RuhigesVideo({
     return (
       <div className={cn("relative overflow-hidden", className)}>
         {standbild}
-        {ki ? <KiZeichen /> : null}
+        {ki ? <KiZeichen className={kiKlasse} /> : null}
       </div>
     );
   }
@@ -154,7 +167,7 @@ export default function RuhigesVideo({
         </button>
       ) : null}
 
-      {ki ? <KiZeichen /> : null}
+      {ki ? <KiZeichen className={kiKlasse} /> : null}
     </div>
   );
 }
