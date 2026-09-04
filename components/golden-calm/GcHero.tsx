@@ -181,13 +181,6 @@ export default function GcHero({
                ohne Endlosschleife (schleife={false}) mildert das etwas,
                ein Wiederspruch zur reinen Lehre bleibt es. */
               bedienbar={false}
-              /* Auf dem Handy legt sich die Merkmalsleiste weiter unten
-                 ueber die untere Bildkante - eine Kennzeichnung dort waere
-                 fuer sehende Nutzer nicht mehr wahrnehmbar. Oben rechts
-                 gibt es diese Ueberlappung nicht. Ab sm liegt das Video in
-                 seiner eigenen Box ohne Overlay, dort bleibt die gewohnte
-                 untere Ecke. */
-              kiKlasse="top-2 right-2 bottom-auto sm:top-auto sm:bottom-2"
             />
 
             {/*
@@ -313,6 +306,53 @@ export default function GcHero({
             </h1>
 
             {/*
+              Merkmalsleiste, nur fuer das Handy ein zweites Mal gerendert.
+
+              Auf dem Handy lag sie vorher als eigener Abschnitt unter dem
+              Video und ueberlagerte dessen untere Kante (negativer
+              Aussenabstand). Das deckte zu viel vom Video ab. Sie steht
+              jetzt stattdessen hier, zwischen Ueberschrift und Name - an
+              der Desktop-Fassung weiter unten (sm:hidden dort) aendert das
+              nichts, `sm:hidden` blendet dieses zweite Vorkommen ab 640 px
+              wieder aus. Keine Dopplung fuer Vorlesesoftware: Ein per
+              `display: none` verstecktes Element bleibt aus dem
+              Accessibility-Baum aussen vor.
+
+              Ohne `huelle`-Klasse: Die steht schon auf der umschliessenden
+              Textspalte, ein zweites Mal wuerde den seitlichen Abstand
+              verdoppeln.
+            */}
+            <ul
+              className="gc-merkmale gc-hero-teil grid grid-cols-3 gap-x-3 gap-y-6 sm:hidden"
+              style={{ "--auftritt-verzug": "0.17s" } as React.CSSProperties}
+            >
+              {hero.merkmale.map((merkmal) => {
+                const Symbol = SYMBOLE[merkmal.symbol];
+                return (
+                  <li
+                    key={merkmal.titel}
+                    className="flex min-w-0 flex-col items-center gap-1.5 text-center sm:gap-2"
+                  >
+                    <Symbol
+                      className="size-[1.15rem] flex-none text-[#D9BE93] sm:size-6 sm:text-[#6E5940]"
+                      strokeWidth={1.4}
+                      aria-hidden="true"
+                    />
+                    <span className="w-full text-[0.7rem] leading-tight font-medium hyphens-manual text-[#F4EEE3] sm:text-balance sm:text-[clamp(0.85rem,1.6vw,1rem)] sm:hyphens-auto sm:text-[color:var(--gc-text)]">
+                      {merkmal.titel}
+                    </span>
+                    <span
+                      className="hidden w-full text-[0.85rem] leading-tight text-balance sm:block"
+                      style={{ color: "var(--gc-text-fein)" }}
+                    >
+                      {merkmal.text}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/*
               Name und Abschluesse direkt unter der Ueberschrift.
 
               Beide Grade stehen MIT Fachrichtung - das ist im Heilberuf
@@ -324,21 +364,29 @@ export default function GcHero({
               gefuehrt werden duerfen - ein abgeschlossenes Studium ist hier
               ein Unterscheidungsmerkmal, kein Makel.
             */}
+            {/* Auf dem Handy steht Name/Abschluss stattdessen UNTER dem
+                Video (eigener Block weiter unten, order-3) - hier bleibt
+                die Fassung deshalb nur ab sm sichtbar. */}
             <p
-              className="gc-hero-teil mb-1 text-[0.98rem] font-medium sm:mb-2 sm:text-[1.05rem]"
+              className="gc-hero-teil mb-1 hidden text-[0.98rem] font-medium sm:mb-2 sm:block sm:text-[1.05rem]"
               style={{ color: "var(--gc-text)", "--auftritt-verzug": "0.21s" } as React.CSSProperties}
             >
               {person.name}
             </p>
             <p
-              className="gc-hero-teil mb-4 text-[0.85rem] leading-snug sm:mb-7 sm:text-[0.92rem] sm:leading-relaxed"
+              className="gc-hero-teil mb-4 hidden text-[0.85rem] leading-snug sm:mb-7 sm:block sm:text-[0.92rem] sm:leading-relaxed"
               style={{ color: "var(--gc-text-fein)", "--auftritt-verzug": "0.27s" } as React.CSSProperties}
             >
               {person.titel}
             </p>
 
+            {/* Auf dem Handy weggelassen: Zwischen Kicker, Ueberschrift,
+                Merkmalsleiste und Name/Abschluessen war hier kein Platz
+                mehr, ohne dass der Hero eine weitere Bildschirmlaenge
+                wuchs - die Aussage steckt ohnehin schon in den drei
+                Merkmalen darueber. */}
             <p
-              className="gc-hero-teil mb-5 max-w-[28em] text-[0.98rem] leading-[1.6] sm:mb-9 sm:text-[1.1rem] sm:leading-[1.7]"
+              className="gc-hero-teil mb-5 hidden max-w-[28em] text-[0.98rem] leading-[1.6] sm:mb-9 sm:block sm:text-[1.1rem] sm:leading-[1.7]"
               style={{ color: "var(--gc-text-leise)", "--auftritt-verzug": "0.34s" } as React.CSSProperties}
             >
               {hero.text}
@@ -378,6 +426,26 @@ export default function GcHero({
             </div>
           </div>
         </div>
+
+        {/* Name/Abschluss auf dem Handy: eigener Block NACH dem Video
+            (order-3, video ist order-2) - ab sm ausgeblendet, dort steht
+            die Fassung weiter oben im normalen Textfluss (siehe dort). */}
+        <div className="huelle order-3 w-full min-w-0 pt-4 pb-5 sm:hidden">
+          <div className="max-w-[32rem]">
+            <p
+              className="gc-hero-teil mb-1 text-[0.98rem] font-medium"
+              style={{ color: "var(--gc-text)", "--auftritt-verzug": "0.36s" } as React.CSSProperties}
+            >
+              {person.name}
+            </p>
+            <p
+              className="gc-hero-teil text-[0.85rem] leading-snug"
+              style={{ color: "var(--gc-text-fein)", "--auftritt-verzug": "0.4s" } as React.CSSProperties}
+            >
+              {person.titel}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/*
@@ -410,7 +478,10 @@ export default function GcHero({
         Ab sm stehen sie wieder unter dem Video auf cremefarbenem Grund -
         dort ist Platz, und das Video liegt in seiner eigenen Box rechts.
       */}
-      <div className="relative z-10 -mt-[6.25rem] sm:mt-0">
+      {/* Ab sm unveraendert die urspruengliche Leiste unter dem Video. Auf
+          dem Handy jetzt ausgeblendet - dort steht ihr Inhalt bereits
+          weiter oben, zwischen Ueberschrift und Name (siehe dort). */}
+      <div className="relative z-10 hidden -mt-[6.25rem] sm:mt-0 sm:block">
         <ul
           className="gc-hero-teil gc-merkmale huelle grid grid-cols-3 gap-x-3 gap-y-6 sm:gap-x-8"
           style={{ "--auftritt-verzug": "0.55s" } as React.CSSProperties}

@@ -45,7 +45,7 @@ export default function KiZeichen({ className }: { className?: string }) {
         "pointer-events-none absolute right-2 bottom-2 z-20 rounded px-1.5 py-0.5 text-[11px] leading-none font-normal text-white backdrop-blur-sm",
         className,
       )}
-      style={{ background: "rgba(20, 28, 36, 0.55)" }}
+      style={{ background: "rgba(28, 28, 28, 0.55)" }}
     >
       {KI_KUERZEL}
     </span>

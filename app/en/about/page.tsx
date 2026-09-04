@@ -68,6 +68,7 @@ export default function AboutPage() {
               className="aspect-4/5 overflow-hidden"
               groessen="(min-width: 1024px) 34vw, 100vw"
               vorrang
+              ohneKiZeichen
             />
             <div
               aria-hidden="true"

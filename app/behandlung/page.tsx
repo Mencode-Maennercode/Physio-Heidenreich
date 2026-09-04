@@ -29,7 +29,6 @@ import {
   schwerpunkt,
   warumZuHause,
   weitereBehandlungen,
-  wohnungsweg,
 } from "@/lib/content/behandlung";
 
 export const metadata: Metadata = {
@@ -261,9 +260,6 @@ export default function BehandlungSeite() {
             fort - dort grundsätzlich, hier an fünf konkreten Stellen.
             ------------------------------------------------------------------ */}
         <section className="auf-warm">
-          <div className="huelle pt-[var(--sektion-luft)] lg:hidden">
-            <p className="text-leise">{wohnungsweg.text}</p>
-          </div>
           <Wohnungsweg />
         </section>
 

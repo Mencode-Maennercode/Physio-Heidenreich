@@ -53,11 +53,11 @@ export const KI_BILDER: ReadonlySet<string> = new Set(liste.bilder);
 export const KI_VIDEOS: ReadonlySet<string> = new Set(liste.videos);
 
 /** Das Kuerzel am Medium selbst. Kurz, aber aus sich heraus verstaendlich. */
-export const KI_KUERZEL = "KI";
+export const KI_KUERZEL = "AI";
 
 /** Die Aufloesung in der Fusszeile. */
 export const KI_HINWEIS =
-  "KI — Bilder und Videos auf dieser Website wurden mit künstlicher Intelligenz bearbeitet oder erstellt.";
+  "AI — Bilder und Videos auf dieser Website wurden mit künstlicher Intelligenz bearbeitet oder erstellt.";
 
 /** Dasselbe auf Englisch, fuer /en/. */
 export const KI_HINWEIS_EN =

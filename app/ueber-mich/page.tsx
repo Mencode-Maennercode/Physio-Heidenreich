@@ -42,35 +42,49 @@ export default function UeberMichSeite() {
         className="bg-grund-warm pb-[clamp(3rem,6vw,5rem)]"
         style={{ paddingTop: "calc(var(--kopf-hoehe, 7.5rem) + 2.5rem)" }}
       >
+        {/*
+          Auf dem Handy steht das Foto zwischen Kopf und Einleitung, nicht
+          erst danach - sonst ist es beim Oeffnen der Seite ohne Scrollen
+          nicht zu sehen (zwei Absaetze Einleitung gehen dem sonst voraus).
+          `order` regelt das auf dem Handy (einspaltiges Raster, also reine
+          Reihenfolge); ab lg zaehlt wieder die DOM-Reihenfolge
+          (`lg:order-none`), und das Foto bekommt seinen Platz explizit
+          zugewiesen (`lg:row-span-2`), damit es ueber beide Textbloecke
+          reicht wie zuvor.
+        */}
         <div className="huelle grid items-end gap-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[1fr_0.75fr]">
-          <div>
+          <div className="order-1 lg:order-none">
             <p className="augenbraue">{kopf.augenbraue}</p>
             <h1 className="schrift-display titel-gross mt-7">{kopf.titel}</h1>
             <p className="mt-4 text-[1.05rem] text-leise">
               {kopf.untertitel} · {grade.kurz}
             </p>
-
-            <div className="lesespalte-weit mt-9 flex flex-col gap-5 text-[1.1rem]">
-              {einleitung.absaetze.map((absatz) => (
-                <p key={absatz}>{absatz}</p>
-              ))}
-            </div>
           </div>
 
           {/* Ohne Gegenbewegung: Das Portraet ist eng geschnitten, jede
               zusaetzliche Verschiebung ginge an Kopf oder Kinn. */}
-          <BildWischer className="relative" tiefe={false}>
+          <BildWischer
+            className="relative order-2 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1"
+            tiefe={false}
+          >
             <Bild
               name="portraet"
               className="aspect-4/5 overflow-hidden"
               groessen="(min-width: 1024px) 34vw, 100vw"
               vorrang
+              ohneKiZeichen
             />
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -inset-3 border border-akzent/40"
             />
           </BildWischer>
+
+          <div className="lesespalte-weit order-3 flex flex-col gap-5 text-[1.1rem] lg:order-none">
+            {einleitung.absaetze.map((absatz) => (
+              <p key={absatz}>{absatz}</p>
+            ))}
+          </div>
         </div>
       </section>
 
