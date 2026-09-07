@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Mail, Send } from "lucide-react";
+import { CheckCircle2, Loader2, Mail, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
  *   2. Zeitmessung - unter drei Sekunden hat kein Mensch getippt
  */
 
-type Zustand = "leer" | "sendet" | "gesendet" | "fehler";
+type Zustand = "leer" | "sendet" | "gesendet" | "bereits" | "fehler";
 
 const PFLICHT = ["name", "telefon", "ort"] as const;
 
@@ -137,13 +137,21 @@ export default function Formular({
           deutschen Satz mit - etwa die 60-Sekunden-Sperre gegen doppeltes
           Absenden. Den zeigen wir, statt ihn wegzuwerfen: "Bitte warten Sie
           einen Moment" ist etwas voellig anderes als "hat nicht geklappt".
+
+          429 ist dabei kein Fehlschlag: Die Sperre in kontakt.php greift
+          erst NACH einem geglueckten Versand (siehe SPERRE dort). Wer
+          hierher zurueckkommt, hat also bereits erfolgreich gesendet -
+          das soll auch so aussehen und nicht wie ein Fehler in Rot.
         */
         const text = (await antwort.text().catch(() => "")).trim();
-        setzeZustand("fehler");
+        const bereitsVersendet = antwort.status === 429;
+        setzeZustand(bereitsVersendet ? "bereits" : "fehler");
         setzeMeldung(
           text !== "" && text.length < 300
             ? text
-            : "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
+            : bereitsVersendet
+              ? "Ihre Nachricht wurde bereits versendet. Ich melde mich umgehend bei Ihnen."
+              : "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
         );
         return;
       }
@@ -355,10 +363,15 @@ export default function Formular({
           role="status"
           aria-live="polite"
           className={cn(
-            "text-[0.95rem]",
-            zustand === "fehler" ? "text-[#9a3412]" : "text-leise",
+            "inline-flex items-center gap-2 text-[0.95rem]",
+            zustand === "fehler" && "text-[#9a3412]",
+            zustand === "bereits" && "text-erfolg",
+            zustand !== "fehler" && zustand !== "bereits" && "text-leise",
           )}
         >
+          {zustand === "bereits" && (
+            <CheckCircle2 className="size-4 flex-none" aria-hidden="true" />
+          )}
           {meldung}
         </p>
       </div>

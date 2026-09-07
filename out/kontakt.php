@@ -89,13 +89,24 @@ function antworten(int $status, string $text, bool $perFetch, string $ziel = '')
         exit;
     }
 
+    /*
+      429 ist kein Fehlschlag, sondern die Sperre gegen doppeltes Senden -
+      die greift erst NACH einem geglueckten Versand. Wer ohne JavaScript
+      hier landet, soll nicht "Das hat nicht geklappt" lesen, wo eigentlich
+      "Ihre Nachricht ist angekommen" gemeint ist.
+    */
+    $titel = $status === 429 ? 'Nachricht bereits angekommen' : 'Das hat nicht geklappt';
+    $seitentitel = $status === 429
+        ? 'Nachricht bereits angekommen'
+        : 'Nachricht konnte nicht gesendet werden';
+
     http_response_code($status);
     header('Content-Type: text/html; charset=utf-8');
     echo '<!doctype html><html lang="de"><head><meta charset="utf-8">'
         . '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        . '<title>Nachricht konnte nicht gesendet werden</title></head><body '
+        . '<title>' . htmlspecialchars($seitentitel, ENT_QUOTES) . '</title></head><body '
         . 'style="font-family:system-ui,sans-serif;max-width:34rem;margin:12vh auto;padding:0 1.5rem;line-height:1.7;color:#252a2a">'
-        . '<h1 style="font-weight:400">Das hat nicht geklappt</h1><p>' . htmlspecialchars($text, ENT_QUOTES) . '</p>'
+        . '<h1 style="font-weight:400">' . htmlspecialchars($titel, ENT_QUOTES) . '</h1><p>' . htmlspecialchars($text, ENT_QUOTES) . '</p>'
         . '<p><a href="/kontakt/">Zurück zum Kontaktformular</a></p></body></html>';
     exit;
 }
@@ -161,8 +172,8 @@ $spur = sys_get_temp_dir() . '/nh-kontakt-' . md5($adresse);
 if (is_file($spur) && (time() - (int) filemtime($spur)) < SPERRE) {
     antworten(
         429,
-        'Ihre Nachricht ist bereits angekommen - Sie brauchen sie nicht noch '
-            . 'einmal zu senden. Ich melde mich bei Ihnen.',
+        'Ihre Nachricht wurde bereits versendet. Ich melde mich umgehend bei '
+            . 'Ihnen. Vielen Dank!',
         $perFetch
     );
 }
