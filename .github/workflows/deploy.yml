@@ -16,7 +16,11 @@ name: Bauen und auf netcup hochladen
 
 on:
   push:
-    branches: [main]
+    # Der Branch dieses Repositorys heisst master. Hier stand vorher main -
+    # ein Branch, den es hier nie gab. Der Workflow ist deshalb bei keinem
+    # einzigen Push angelaufen; hochgeladen wurde nur, wenn jemand "Run
+    # workflow" von Hand angestossen hat.
+    branches: [master]
   workflow_dispatch:
 
 concurrency:

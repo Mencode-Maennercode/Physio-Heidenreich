@@ -150,10 +150,21 @@ if ($verweildauer > 0 && $verweildauer < 3000) {
 }
 
 // Einfache Bremse gegen wiederholtes Absenden von derselben Adresse.
+//
+// Die Spur wird erst nach einem geglueckten Versand gesetzt (siehe touch()
+// weiter unten). Wer hier landet, hat also nachweislich schon eine Nachricht
+// abgeschickt, die angekommen ist. Genau das sagt die Meldung auch - ein
+// blosses "Bitte warten" liest sich wie ein Fehlschlag und laedt dazu ein,
+// es gleich noch einmal zu versuchen.
 $adresse = $_SERVER['REMOTE_ADDR'] ?? 'unbekannt';
 $spur = sys_get_temp_dir() . '/nh-kontakt-' . md5($adresse);
 if (is_file($spur) && (time() - (int) filemtime($spur)) < SPERRE) {
-    antworten(429, 'Bitte warten Sie einen Moment, bevor Sie erneut senden.', $perFetch);
+    antworten(
+        429,
+        'Ihre Nachricht ist bereits angekommen - Sie brauchen sie nicht noch '
+            . 'einmal zu senden. Ich melde mich bei Ihnen.',
+        $perFetch
+    );
 }
 
 // --- Pflichtfelder ---------------------------------------------------------

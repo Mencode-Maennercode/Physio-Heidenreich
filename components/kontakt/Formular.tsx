@@ -109,29 +109,62 @@ export default function Formular({
     setzeZustand("sendet");
     setzeMeldung("Wird gesendet …");
 
+    /*
+      Nur der Netzwerkteil steht im try. Alles danach - Zurücksetzen der
+      Felder, Toast - liegt bewusst ausserhalb.
+
+      Grund: Hier stand einmal `e.currentTarget.reset()` INNERHALB des try,
+      hinter dem `await`. React setzt `currentTarget` nach dem synchronen
+      Durchlauf des Handlers auf null; nach einem `await` greift der Zugriff
+      also ins Leere und wirft. Dieser Wurf landete im catch darunter, das
+      den gerade gesetzten Erfolg wieder auf "fehler" drehte. Die Mail war
+      laengst raus - das Formular meldete trotzdem einen Fehlschlag.
+      Deshalb: Formular ueber die ref ansprechen, und im try steht nichts,
+      was nach erfolgreichem Versand noch scheitern koennte.
+    */
+    let ergebnis: { emailBestaetigt?: boolean } | null = null;
+
     try {
       const antwort = await fetch("/kontakt.php", {
         method: "POST",
         body: daten,
         headers: { "X-Angefordert-Mit": "fetch" },
       });
-      if (!antwort.ok) throw new Error(String(antwort.status));
-      const ergebnis = await antwort.json().catch(() => null);
 
-      setzeZustand("gesendet");
-      setzeMeldung(
-        "Ihre Nachricht ist angekommen. Ich melde mich zum gewünschten Zeitpunkt.",
-      );
-      if (ergebnis?.emailBestaetigt) {
-        setzeZeigeToast(true);
+      if (!antwort.ok) {
+        /*
+          kontakt.php schickt zu jedem Fehlschlag einen verstaendlichen
+          deutschen Satz mit - etwa die 60-Sekunden-Sperre gegen doppeltes
+          Absenden. Den zeigen wir, statt ihn wegzuwerfen: "Bitte warten Sie
+          einen Moment" ist etwas voellig anderes als "hat nicht geklappt".
+        */
+        const text = (await antwort.text().catch(() => "")).trim();
+        setzeZustand("fehler");
+        setzeMeldung(
+          text !== "" && text.length < 300
+            ? text
+            : "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
+        );
+        return;
       }
-      e.currentTarget.reset();
+
+      ergebnis = await antwort.json().catch(() => null);
     } catch {
       setzeZustand("fehler");
       setzeMeldung(
         "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
       );
+      return;
     }
+
+    setzeZustand("gesendet");
+    setzeMeldung(
+      "Ihre Nachricht ist angekommen. Ich melde mich zum gewünschten Zeitpunkt.",
+    );
+    if (ergebnis?.emailBestaetigt) {
+      setzeZeigeToast(true);
+    }
+    formular.current?.reset();
   };
 
   const toast = zeigeToast ? (
