@@ -44,11 +44,6 @@
   --ui-akzent-warm: var(--marke-petrol-dunkel); /* Akzent/Icons auf Greige - Champagner faellt dort auf 1,6:1 */
   --ui-aktion: var(--marke-petrol);
   --ui-aktion-hover: var(--marke-petrol-dunkel);
-  /* Eigene Rolle fuer positive Rueckmeldungen (z. B. "Nachricht angekommen"),
-     bewusst gruen statt Petrol - das Formular soll sich von einer echten
-     Fehlermeldung sofort unterscheiden. 6,96:1 auf Off-White, 6,28:1 auf
-     Sand, 5,05:1 auf Greige - durchgehend AA. */
-  --ui-erfolg: #2a5f42;
 
   /*
     Rollen NUR fuer Foto- und Video-Ueberlagerungen (Hero, Seitenkoepfe,
@@ -115,7 +110,6 @@ html[data-kontrast="hoch"] {
   --color-akzent-warm: var(--ui-akzent-warm);
   --color-aktion: var(--ui-aktion);
   --color-aktion-hover: var(--ui-aktion-hover);
-  --color-erfolg: var(--ui-erfolg);
 
   /* Nur fuer Foto-/Video-Ueberlagerungen - siehe Kommentar bei den Rollen oben. */
   --color-dunkel: var(--ui-medien);
@@ -843,10 +837,6 @@ html {
   --gc-braun: #5c4530;
   --gc-karte-rand: #ede6db;
   --gc-feld-rand: #ddd3c6;
-  /* Moosgruen statt des kuehleren Haupt-Gruens - passt neben Gold und Navy
-     besser als das teerige Gruen der Hauptpalette. 6,46:1 auf Creme,
-     5,28:1 auf Sekundaer - AA. Fuer positive Formular-Rueckmeldungen. */
-  --gc-erfolg: #43613a;
 
   /* Seitenrand der Golden-Calm-Abschnitte. Stand bisher als
      `px-[clamp(1.25rem,4vw,2.75rem)]` an jedem Abschnitt einzeln; die
@@ -924,7 +914,6 @@ html:not([data-bewegung="voll"]) .gc-schweben {
   --ui-akzent-warm: #6e5940; /* gepruefter Kicker-Ton, >=4.5:1 auf Creme/Sekundaer/Weiss */
   --ui-aktion: var(--gc-navy);
   --ui-aktion-hover: var(--gc-navy-dunkel);
-  --ui-erfolg: var(--gc-erfolg);
 
   color: var(--gc-text);
   background: var(--gc-bg);

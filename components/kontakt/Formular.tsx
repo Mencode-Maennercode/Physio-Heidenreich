@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, Loader2, Mail, Send } from "lucide-react";
+import { Loader2, Mail, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -21,9 +21,17 @@ import { cn } from "@/lib/utils";
  *   2. Zeitmessung - unter drei Sekunden hat kein Mensch getippt
  */
 
-type Zustand = "leer" | "sendet" | "gesendet" | "bereits" | "fehler";
+type Zustand = "leer" | "sendet" | "gesendet" | "fehler";
 
 const PFLICHT = ["name", "telefon", "ort"] as const;
+
+/*
+  Ein Text fuer zwei Wege: den frischen Versand und die 60-Sekunden-Sperre.
+  Beide enden fuer die absendende Person gleich - die Nachricht ist in der
+  Praxis - und sollen deshalb auch gleich aussehen.
+*/
+const ERFOLG =
+  "Ihre Nachricht ist angekommen. Ich melde mich zum gewünschten Zeitpunkt.";
 
 export default function Formular({
   kompakt = false,
@@ -41,6 +49,9 @@ export default function Formular({
    * - auch nicht ohne JavaScript, wo das normale POST greift. Die
    * vollstaendige Fassung mit Wunschzeit und Nachricht steht weiterhin auf
    * der Kontaktseite.
+   *
+   * Ausnahme ist das E-Mail-Feld: Es steht trotz seiner Optionalitaet auch
+   * hier, weil ohne Adresse keine Eingangsbestaetigung moeglich waere.
    */
   kompakt?: boolean;
 }) {
@@ -131,27 +142,34 @@ export default function Formular({
         headers: { "X-Angefordert-Mit": "fetch" },
       });
 
+      if (antwort.status === 429) {
+        /*
+          429 ist kein Fehlschlag, sondern die Sperre gegen doppeltes Senden -
+          sie greift in kontakt.php erst NACH einem geglueckten Versand (siehe
+          SPERRE dort). Fuer die absendende Person ist das Ergebnis damit
+          genau dasselbe wie bei einem frischen Versand: Die Nachricht liegt
+          in der Praxis. Deshalb dieselbe Bestaetigung wie sonst auch - ein
+          Sonderfall im Formular waere ein Sonderfall, den es fuer die
+          absendende Person gar nicht gibt.
+        */
+        setzeZustand("gesendet");
+        setzeMeldung(ERFOLG);
+        formular.current?.reset();
+        return;
+      }
+
       if (!antwort.ok) {
         /*
-          kontakt.php schickt zu jedem Fehlschlag einen verstaendlichen
-          deutschen Satz mit - etwa die 60-Sekunden-Sperre gegen doppeltes
-          Absenden. Den zeigen wir, statt ihn wegzuwerfen: "Bitte warten Sie
-          einen Moment" ist etwas voellig anderes als "hat nicht geklappt".
-
-          429 ist dabei kein Fehlschlag: Die Sperre in kontakt.php greift
-          erst NACH einem geglueckten Versand (siehe SPERRE dort). Wer
-          hierher zurueckkommt, hat also bereits erfolgreich gesendet -
-          das soll auch so aussehen und nicht wie ein Fehler in Rot.
+          kontakt.php schickt zu jedem echten Fehlschlag einen verstaendlichen
+          deutschen Satz mit - etwa welches Pflichtfeld fehlt. Den zeigen wir,
+          statt ihn wegzuwerfen.
         */
         const text = (await antwort.text().catch(() => "")).trim();
-        const bereitsVersendet = antwort.status === 429;
-        setzeZustand(bereitsVersendet ? "bereits" : "fehler");
+        setzeZustand("fehler");
         setzeMeldung(
           text !== "" && text.length < 300
             ? text
-            : bereitsVersendet
-              ? "Ihre Nachricht wurde bereits versendet. Ich melde mich umgehend bei Ihnen."
-              : "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
+            : "Das Senden hat nicht geklappt. Bitte rufen Sie an oder schreiben Sie eine E-Mail.",
         );
         return;
       }
@@ -166,9 +184,7 @@ export default function Formular({
     }
 
     setzeZustand("gesendet");
-    setzeMeldung(
-      "Ihre Nachricht ist angekommen. Ich melde mich zum gewünschten Zeitpunkt.",
-    );
+    setzeMeldung(ERFOLG);
     if (ergebnis?.emailBestaetigt) {
       setzeZeigeToast(true);
     }
@@ -276,16 +292,23 @@ export default function Formular({
         />
       </div>
 
+      {/*
+        Auch in der Kurzfassung, obwohl sie sonst nur Pflichtfelder zeigt:
+        Ohne Adresse kann kontakt.php keine Eingangsbestaetigung schicken -
+        das Feld ist die einzige Stelle, an der sie ueberhaupt entstehen
+        kann. Es bleibt optional, "drei Angaben genuegen" stimmt also
+        weiterhin; wer nichts eintraegt, bekommt einfach nur den Rueckruf.
+      */}
+      <Feld
+        name="email"
+        marke="E-Mail (optional)"
+        typ="email"
+        autoComplete="email"
+        hinweis="Für eine Bestätigung per E-Mail"
+      />
+
       {kompakt ? null : (
         <>
-          <Feld
-            name="email"
-            marke="E-Mail (optional)"
-            typ="email"
-            autoComplete="email"
-            hinweis="Falls Ihnen eine schriftliche Antwort lieber ist"
-          />
-
           <div>
             <label htmlFor="zeit" className="feld-marke">
               Wann rufe ich am besten an?
@@ -363,15 +386,10 @@ export default function Formular({
           role="status"
           aria-live="polite"
           className={cn(
-            "inline-flex items-center gap-2 text-[0.95rem]",
-            zustand === "fehler" && "text-[#9a3412]",
-            zustand === "bereits" && "text-erfolg",
-            zustand !== "fehler" && zustand !== "bereits" && "text-leise",
+            "text-[0.95rem]",
+            zustand === "fehler" ? "text-[#9a3412]" : "text-leise",
           )}
         >
-          {zustand === "bereits" && (
-            <CheckCircle2 className="size-4 flex-none" aria-hidden="true" />
-          )}
           {meldung}
         </p>
       </div>

@@ -42,7 +42,6 @@ const ABSENDER = 'noreply@nora-heidenreich.de';
 
 /** Fuer den Text der Eingangsbestaetigung an die anfragende Person. */
 const PRAXIS_NAME = 'Nora Heidenreich – Mobile Physiotherapie';
-const TELEFON_ANZEIGE = '02641 / 890 49 73';
 
 /** Wohin es ohne JavaScript nach dem Absenden geht. */
 const BESTAETIGUNG = '/kontakt/danke/';
@@ -185,6 +184,16 @@ $telefon = sauber($_POST['telefon'] ?? '', 60);
 $ort     = sauber($_POST['ort'] ?? '', 120);
 $email   = sauber($_POST['email'] ?? '', 180);
 $zeit    = sauber($_POST['zeit'] ?? 'egal', 40);
+
+/*
+  Ob ueberhaupt nach einer Wunschzeit gefragt wurde.
+
+  Die Kurzfassung des Formulars auf der Startseite zeigt das Feld nicht, es
+  kommt dort also gar nicht erst mit. Ohne diese Unterscheidung stuende in
+  der Eingangsbestaetigung "Gewuenschter Rueckruf: Egal" - eine Angabe, die
+  die anfragende Person nie gemacht hat.
+*/
+$zeitGefragt = isset($_POST['zeit']) && $_POST['zeit'] !== '';
 $nachricht = trim(strip_tags((string) ($_POST['nachricht'] ?? '')));
 $nachricht = mb_substr($nachricht, 0, 2000);
 
@@ -275,15 +284,20 @@ if ($email !== '') {
         'vielen Dank für Ihre Anfrage über die Website von ' . PRAXIS_NAME . '.',
         'Ihre Nachricht ist bei mir angekommen.',
         '',
-        'Gewünschter Rückruf: ' . ($zeiten[$zeit] ?? $zeit),
-        '',
+    ];
+
+    if ($zeitGefragt) {
+        $bestaetigungsZeilen[] = 'Gewünschter Rückruf: ' . ($zeiten[$zeit] ?? $zeit);
+        $bestaetigungsZeilen[] = '';
+    }
+
+    array_push(
+        $bestaetigungsZeilen,
         'Ich melde mich telefonisch bei Ihnen, um einen Termin zu besprechen.',
-        'Bei dringenden medizinischen Fragen wenden Sie sich bitte nicht per',
-        'E-Mail an mich, sondern rufen Sie mich direkt an: ' . TELEFON_ANZEIGE . '.',
         '',
         'Freundliche Grüße',
-        'Nora Heidenreich',
-    ];
+        'Nora Heidenreich'
+    );
 
     $bestaetigungBetreff = '=?UTF-8?B?' . base64_encode('Ihre Anfrage ist angekommen') . '?=';
 

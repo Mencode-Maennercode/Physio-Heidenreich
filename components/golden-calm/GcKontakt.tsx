@@ -134,7 +134,6 @@ export default function GcKontakt({
               "--ui-text": "var(--gc-text)",
               "--ui-text-leise": "var(--gc-text-leise)",
               "--ui-grund-warm": "var(--gc-bg-sekundaer)",
-              "--ui-erfolg": "var(--gc-erfolg)",
             } as React.CSSProperties
           }
         >
