@@ -61,6 +61,7 @@ export default function Formular({
   const [zeigeToast, setzeZeigeToast] = useState(false);
   const geoeffnet = useRef(Date.now());
   const formular = useRef<HTMLFormElement>(null);
+  const bestaetigung = useRef<HTMLDivElement>(null);
 
   /* Verschwindet von selbst - ein Toast, den man wegklicken muss, ist keiner. */
   useEffect(() => {
@@ -68,6 +69,35 @@ export default function Formular({
     const zeitgeber = setTimeout(() => setzeZeigeToast(false), 5000);
     return () => clearTimeout(zeitgeber);
   }, [zeigeToast]);
+
+  /*
+    Nach dem Absenden zur Bestaetigung scrollen.
+
+    Ohne das bleibt die Bestaetigung unsichtbar: Die vollstaendige Fassung
+    auf der Kontaktseite ist sieben Felder hoch, die Karte danach nur wenige
+    Zeilen. Beim Austausch schrumpft die Seite also um mehrere hundert Pixel,
+    die Scrollposition bleibt aber, wo sie war - und zeigt danach auf einen
+    Punkt unterhalb der Karte. Wer unten am Knopf stand, sah nach dem Klick
+    den Abschnitt HINTER dem Formular.
+
+    Ohne `behavior`, mit Absicht: Der Wert faellt damit auf `scroll-behavior`
+    aus dem Stylesheet zurueck. Das ist normal `smooth`, bei "weniger
+    Bewegung" (und bei prefers-reduced-motion) aber `auto` - siehe
+    globals.css. Ein fest gesetztes `smooth` wuerde diese Einstellung
+    uebergehen.
+
+    Nur scrollen, den Fokus bewusst NICHT setzen. Das waere die uebliche
+    Ergaenzung, verlangt hier aber, den Fokusrahmen der Karte zu
+    unterdruecken - und den zeichnet globals.css absichtlich auf alles, was
+    Fokus bekommt ("Fokus: immer sichtbar, nie wegoptimiert"). Ein 3 px
+    starker Rahmen um eine Dankesmeldung sieht aus wie eine Warnung; die
+    Regel dafuer auszuhebeln waere der schlechtere Tausch. Angesagt wird die
+    Karte ohnehin: `role="status"` meldet ihren Inhalt von selbst.
+  */
+  useEffect(() => {
+    if (zustand !== "gesendet") return;
+    bestaetigung.current?.scrollIntoView({ block: "center" });
+  }, [zustand]);
 
   /*
     Von "Rückruf anfragen" auf der Ablauf-Seite kommt man mit `#formular`
@@ -207,9 +237,15 @@ export default function Formular({
     return (
       <>
         {toast}
+        {/*
+          `scroll-mt-...` haelt die Karte unter der klebenden Kopfzeile frei,
+          falls der Browser sie doch am oberen Rand ausrichtet - dieselbe
+          Rechnung wie beim Anker auf der Kontaktseite.
+        */}
         <div
+          ref={bestaetigung}
           role="status"
-          className="rounded-lg border border-aktion bg-grund-warm p-[clamp(1.75rem,4vw,2.5rem)]"
+          className="scroll-mt-[calc(var(--kopf-hoehe,7.5rem)+1rem)] rounded-lg border border-aktion bg-grund-warm p-[clamp(1.75rem,4vw,2.5rem)]"
         >
           <h3 className="schrift-display titel-klein">
             Danke für Ihre Nachricht
