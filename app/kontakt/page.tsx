@@ -27,8 +27,10 @@ export default function KontaktSeite() {
       >
         <div className="huelle">
           <p className="augenbraue">Kontakt</p>
-          <h1 className="schrift-display titel-gross mt-7 max-w-[14ch]">
-            Am schnellsten geht es am Telefon
+          <h1 className="schrift-display titel-gross mt-7">
+            Am schnellsten
+            <br />
+            geht es am Telefon
           </h1>
           <p className="lesespalte-weit mt-7 text-[1.1rem]">
             Fünfzehn Minuten, kostenlos und unverbindlich. Danach wissen wir
@@ -190,7 +192,10 @@ export default function KontaktSeite() {
             ruhig. Die Eingabefelder tragen ohnehin nur eine Unterstreichung
             und keinen eigenen Füllton, ihnen ist der Untergrund gleich.
           */}
-          <div className="min-w-0">
+          <div
+            id="formular"
+            className="min-w-0 scroll-mt-[calc(var(--kopf-hoehe,7.5rem)+1rem)]"
+          >
             <Enthuellen>
               <div
                 className="rounded-[24px] p-[clamp(1.5rem,4vw,2.5rem)]"

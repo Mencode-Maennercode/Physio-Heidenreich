@@ -4,7 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { Mail, Menu, Phone, X } from "lucide-react";
 import Logo from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
 import SmsKnopf from "./SmsKnopf";
@@ -251,9 +251,13 @@ export default function Kopfzeile() {
               </span>
             </a>
 
-            <div className="hidden sm:block">
-              <SmsKnopf nurSymbol />
-            </div>
+            <a
+              href={`mailto:${kontakt.email}`}
+              aria-label={`Email an ${kontakt.email} schreiben`}
+              className="hidden size-11 flex-none items-center justify-center rounded-full border border-linie text-aktion transition-colors hover:border-aktion hover:bg-grund-warm sm:flex"
+            >
+              <Mail className="size-[1.05rem]" aria-hidden="true" />
+            </a>
 
             {/* Deutlicher Abstand zur Kontaktaufnahme: Erst dadurch lesen sich
                 Barrierefreiheit und Sprache als eigene Gruppe am Rand und
@@ -386,7 +390,7 @@ export default function Kopfzeile() {
         <TerminHinweis />
       </header>
 
-      {/* Feste Leiste am unteren Rand kleiner Schirme. Anrufen und SMS sind
+      {/* Feste Leiste am unteren Rand kleiner Schirme. Anrufen und Email sind
           damit auf jeder Seite in Daumenreichweite, ohne zu scrollen. */}
       {/* 85 statt 95 Prozent Deckung: Bei 95 % war der Weichzeichner
           dahinter wirkungslos - die Leiste lag als undurchsichtige Platte
@@ -404,7 +408,13 @@ export default function Kopfzeile() {
             <Phone className="size-4" aria-hidden="true" />
             Anrufen
           </a>
-          <SmsKnopf className="flex-1" />
+          <a
+            href={`mailto:${kontakt.email}`}
+            className="flex min-h-[3rem] flex-1 items-center justify-center gap-2 rounded-full border border-linie px-4 font-medium text-aktion transition-colors hover:border-aktion hover:bg-grund-warm"
+          >
+            <Mail className="size-4" aria-hidden="true" />
+            Email
+          </a>
         </div>
       </div>
     </>

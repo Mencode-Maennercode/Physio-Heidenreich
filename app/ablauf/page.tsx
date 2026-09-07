@@ -354,7 +354,11 @@ export default function AblaufSeite() {
                   }
                 />
                 <SmsKnopf />
-                <Knopf href="/kontakt/" art="linie" kind="Rückruf anfragen" />
+                <Knopf
+                  href="/kontakt/#formular"
+                  art="linie"
+                  kind="Rückruf anfragen"
+                />
               </div>
             </Enthuellen>
           </div>

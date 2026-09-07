@@ -2,7 +2,7 @@
 
 import type { Situationen } from "@/lib/content/typen";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { situationen as situationenDe } from "@/lib/content/ablauf";
 import { cn } from "@/lib/utils";
@@ -30,9 +30,33 @@ export default function SituationsKlaerer({
   const [aktiv, setzeAktiv] = useState(0);
   const basis = useId();
   const knoepfe = useRef<(HTMLButtonElement | null)[]>([]);
+  const inhalte = useRef<(HTMLDivElement | null)[]>([]);
+  /* Nur nach einem Klick auf einen Reiter scrollen, nicht beim ersten
+     Aufbau der Seite - sonst spraenge die Seite schon beim Laden nach
+     unten zum ersten (voreingestellten) Inhalt. */
+  const perKlick = useRef(false);
 
   const reiterId = (i: number) => `${basis}-reiter-${i}`;
   const inhaltId = (i: number) => `${basis}-inhalt-${i}`;
+
+  /*
+    Auf kleinen Schirmen liegt der geoeffnete Inhalt oft schon ausserhalb
+    des sichtbaren Bereichs - die Reiterleiste selbst aendert sich beim Klick
+    ja kaum. Ohne einen Hinweis wirkt der Klick dann wie ins Leere gegangen.
+    Ab dem `sm`-Umbruch (Tailwind, 640 px) stehen Reiter und Inhalt nah genug
+    beieinander, dass ein Sprung dort nur stoeren wuerde.
+  */
+  useEffect(() => {
+    if (!perKlick.current) return;
+    perKlick.current = false;
+
+    if (window.matchMedia("(max-width: 639px)").matches) {
+      inhalte.current[aktiv]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [aktiv]);
 
   const tastatur = (e: React.KeyboardEvent) => {
     const letzte = situationen.length - 1;
@@ -77,7 +101,10 @@ export default function SituationsKlaerer({
             aria-selected={aktiv === i}
             aria-controls={inhaltId(i)}
             tabIndex={aktiv === i ? 0 : -1}
-            onClick={() => setzeAktiv(i)}
+            onClick={() => {
+              perKlick.current = true;
+              setzeAktiv(i);
+            }}
             className={cn(
               "flex min-h-[4rem] items-center justify-between gap-3 rounded-lg border px-5 py-4 text-left text-[1rem] font-medium transition-colors",
               aktiv === i
@@ -102,12 +129,15 @@ export default function SituationsKlaerer({
       {situationen.map((situation, i) => (
         <div
           key={situation.id}
+          ref={(el) => {
+            inhalte.current[i] = el;
+          }}
           role="tabpanel"
           id={inhaltId(i)}
           aria-labelledby={reiterId(i)}
           hidden={aktiv !== i}
           tabIndex={0}
-          className="mt-10 focus-visible:outline-[3px] focus-visible:outline-offset-4"
+          className="mt-10 scroll-mt-[calc(var(--kopf-hoehe,7.5rem)+1rem)] focus-visible:outline-[3px] focus-visible:outline-offset-4"
         >
           <h3 className="schrift-display titel-klein">{situation.titel}</h3>
 

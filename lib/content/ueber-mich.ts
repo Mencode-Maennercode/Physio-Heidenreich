@@ -99,7 +99,7 @@ export const qualifikation = {
   fortbildungenHinweis:
     "Ich bilde mich fortlaufend weiter — mit einem Schwerpunkt in der Neurologie und darüber hinaus.",
   hinweis:
-    "Ein Physiotherapie-Studium ist in Deutschland bis heute die Ausnahme — der Regelweg ist die Ausbildung. Ich nenne das nicht, um mich abzuheben, sondern weil es erklärt, warum ich anders an Befunde herangehe.",
+    "Ein Physiotherapie-Studium ist in Deutschland bis heute die Ausnahme — der Regelweg ist die Ausbildung. In den Niederlanden liegt der Fokus dabei stark auf eigenständiger Befunderhebung und direktem Zugang zu den Patientinnen und Patienten. Das prägt meinen Blick bis heute: Ich richte mich zuerst nach dem, was im Alltag gebraucht wird — nicht allein nach der Diagnose.",
 } as const;
 
 export const haltung = {

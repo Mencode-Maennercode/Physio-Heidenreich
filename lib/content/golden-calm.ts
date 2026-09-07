@@ -103,7 +103,7 @@ export const leistungen = {
     {
       bild: "treppe" as const,
       titel: "Sturzprophylaxe",
-      text: "Kraft, Gleichgewicht und Standfestigkeit – inklusive Blick auf Stolperstellen in der Wohnung und Übungen für die Woche.",
+      text: "Kraft, Gleichgewicht und Standfestigkeit – inklusive Blick auf Stolperstellen im häuslichen Umfeld und Übungen für die Woche.",
     },
     {
       bild: "lymphdrainage" as const,
@@ -122,7 +122,7 @@ export const ueberMich = {
   kicker: "Über mich",
   titel: "Nora Heidenreich",
   absaetze: [
-    "Ich habe Physiotherapie in den Niederlanden studiert und viele Jahre in Universitätskliniken gearbeitet, überwiegend im neurologischen Bereich. Dort habe ich gemerkt, wie viel Behandlung an Anfahrt, Wartezeit und Zeitdruck verloren geht.",
+    "Ich habe Physiotherapie in den Niederlanden studiert und viele Jahre in Universitätskliniken gearbeitet, überwiegend im neurologischen Bereich. Dort habe ich gemerkt, wie viel Behandlungszeit oder auch Qualität der Behandlung an Anfahrt, Wartezeit und Zeitdruck verloren geht.",
     "Deshalb komme ich zu meinen Patientinnen und Patienten nach Hause – mit festen Terminen, ausreichend Zeit und einer bewusst kleinen Kartei. Angehörige binde ich auf Wunsch ein, damit Übungen auch zwischen den Terminen sicher stattfinden.",
   ],
   fakten: [

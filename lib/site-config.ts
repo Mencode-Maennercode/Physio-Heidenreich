@@ -29,7 +29,7 @@ export const seite = {
    * Laenge unter 160 Zeichen, sonst schneidet Google ab.
    */
   kurzbeschreibung:
-    "Physiotherapie im Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler – Krankengymnastik, Neurologie, Lymphdrainage. Termin: 02641 8904973.",
+    "Physiotherapie als Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler – Krankengymnastik, Neurologie, Lymphdrainage. Termin: 02641 8904973.",
 
   /**
    * Titelzeile der Startseite.
@@ -129,7 +129,7 @@ export const kontakt = {
 
   erreichbarkeit: [
     { zeit: "Montag bis Freitag", detail: "8 – 18 Uhr" },
-    { zeit: "Außerhalb dieser Zeiten", detail: "Anrufbeantworter, ich rufe zurück" },
+    { zeit: "Außerhalb dieser Zeiten", detail: "Sprechen Sie mir auf den Anrufbeantworter, ich rufe zurück" },
   ],
 } as const;
 

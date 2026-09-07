@@ -1,0 +1,10 @@
+# Nicht-www und http auf die kanonische Adresse (https://www.nora-heidenreich.de)
+# weiterleiten. Ohne das erreicht Google dieselbe Seite ueber mehrere URLs,
+# was in der Search Console als "Alternative Seite mit richtigem kanonischen
+# Tag" auftaucht - der canonical-Tag im HTML faengt das zwar ab, ein echter
+# 301 auf Serverebene ist aber das sauberere Signal und spart Crawl-Budget.
+RewriteEngine On
+
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^nora-heidenreich\.de$ [NC]
+RewriteRule ^ https://www.nora-heidenreich.de%{REQUEST_URI} [L,R=301]

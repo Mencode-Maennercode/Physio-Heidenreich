@@ -162,11 +162,15 @@ export default function RootLayout({
           <Kopfzeile />
           <Lesefortschritt />
           {/* Abstand unten: Platz fuer die feste Anruf-Leiste auf kleinen
-              Schirmen, damit sie nichts verdeckt. */}
-          <main id="inhalt" className="pb-[4.5rem] sm:pb-0">
-            {children}
-          </main>
-          <Fusszeile />
+              Schirmen, damit sie nichts verdeckt. Die Fusszeile gehoert mit
+              in diesen Abstand - sie steht als letztes Element auf der
+              Seite, und ohne den gemeinsamen Abstand legte sich die Leiste
+              genau ueber ihre unterste Zeile (Copyright, Impressum,
+              Datenschutz) und machte die Links dort unantippbar. */}
+          <div className="pb-[4.5rem] sm:pb-0">
+            <main id="inhalt">{children}</main>
+            <Fusszeile />
+          </div>
           {/* Matomo braucht - anders als Einwilligung/Google Analytics -
               keinen Banner, siehe Begruendung in der Komponente. Sie steht
               deshalb unabhaengig davon im Baum, nicht dahinter. */}

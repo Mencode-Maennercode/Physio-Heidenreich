@@ -17,7 +17,7 @@ export const stationen = [
   {
     nummer: "01",
     titel: "Sie melden sich",
-    text: "Am liebsten telefonisch — dann ist vieles in fünf Minuten geklärt. SMS und das Formular gehen genauso.",
+    text: "Am liebsten telefonisch — dann ist vieles in ein paar Minuten geklärt. SMS und das Kontaktformular gehen genauso.",
     details: [
       "Um wen geht es und was ist passiert?",
       "In welchem Ort wohnen Sie?",
@@ -42,11 +42,11 @@ export const stationen = [
   {
     nummer: "03",
     titel: "Der erste Termin bei Ihnen",
-    text: "Befund, gemeinsame Zielsetzung, erste Behandlung. Und ein Blick auf die Wohnung.",
+    text: "Befund, gemeinsame Zielsetzung, erste Behandlung. Und ein Blick auf das häusliche Umfeld.",
     details: [
       "Wo wird es im Alltag schwierig?",
       "Was soll in acht Wochen wieder gehen?",
-      "Welche Stellen in der Wohnung sind unsicher?",
+      "Welche Stellen im häuslichen Umfeld sind unsicher?",
     ],
     hinweis:
       "Angehörige dürfen dabei sein. Meistens ist es sogar besser, wenn jemand mithört.",
@@ -61,7 +61,7 @@ export const stationen = [
       "Die Erstattung geht direkt an Sie",
     ],
     hinweis:
-      "Auf der Rechnung steht nichts, was Sie nicht vorher kannten. Keine Positionen, über die wir nicht gesprochen haben.",
+      "Auf der Rechnung befinden sich keine Positionen, über die wir vorab nicht gesprochen haben.",
   },
 ] as const;
 
@@ -123,16 +123,16 @@ export const situationen = [
     titel: "Sie zahlen selbst",
     ablauf: [
       {
-        marke: "Ohne Verordnung möglich",
-        text: "Vorbeugung, Training, Beratung und die Anleitung von Angehörigen — zum Beispiel Sturzprophylaxe oder ein Übungsprogramm für zu Hause.",
+        marke: "Vorbeugung und Training — ohne Verordnung",
+        text: "Wenn es nicht um eine bestehende Erkrankung geht, sondern um Vorbeugung, allgemeines Training oder die Anleitung von Angehörigen — zum Beispiel Sturzprophylaxe oder ein Übungsprogramm für zu Hause. Dafür brauchen Sie keine ärztliche Verordnung.",
       },
       {
-        marke: "Mit Verordnung nötig",
-        text: "Sobald die Behandlung auf eine Erkrankung zielt. Das schreibt das Heilpraktikergesetz vor, und daran halte ich mich.",
+        marke: "Behandlung einer Erkrankung — mit Verordnung",
+        text: "Sobald es um eine konkrete Diagnose geht, etwa nach einem Sturz oder bei Schmerzen. Das schreibt das Heilpraktikergesetz vor, und daran halte ich mich — deshalb brauche ich dafür eine ärztliche Verordnung.",
       },
       {
         marke: "Sie zahlen",
-        text: "Die Rechnung direkt und vollständig. Eine Erstattung gibt es in aller Regel nicht.",
+        text: "Die Rechnung direkt und vollständig — in beiden Fällen. Eine Erstattung gibt es in aller Regel nicht.",
       },
     ],
     achtung:
@@ -149,7 +149,7 @@ export const situationen = [
       },
       {
         marke: "Möglich bleibt",
-        text: "Eine Behandlung als Selbstzahler. Dann gilt für Sie das, was links unter „Selbstzahler“ steht.",
+        text: "Eine Behandlung als Selbstzahler. Dann gilt für Sie derselbe Weg wie unter „Selbstzahler“ beschrieben.",
       },
       {
         marke: "Wenn Sie eine Kassenleistung suchen",
@@ -231,7 +231,7 @@ export const keinePreisliste = {
   titel: "Warum hier keine Preisliste steht",
   absaetze: [
     "Weil eine Zahl ohne Zusammenhang nichts aussagt. Wie lange eine Behandlung dauert, wie oft sie nötig ist und wie weit ich fahre, ist bei jedem anders.",
-    "Den Preis nenne ich Ihnen im kostenlosen Vorgespräch und danach noch einmal schriftlich — verbindlich, vollständig und bevor irgendein Termin stattfindet. Auf der Rechnung steht später nichts, was Sie vorher nicht kannten.",
+    "Den Preis nenne ich Ihnen im kostenlosen Vorgespräch und danach noch einmal schriftlich — verbindlich, vollständig und bevor irgendein Termin stattfindet. Auf der Rechnung befinden sich später keine Positionen, über die wir vorab nicht gesprochen haben.",
   ],
 } as const;
 
@@ -290,7 +290,7 @@ export const fragen = {
         "Ja, sofern die Einrichtung einverstanden ist. Die Absprache mit der Pflegedienstleitung übernehme ich gern.",
     },
     {
-      frage: "Was passiert, wenn es meinem Vater am Termintag schlecht geht?",
+      frage: "Was passiert, wenn es meinem Angehörigen am Termintag schlecht geht?",
       antwort:
         "Dann sagen Sie ab. Bis 24 Stunden vorher ist das ohnehin kostenfrei, bei einer akuten Verschlechterung auch kurzfristiger. Niemand soll behandelt werden, weil ein Termin im Kalender steht.",
     },

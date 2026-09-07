@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Abschnitt,
-  Liste,
-  Platzhalter,
-  Rechtsseite,
-} from "@/components/Rechtstext";
+import { Abschnitt, Liste, Rechtsseite } from "@/components/Rechtstext";
 import MessungWiderrufen from "@/components/MessungWiderrufen";
 import MatomoWiderspruch from "@/components/MatomoWiderspruch";
 import { analyse, kontakt, seite } from "@/lib/site-config";

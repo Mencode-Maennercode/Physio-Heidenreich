@@ -166,17 +166,37 @@ export default function Fusszeile() {
           <p>
             © {new Date().getFullYear()} {seite.nameLang}
           </p>
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {rechtsnavigation.map((eintrag) => (
-              <li key={eintrag.pfad}>
+          {/*
+            Zwei Gruppen statt vier einzelner Eintraege im selben
+            `flex-wrap`. Frueher brach die Zeile rein nach verfuegbarer
+            Breite um - auf schmalen Schirmen landete "Datenschutz" dann
+            allein in einer zweiten Zeile, obwohl es inhaltlich zu
+            "Impressum" gehoert. Jede Gruppe ist innen `flex-nowrap`; bricht
+            die Zeile, tut sie es zwischen den Gruppen, nie mitten in einer.
+          */}
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-2">
+            <li className="flex flex-nowrap items-center gap-x-6">
+              {rechtsnavigation.slice(0, 2).map((eintrag) => (
                 <Link
+                  key={eintrag.pfad}
                   href={eintrag.pfad}
                   className="inline-flex min-h-[2.5rem] items-center transition-colors hover:text-text"
                 >
                   {eintrag.name}
                 </Link>
-              </li>
-            ))}
+              ))}
+            </li>
+            <li className="flex flex-nowrap items-center gap-x-6">
+              {rechtsnavigation.slice(2).map((eintrag) => (
+                <Link
+                  key={eintrag.pfad}
+                  href={eintrag.pfad}
+                  className="inline-flex min-h-[2.5rem] items-center transition-colors hover:text-text"
+                >
+                  {eintrag.name}
+                </Link>
+              ))}
+            </li>
           </ul>
         </div>
       </div>

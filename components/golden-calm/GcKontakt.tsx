@@ -159,7 +159,7 @@ export default function GcKontakt({
                   das nicht suchen muessen. */}
               <p className="mt-7 text-[0.9rem]">
                 <Link
-                  href="/kontakt/"
+                  href="/kontakt/#formular"
                   className="underline underline-offset-4"
                   style={{ color: "var(--gc-text-leise)" }}
                 >

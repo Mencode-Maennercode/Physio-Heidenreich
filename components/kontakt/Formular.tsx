@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Loader2, Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Loader2, Mail, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -47,8 +47,38 @@ export default function Formular({
   const [zustand, setzeZustand] = useState<Zustand>("leer");
   const [fehler, setzeFehler] = useState<Record<string, string>>({});
   const [meldung, setzeMeldung] = useState("");
+  const [zeigeToast, setzeZeigeToast] = useState(false);
   const geoeffnet = useRef(Date.now());
   const formular = useRef<HTMLFormElement>(null);
+
+  /* Verschwindet von selbst - ein Toast, den man wegklicken muss, ist keiner. */
+  useEffect(() => {
+    if (!zeigeToast) return;
+    const zeitgeber = setTimeout(() => setzeZeigeToast(false), 5000);
+    return () => clearTimeout(zeitgeber);
+  }, [zeigeToast]);
+
+  /*
+    Von "Rückruf anfragen" auf der Ablauf-Seite kommt man mit `#formular`
+    in der Adresse direkt hier an. Der Browser springt zum Anker von allein
+    - zusaetzlich wandert der Fokus ins erste Feld, damit sofort losgetippt
+    werden kann, ohne erst hinzuklicken.
+
+    `document.getElementById("formular")` statt eines eigenen Ankers auf
+    dem Formular selbst: Nur die Kontaktseite umschliesst das Formular mit
+    dieser id (siehe app/kontakt/page.tsx); die kompakte Fassung auf der
+    Startseite hat keine und bleibt damit unberuehrt, selbst wenn dort aus
+    irgendeinem Grund derselbe Hash in der Adresse stuende.
+  */
+  useEffect(() => {
+    if (window.location.hash !== "#formular") return;
+    const ziel = document.getElementById("formular");
+    if (!ziel || !formular.current || !ziel.contains(formular.current)) return;
+
+    formular.current
+      .querySelector<HTMLElement>('[name="name"]')
+      ?.focus({ preventScroll: true });
+  }, []);
 
   const absenden = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,11 +116,15 @@ export default function Formular({
         headers: { "X-Angefordert-Mit": "fetch" },
       });
       if (!antwort.ok) throw new Error(String(antwort.status));
+      const ergebnis = await antwort.json().catch(() => null);
 
       setzeZustand("gesendet");
       setzeMeldung(
         "Ihre Nachricht ist angekommen. Ich melde mich zum gewünschten Zeitpunkt.",
       );
+      if (ergebnis?.emailBestaetigt) {
+        setzeZeigeToast(true);
+      }
       e.currentTarget.reset();
     } catch {
       setzeZustand("fehler");
@@ -100,27 +134,43 @@ export default function Formular({
     }
   };
 
+  const toast = zeigeToast ? (
+    <div
+      role="status"
+      className="fixed inset-x-0 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-50 flex justify-center px-4 sm:bottom-6"
+    >
+      <p className="inline-flex items-center gap-2.5 rounded-full bg-[#1b3535] px-5 py-3 text-[0.9rem] text-[color:var(--marke-offwhite)] shadow-lg">
+        <Mail className="size-4 flex-none" aria-hidden="true" />
+        E-Mail wurde versendet
+      </p>
+    </div>
+  ) : null;
+
   if (zustand === "gesendet") {
     return (
-      <div
-        role="status"
-        className="rounded-lg border border-aktion bg-grund-warm p-[clamp(1.75rem,4vw,2.5rem)]"
-      >
-        <h3 className="schrift-display titel-klein">
-          Danke für Ihre Nachricht
-        </h3>
-        <p className="lesespalte mt-4">{meldung}</p>
-        <button
-          type="button"
-          onClick={() => {
-            setzeZustand("leer");
-            setzeMeldung("");
-          }}
-          className="mt-7 text-aktion underline underline-offset-4"
+      <>
+        {toast}
+        <div
+          role="status"
+          className="rounded-lg border border-aktion bg-grund-warm p-[clamp(1.75rem,4vw,2.5rem)]"
         >
-          Noch eine Nachricht schreiben
-        </button>
-      </div>
+          <h3 className="schrift-display titel-klein">
+            Danke für Ihre Nachricht
+          </h3>
+          <p className="lesespalte mt-4">{meldung}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setzeZustand("leer");
+              setzeMeldung("");
+              setzeZeigeToast(false);
+            }}
+            className="mt-7 text-aktion underline underline-offset-4"
+          >
+            Noch eine Nachricht schreiben
+          </button>
+        </div>
+      </>
     );
   }
 

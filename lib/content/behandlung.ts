@@ -196,7 +196,7 @@ export const weitereBehandlungen = {
     {
       symbol: "sturz" as const,
       titel: "Sturzprophylaxe und Gangschule",
-      was: "Gleichgewicht, sicheres Aufstehen, Umgang mit Gehhilfen — und ein Blick auf die Wohnung.",
+      was: "Gleichgewicht, sicheres Aufstehen, Umgang mit Gehhilfen — und ein Blick auf das häusliche Umfeld.",
       fuerWen: "Bei Gangunsicherheit, Schwindel und nach Stürzen.",
       schlagworte: ["Gangunsicherheit", "Schwindel", "Nach Stürzen"],
     },

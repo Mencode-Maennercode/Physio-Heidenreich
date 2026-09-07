@@ -40,6 +40,10 @@ const EMPFAENGER = 'kontakt@nora-heidenreich.de';
  */
 const ABSENDER = 'noreply@nora-heidenreich.de';
 
+/** Fuer den Text der Eingangsbestaetigung an die anfragende Person. */
+const PRAXIS_NAME = 'Nora Heidenreich – Mobile Physiotherapie';
+const TELEFON_ANZEIGE = '02641 / 890 49 73';
+
 /** Wohin es ohne JavaScript nach dem Absenden geht. */
 const BESTAETIGUNG = '/kontakt/danke/';
 
@@ -93,6 +97,27 @@ function antworten(int $status, string $text, bool $perFetch, string $ziel = '')
         . 'style="font-family:system-ui,sans-serif;max-width:34rem;margin:12vh auto;padding:0 1.5rem;line-height:1.7;color:#252a2a">'
         . '<h1 style="font-weight:400">Das hat nicht geklappt</h1><p>' . htmlspecialchars($text, ENT_QUOTES) . '</p>'
         . '<p><a href="/kontakt/">Zurück zum Kontaktformular</a></p></body></html>';
+    exit;
+}
+
+/**
+ * Erfolgsantwort - anders als antworten(), weil der Fetch-Weg hier zusaetzlich
+ * mitteilen muss, ob eine Eingangsbestaetigung per E-Mail verschickt wurde.
+ * Das Formular zeigt dafuer einen eigenen kleinen Hinweis (Toast) an.
+ */
+function erfolgAntworten(bool $perFetch, string $ziel, bool $emailBestaetigt): void
+{
+    if ($perFetch) {
+        http_response_code(200);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode([
+            'text' => 'Danke, Ihre Nachricht ist angekommen.',
+            'emailBestaetigt' => $emailBestaetigt,
+        ]);
+        exit;
+    }
+
+    header('Location: ' . $ziel, true, 303);
     exit;
 }
 
@@ -214,4 +239,50 @@ if (!$erfolg) {
 
 @touch($spur);
 
-antworten(200, 'Danke, Ihre Nachricht ist angekommen.', $perFetch, BESTAETIGUNG);
+// --- Eingangsbestaetigung an die anfragende Person --------------------------
+// Nur wenn eine E-Mail-Adresse angegeben wurde - das Feld ist optional, ohne
+// sie hat niemand ein Postfach, an das eine Bestaetigung gehen koennte. Ein
+// Fehlschlag hier darf die eigentliche Anfrage nicht scheitern lassen: Sie ist
+// bereits bei EMPFAENGER angekommen, das ist das eigentliche Ziel.
+$bestaetigungVersendet = false;
+
+if ($email !== '') {
+    $bestaetigungsZeilen = [
+        'Guten Tag ' . $name . ',',
+        '',
+        'vielen Dank für Ihre Anfrage über die Website von ' . PRAXIS_NAME . '.',
+        'Ihre Nachricht ist bei mir angekommen.',
+        '',
+        'Gewünschter Rückruf: ' . ($zeiten[$zeit] ?? $zeit),
+        '',
+        'Ich melde mich telefonisch bei Ihnen, um einen Termin zu besprechen.',
+        'Bei dringenden medizinischen Fragen wenden Sie sich bitte nicht per',
+        'E-Mail an mich, sondern rufen Sie mich direkt an: ' . TELEFON_ANZEIGE . '.',
+        '',
+        'Freundliche Grüße',
+        'Nora Heidenreich',
+    ];
+
+    $bestaetigungBetreff = '=?UTF-8?B?' . base64_encode('Ihre Anfrage ist angekommen') . '?=';
+
+    // Eigener Kopf statt $kopf von oben: Dessen Reply-To zeigt auf $email
+    // selbst (die anfragende Person), eine Antwort auf die Bestaetigung soll
+    // aber bei EMPFAENGER landen.
+    $bestaetigungKopf = [
+        'From: ' . ABSENDER,
+        'Reply-To: ' . EMPFAENGER,
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit',
+        'X-Mailer: PHP/' . phpversion(),
+    ];
+
+    $bestaetigungVersendet = @mail(
+        $email,
+        $bestaetigungBetreff,
+        implode("\n", $bestaetigungsZeilen),
+        implode("\r\n", $bestaetigungKopf),
+        '-f' . ABSENDER
+    );
+}
+
+erfolgAntworten($perFetch, BESTAETIGUNG, $bestaetigungVersendet);

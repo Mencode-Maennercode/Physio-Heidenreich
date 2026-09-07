@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Abschnitt,
-  Liste,
-  Platzhalter,
-  Rechtsseite,
-} from "@/components/Rechtstext";
+import { Abschnitt, Liste, Rechtsseite } from "@/components/Rechtstext";
 import { grade, kontakt, seite } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -106,17 +101,7 @@ export default function ImpressumSeite() {
       </Abschnitt>
 
       <Abschnitt titel="Zuständige Aufsichtsbehörde">
-        <p>
-          Stadt Münster
-          <br />
-          <Platzhalter>
-            Genaue Dienststelle und Anschrift ergänzen — auf der
-            Anerkennungsurkunde steht der Stempel „Stadt Münster“; welches
-            Amt innerhalb der Stadtverwaltung zuständig war, steht im
-            Anerkennungsbescheid selbst und sollte dort nachgeschlagen
-            werden.
-          </Platzhalter>
-        </p>
+        <p>Stadt Münster</p>
         <p>
           Für die Anzeige der Tätigkeit und die Hygieneüberwachung zuständig:
           Kreisverwaltung Ahrweiler, Gesundheitsamt, Wilhelmstraße 24–30, 53474
@@ -133,13 +118,10 @@ export default function ImpressumSeite() {
         </p>
         <p>
           Vereinzelt angebotene Kurse ohne Heilbehandlungscharakter fallen
-          nicht unter diese Befreiung. Da der Gesamtumsatz die Grenzen des{" "}
-          <Platzhalter>
-            § 19 UStG nicht überschreitet — bitte mit der Anmeldung beim
-            Finanzamt (Fragebogen zur steuerlichen Erfassung) abgleichen —
-          </Platzhalter>{" "}
-          wird die Kleinunternehmerregelung nach § 19 UStG in Anspruch
-          genommen; es wird keine Umsatzsteuer ausgewiesen.
+          nicht unter diese Befreiung. Da der Gesamtumsatz die Grenzen des
+          § 19 UStG nicht überschreitet, wird die Kleinunternehmerregelung
+          nach § 19 UStG in Anspruch genommen; es wird keine Umsatzsteuer
+          ausgewiesen.
         </p>
       </Abschnitt>
 
@@ -148,10 +130,6 @@ export default function ImpressumSeite() {
           Continentale Sachversicherung AG, Ruhrallee 92, 44139 Dortmund
           <br />
           Räumlicher Geltungsbereich: Bundesrepublik Deutschland
-          <br />
-          <Platzhalter>
-            Versicherungsschein-Nummer nach Vertragsabschluss ergänzen.
-          </Platzhalter>
         </p>
       </Abschnitt>
 
