@@ -71,13 +71,36 @@ darf die Seite nicht online gehen.
 
 ### Technik
 
-- [ ] Domain bestellen und auf den netcup-Webspace zeigen lassen
-- [ ] Eigenes Dokumentenverzeichnis anlegen, getrennt von anderen Seiten auf
+- [x] Domain bestellen und auf den netcup-Webspace zeigen lassen
+- [x] Eigenes Dokumentenverzeichnis anlegen, getrennt von anderen Seiten auf
       demselben Webspace
-- [ ] Die vier FTP-Secrets im GitHub-Repository hinterlegen
-      (siehe `.github/workflows/deploy.yml`)
-- [ ] Nach dem ersten Deploy das Formular **echt absenden** und prüfen, ob
-      die Mail ankommt — einmal mit und einmal ohne JavaScript
+- [ ] Das Formular **echt absenden** und prüfen, ob die Mail ankommt —
+      einmal mit und einmal ohne JavaScript
+
+---
+
+## Deployment
+
+Plesk auf dem netcup-Webspace zieht dieses Repository selbst. GitHub ruft bei
+jedem Push auf `master` einen Webhook auf
+(`af948.netcup.net:8443/modules/git/public/web-hook.php`), Plesk holt sich
+den neuen Stand und legt ihn ins Dokumentenverzeichnis — messbar rund eine
+Sekunde nach dem Push.
+
+Daraus folgen zwei Dinge, die man leicht falsch macht:
+
+1. **`out/` gehört ins Repository und muss aktuell sein.** Plesk baut nichts,
+   es kopiert nur. Vor jedem Push also `npm run build` laufen lassen und das
+   Ergebnis mitcommitten. Käme `out/` je in die `.gitignore`, stünde die Seite
+   still.
+2. **Es gibt keinen CI-Schritt, der das prüft.** Hier lag früher ein
+   GitHub-Actions-Workflow, der per FTP hochladen sollte. Seine Secrets waren
+   nie hinterlegt, er scheiterte bei jedem Lauf sofort mit
+   `Input required and not supplied: server` und hat nie eine Datei
+   übertragen — während Plesk daneben still seine Arbeit tat. Der Workflow ist
+   entfernt, damit niemand einen roten Lauf für ein kaputtes Deployment hält.
+
+Nach einem Push also am Live-Stand prüfen, nicht an GitHub.
 
 ---
 
