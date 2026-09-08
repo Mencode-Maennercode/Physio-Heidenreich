@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { rechtsnavigation, seite } from "@/lib/site-config";
+import { ortsPfad, ortsseiten } from "@/lib/content/orte";
 import { PAARE, UI } from "@/lib/sprache";
 
 /**
@@ -54,6 +55,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  /* Ortsseiten - nur auf Deutsch, kein Sprachpaar. Priorisiert direkt
+     hinter der Startseite: Sie sind der Grund, warum jemand aus Sinzig oder
+     Remagen die Seite ueberhaupt findet, und tragen die Suchbegriffe, auf
+     die es ankommt. */
+  const orte = ortsseiten.map((ort) => ({
+    url: `${seite.domain}${ortsPfad(ort.slug)}`,
+    lastModified: heute,
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
   /* Rechtstexte und einfache Sprache - nur auf Deutsch, ohne Sprachpaar. */
   const weitere = rechtsnavigation
     .filter((eintrag) => !eintrag.pfad.startsWith("/en"))
@@ -64,5 +76,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     }));
 
-  return [...deutsch, ...englisch, ...weitere];
+  return [...deutsch, ...orte, ...englisch, ...weitere];
 }

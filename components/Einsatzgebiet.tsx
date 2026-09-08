@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
 import { useRuhig } from "@/components/a11y/Einstellungen";
 import { RUHIGE_KURVE } from "@/components/motion/Enthuellen";
+import { ortsPfad, ortsseiten } from "@/lib/content/orte";
 import { einsatzgebiet } from "@/lib/site-config";
 
 /**
@@ -182,16 +184,35 @@ export default function Einsatzgebiet() {
           alle anderen die genauere Fassung. */}
       <div>
         <h3 className="feld-marke">Kreis Ahrweiler</h3>
+        {/* Orte mit eigener Seite werden verlinkt, die uebrigen bleiben Text.
+            Das ist keine Nachlaessigkeit: Ein Link muss zu einer Seite
+            fuehren, auf der mehr steht als der Ortsname, den man gerade
+            angeklickt hat. Heimersheim und Bad Bodendorf sind ausserdem
+            Stadtteile von Bad Neuenahr-Ahrweiler bzw. Sinzig - sie auf die
+            jeweilige Stadtseite zu legen, hiesse zweimal derselbe Link mit
+            unterschiedlicher Beschriftung. */}
         <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-          {einsatzgebiet.kern.map((ort) => (
-            <li key={ort} className="flex items-center gap-2.5">
-              <span
-                aria-hidden="true"
-                className="size-1.5 rounded-full bg-akzent-warm"
-              />
-              {ort}
-            </li>
-          ))}
+          {einsatzgebiet.kern.map((ort) => {
+            const seite = ortsseiten.find((eintrag) => eintrag.name === ort);
+            return (
+              <li key={ort} className="flex items-center gap-2.5">
+                <span
+                  aria-hidden="true"
+                  className="size-1.5 rounded-full bg-akzent-warm"
+                />
+                {seite ? (
+                  <Link
+                    href={ortsPfad(seite.slug)}
+                    className="underline decoration-linie underline-offset-4 transition-colors hover:text-aktion hover:decoration-aktion"
+                  >
+                    {ort}
+                  </Link>
+                ) : (
+                  ort
+                )}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Nur zeigen, wenn es tatsaechlich Orte auf Anfrage gibt - eine

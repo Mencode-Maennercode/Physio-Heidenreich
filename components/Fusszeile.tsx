@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { KI_HINWEIS, KI_HINWEIS_EN } from "@/lib/ki-medien";
+import { ortsPfad, ortsseiten } from "@/lib/content/orte";
 import { Mail, Phone, Smartphone } from "lucide-react";
 import { Bildmarke } from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
@@ -113,9 +114,28 @@ export default function Fusszeile() {
 
           <div>
             <Spaltentitel>Einsatzgebiet</Spaltentitel>
-            <p className="text-[0.95rem] text-leise">
-              {einsatzgebiet.kern.slice(0, 4).join(" · ")} und Umgebung im Kreis
-              Ahrweiler.
+            {/* Bewusst Links statt der frueheren Aufzaehlung: Das ist der
+                einzige Verweis auf die Ortsseiten, der auf JEDER Seite
+                steht. Ohne ihn haengen sie an einer einzigen Stelle im
+                Seitenbaum (der Karte auf /ablauf/ und /kontakt/) - zu wenig,
+                damit eine Suchmaschine sie als vollwertige Seiten wertet. */}
+            <ul className="flex flex-col gap-1 text-[0.95rem]">
+              {ortsseiten.map((ort) => (
+                <li key={ort.slug}>
+                  <Link
+                    href={ortsPfad(ort.slug)}
+                    className="inline-flex min-h-[2.5rem] items-center text-leise transition-colors hover:text-text"
+                  >
+                    Hausbesuch in {ort.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-[0.95rem] text-leise">
+              Dazu {einsatzgebiet.kern
+                .filter((ort) => !ortsseiten.some((o) => o.name === ort))
+                .join(", ")}{" "}
+              und Umgebung im Kreis Ahrweiler.
             </p>
             <div className="mt-6">
               <BarrierefreiheitPanel variante="fuss" />
