@@ -127,8 +127,14 @@ export const kontakt = {
     ort: "Grafschaft",
   },
 
+  /**
+   * Muss mit den im Google Unternehmensprofil hinterlegten Zeiten
+   * uebereinstimmen - siehe openingHoursSpecification in StrukturDaten.tsx.
+   * Stand: siehe Commit-Historie dieser Datei.
+   */
   erreichbarkeit: [
-    { zeit: "Montag bis Freitag", detail: "8 – 18 Uhr" },
+    { zeit: "Montag bis Dienstag", detail: "8 – 17 Uhr" },
+    { zeit: "Mittwoch bis Samstag", detail: "8 – 18 Uhr" },
     { zeit: "Außerhalb dieser Zeiten", detail: "Sprechen Sie mir auf den Anrufbeantworter, ich rufe zurück" },
   ],
 } as const;

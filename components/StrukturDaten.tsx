@@ -85,17 +85,38 @@ export default function StrukturDaten() {
       description: "Kreis Ahrweiler",
     },
     /*
-      Bewusst KEIN openingHoursSpecification.
+      openingHoursSpecification - telefonische Erreichbarkeit, nicht
+      Behandlungszeiten.
 
-      Das Schema ist fuer "wann ist geoeffnet/erreichbar" gedacht und passt
-      auf diese Praxis nicht sauber: Telefonisch ist Mo-Fr 8-18 Uhr jemand
-      erreichbar, tatsaechliche Hausbesuche finden aber nur an einzelnen
-      Tagen statt - und das aendert sich, je mehr Patienten dazukommen.
-      Ein Eintrag wuerde in die eine oder andere Richtung falsch sein:
-      "Mo-Fr 8-18" suggeriert Behandlung rund um die Uhr, "nur Mo+Fr"
-      suggeriert an allen anderen Tagen "geschlossen", obwohl das Telefon
-      erreichbar ist. Kein Eintrag ist hier ehrlicher als ein falscher.
+      Lange bewusst weggelassen: Das Schema ist fuer "wann ist
+      geoeffnet/erreichbar" gedacht, tatsaechliche Hausbesuche finden aber
+      nur an einzelnen Tagen statt - ein Eintrag waere in die eine oder
+      andere Richtung irrefuehrend gewesen.
+
+      Der Grund, es jetzt doch einzutragen: Diese Zeiten stehen inzwischen
+      identisch im Google Unternehmensprofil - oeffentlich sichtbar, nicht
+      mehr nur eine interne Annahme. Wuerden sie hier fehlen oder abweichen,
+      widersprechen sich zwei von Google selbst angezeigte Quellen
+      gegeneinander, was Vertrauen kostet und die Entitaet fuer Google
+      uneindeutiger macht statt eindeutiger. `erreichbarkeit` in
+      site-config.ts ist deshalb jetzt die eine Stelle, die mit dem
+      Unternehmensprofil synchron gehalten werden muss - dort auch der
+      Hinweis.
     */
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday"],
+        opens: "08:00",
+        closes: "17:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "08:00",
+        closes: "18:00",
+      },
+    ],
     availableLanguage: [
       { "@type": "Language", name: "German", alternateName: "de" },
       { "@type": "Language", name: "English", alternateName: "en" },

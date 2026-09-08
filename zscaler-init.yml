@@ -1,0 +1,29 @@
+- generic [ref=f1e3]:
+  - banner [ref=f1e4]:
+    - img "Zscaler" [ref=f1e26]
+  - generic [ref=f1e7]:
+    - region [ref=f1e27]:
+      - heading "Welcome to Site Review" [level=1] [ref=f1e28]
+      - paragraph [ref=f1e10]: With the URL Lookup tool you can find out how Zscaler categorizes a site (URL or IP Address) in its URL Filtering Database. Note that URL lookup results may vary from those seen in your environment due to possible custom categories that your admin might have configured.
+    - main [ref=f1e29]:
+      - heading "Step 1. Look up a site (up to three sites)" [level=1] [ref=f1e30]
+      - generic [ref=f1e13]:
+        - generic [ref=f1e15]:
+          - text: http(s)://
+          - textbox "Enter URL" [disabled] [ref=f1e31]
+        - button "Look Up" [disabled]
+  - contentinfo [ref=f1e17]:
+    - generic [ref=f1e18]: Copyright © 2007-2026 Zscaler Inc. All rights reserved.
+  - generic [ref=f1e20]:
+    - generic [ref=f1e21]:
+      - text: The Site Review page is a subdomain of
+      - link "Zscaler.com" [ref=f1e32] [cursor=pointer]:
+        - /url: https://www.zscaler.com
+      - text: . It assumes that you are a Zscaler customer aware of Zscaler's Data protection policies.If you are new to Zscaler and want to learn how Zscaler processes your data, see
+      - link "Data Protection and Privacy Overview" [ref=f1e33] [cursor=pointer]:
+        - /url: https://www.zscaler.com/privacy/overview
+      - text: .
+    - img [aria-hidden] [ref=f1e22] [cursor=pointer]
+  - generic [ref=f1e40]:
+    - generic [ref=f1e41]: Site review service is available for Zscaler customers only. Ensure you go through Zscaler cloud to access this site. (3)
+    - button [ref=f1e42] [cursor=pointer]
