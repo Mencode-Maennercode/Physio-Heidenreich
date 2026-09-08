@@ -23,3 +23,4 @@ next-env.d.ts
 # Ablauf bei jeder Aenderung: `npm run build`, dann `git add -A` (nimmt
 # Quellcode UND den neuen out/-Stand mit), commit, push. Plesk zieht den
 # Commit und kopiert `out/` per rsync in httpdocs.
+.playwright-cli/
