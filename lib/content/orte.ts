@@ -60,10 +60,21 @@ export const ortsseiten: readonly Ortsseite[] = [
   {
     slug: "bad-neuenahr-ahrweiler",
     name: "Bad Neuenahr-Ahrweiler",
-    seoTitel:
-      "Physiotherapie Hausbesuch Bad Neuenahr-Ahrweiler | Mobile Physiotherapie",
+    /* "Ahrweiler" bewusst zusaetzlich im Titel und in der Beschreibung,
+       nicht nur im Namen "Bad Neuenahr-Ahrweiler" versteckt: Ahrweiler war
+       bis zur Gebietsreform 1969 eine eigenstaendige Stadt und wird bis
+       heute oft allein gesucht, obwohl es verwaltungsrechtlich nur noch ein
+       Stadtteil ist. EINE Seite fuer beide Suchbegriffe statt einer
+       zweiten, fast identischen Seite - zwei Seiten fuer dieselbe Absicht
+       wuerden sich bei Google gegenseitig schwaechen (Kannibalisierung). */
+    /* "Ahrweiler" bewusst vorn, nicht nur als Namensteil von
+       "Bad Neuenahr-Ahrweiler" versteckt - das ist der kuerzere Suchbegriff
+       und der, unter dem der Ort bis 1969 eigenstaendig war. Mit dem vollen
+       Namen zusaetzlich waere der Titel ueber der Laenge, die Google
+       anzeigt (~60 Zeichen) und wuerde mitten in "Ahrweiler" abgeschnitten. */
+    seoTitel: "Physiotherapie Hausbesuch Ahrweiler | Bad Neuenahr-Ahrweiler",
     beschreibung:
-      "Physiotherapie im Hausbesuch in Bad Neuenahr-Ahrweiler und allen Stadtteilen — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten und Selbstzahler. 02641 8904973.",
+      "Physiotherapie Hausbesuch in Bad Neuenahr-Ahrweiler und Ahrweiler — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten, Selbstzahler. 02641 8904973.",
     augenbraue: "Hausbesuche in Bad Neuenahr-Ahrweiler",
     h1: "Physiotherapie im Hausbesuch in Bad Neuenahr-Ahrweiler",
     einleitung:
