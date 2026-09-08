@@ -279,6 +279,52 @@ export const ortsseiten: readonly Ortsseite[] = [
       },
     ],
   },
+
+  /* ------------------------------------------------------------------
+     Altenahr - engstes Tal, staerkster Flutort, ganz im Westen.
+     ------------------------------------------------------------------ */
+  {
+    slug: "altenahr",
+    name: "Altenahr",
+    seoTitel: "Physiotherapie Hausbesuch Altenahr | Mobile Physiotherapie",
+    beschreibung:
+      "Physiotherapie im Hausbesuch in Altenahr — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten und Selbstzahler im engen Ahrtal. 02641 8904973.",
+    augenbraue: "Hausbesuche in Altenahr",
+    h1: "Physiotherapie im Hausbesuch in Altenahr",
+    einleitung:
+      "Altenahr liegt dort, wo sich die Ahr am engsten durch den Fels windet — ein Weindorf unter einer Burgruine, mit Hängen, die zu steil für alles außer Reben sind. Es ist der westlichste Ort in meinem Gebiet und einer der Orte, die die Flut 2021 am schwersten getroffen hat.",
+    anfahrt:
+      "Von Grafschaft aus knapp eine halbe Stunde, überwiegend an der Ahr entlang. Der weiteste Weg in meinem Einsatzgebiet — ich lege ihn deshalb bevorzugt mit einem zweiten Termin im Tal zusammen.",
+    ortsteile: ["Altenahr"],
+    ortsteileText:
+      "Der Ort selbst, dicht am Fluss und am Fels gebaut. Für die umliegenden Weinorte des Ahrtals frage ich am Telefon nach der genauen Lage — je nachdem, ob sie noch in eine bestehende Route passen.",
+    lage: {
+      titel: "Ein Dorf zwischen Fels und Fluss",
+      absaetze: [
+        "Die Ahr macht bei Altenahr ihre engste Schleife, mit Felswänden und der Ruine Are direkt über den Dächern. Gebaut ist entsprechend eng: schmale Gassen, Häuser dicht an dicht, oft mit Stufen von der Straße zur Haustür, weil ebener Baugrund hier knapp war. Für jemanden mit Rollator oder Gehstock ist schon der letzte Meter zur eigenen Tür eine Aufgabe.",
+        "Die Hänge ringsum sind Weinsteillagen — zu steil für Maschinen, bewirtschaftet von Hand. Das prägt auch, wer hier alt wird: viele frühere Winzer und Winzerinnen, deren Knie und Hüften ein Leben in den Steillagen hinter sich haben, und die genau deshalb wissen, wie anstrengend jede Steigung tatsächlich ist.",
+        "Altenahr gehört zu den Orten, die die Flut 2021 am unmittelbarsten getroffen hat — das enge Tal ließ dem Wasser keinen Raum zum Ausweichen. Der Wiederaufbau ist an vielen Stellen sichtbar noch nicht fertig, manche wohnen in Häusern, die nur teilweise wiederhergestellt sind, oder in Übergangslösungen. Das ist die Wohnsituation, in der die Behandlung stattfindet, und ich richte mich danach, nicht nach einem Zustand, der einmal war oder erst noch kommt.",
+      ],
+    },
+    wege: [
+      {
+        titel: "Stufen von der Gasse zur Tür",
+        text: "In der Kernlage praktisch immer vorhanden. Die letzten Meter vor der eigenen Wohnung sind hier oft das Schwierigste am ganzen Tag — genau dort setzt Gangschule sinnvoll an.",
+      },
+      {
+        titel: "Nach Jahrzehnten in den Weinbergen",
+        text: "Verschlissene Knie und Hüften nach einem Arbeitsleben in Steillagen. Häufig kein einzelnes Ereignis, sondern eine Abnutzung über Jahrzehnte — die Behandlung folgt entsprechend keinem festen Schema.",
+      },
+      {
+        titel: "Wohnen im Wiederaufbau",
+        text: "Ein Teil des Ortes ist bis heute Baustelle. Ich behandle in der Wohnung, die gerade da ist, ohne vorauszusetzen, dass demnächst alles wieder ist wie vorher.",
+      },
+      {
+        titel: "Weiter Weg zu jeder Praxis",
+        text: "Die nächste stationäre Physiotherapie ist von hier aus eine echte Fahrt. Für alle, die nicht mehr selbst fahren, ist der Hausbesuch oft die einzige realistische Möglichkeit.",
+      },
+    ],
+  },
 ] as const;
 
 /** Schneller Zugriff nach Adresse. */

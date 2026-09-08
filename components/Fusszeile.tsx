@@ -118,15 +118,21 @@ export default function Fusszeile() {
                 einzige Verweis auf die Ortsseiten, der auf JEDER Seite
                 steht. Ohne ihn haengen sie an einer einzigen Stelle im
                 Seitenbaum (der Karte auf /ablauf/ und /kontakt/) - zu wenig,
-                damit eine Suchmaschine sie als vollwertige Seiten wertet. */}
-            <ul className="flex flex-col gap-1 text-[0.95rem]">
+                damit eine Suchmaschine sie als vollwertige Seiten wertet.
+
+                Zweispaltig statt einer langen Liste: Mit jeder neuen
+                Ortsseite waechst die Fusszeile sonst um eine ganze Zeile -
+                bei fuenf und mehr Orten faellt das auf. Zwei Spalten
+                halbieren die Hoehe, ohne dass ein einzelner Link die
+                Mindest-Tippflaeche unterschreitet. */}
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-[0.95rem]">
               {ortsseiten.map((ort) => (
                 <li key={ort.slug}>
                   <Link
                     href={ortsPfad(ort.slug)}
-                    className="inline-flex min-h-[2.5rem] items-center text-leise transition-colors hover:text-text"
+                    className="inline-flex min-h-[2.25rem] items-center text-leise transition-colors hover:text-text"
                   >
-                    Hausbesuch in {ort.name}
+                    {ort.name}
                   </Link>
                 </li>
               ))}
