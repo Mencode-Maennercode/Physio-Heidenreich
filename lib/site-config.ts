@@ -133,8 +133,7 @@ export const kontakt = {
    * Stand: siehe Commit-Historie dieser Datei.
    */
   erreichbarkeit: [
-    { zeit: "Montag bis Dienstag", detail: "8 – 17 Uhr" },
-    { zeit: "Mittwoch bis Samstag", detail: "8 – 18 Uhr" },
+    { zeit: "Montag bis Samstag", detail: "8 – 18 Uhr" },
     { zeit: "Außerhalb dieser Zeiten", detail: "Sprechen Sie mir auf den Anrufbeantworter, ich rufe zurück" },
   ],
 } as const;
