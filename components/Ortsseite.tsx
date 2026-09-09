@@ -1,27 +1,27 @@
 import Link from "next/link";
 import * as Accordion from "@radix-ui/react-accordion";
-import { MapPin, Phone, Plus } from "lucide-react";
+import { MapPin, Plus } from "lucide-react";
 import Brotkrumen from "@/components/Brotkrumen";
-import Bild from "@/components/Bild";
-import Knopf from "@/components/Knopf";
-import Sektionskopf from "@/components/Sektionskopf";
-import GcSeitenKopf from "@/components/golden-calm/GcSeitenKopf";
-import {
-  BildWischer,
-  Enthuellen,
-  Staffel,
-  StaffelKind,
-} from "@/components/motion/Enthuellen";
-import { kontakt, seite } from "@/lib/site-config";
+import GcHero from "@/components/golden-calm/GcHero";
+import GcKonzept from "@/components/golden-calm/GcKonzept";
+import GcLeistungen from "@/components/golden-calm/GcLeistungen";
+import GcUeberMich from "@/components/golden-calm/GcUeberMich";
+import GcKontakt from "@/components/golden-calm/GcKontakt";
+import { hero as heroDe } from "@/lib/content/golden-calm";
+import { seite } from "@/lib/site-config";
 import { ortsPfad, ortsseiten, type Ortsseite as OrtsseiteDaten } from "@/lib/content/orte";
 
 /**
  * Gemeinsames Geruest aller Ortsseiten.
  *
- * Das Layout ist geteilt, die Inhalte sind es ausdruecklich NICHT - jeder
- * Absatz kommt aus lib/content/orte.ts und gilt nur fuer diesen einen Ort.
- * Genau daran entscheidet sich, ob Google die Seiten als vier eigenstaendige
- * Antworten wertet oder als Doorway Pages abstraft.
+ * Der sichtbare Hauptteil ist ABSICHTLICH identisch mit der Startseite
+ * (derselbe Hero, dieselben Abschnitte Konzept/Leistungen/UeberMich/Kontakt)
+ * - einzig die H1 im Hero nennt den Ort. Das war frueher anders: Jede
+ * Ortsseite hatte ihr eigenes Layout mit eigenen Absaetzen. Der gesamte
+ * Inhalt, der frueher dort stand UND der Grund, warum diese Seiten fuer
+ * Google eigenstaendig sind, steckt jetzt gesammelt im Klappblock am Ende
+ * ("In »Ort«") - nicht gekuerzt, nur umsortiert. Google gewichtet
+ * Akkordeon-Inhalt genauso wie offenen Text (auch beim mobilen Index).
  *
  * Zum JSON-LD: Hier steht bewusst KEIN zweiter `MedicalBusiness`. Die Praxis
  * gibt es einmal, sie hat in StrukturDaten.tsx die feste Kennung
@@ -51,11 +51,16 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
     url: `${seite.domain}${pfad}`,
   };
 
-  /* Die uebrigen Orte - fuer die Verweise am Fuss der Seite. */
+  /* Die uebrigen Orte - Verweise stehen im Klappblock, nicht als eigene
+     sichtbare Sektion (die gibt es auf der Startseite nicht). */
   const andere = ortsseiten.filter((eintrag) => eintrag.slug !== ort.slug);
 
   return (
-    <div className="gc-kontext" data-gc>
+    <div
+      data-gc
+      className="gc-kontext font-[family-name:var(--font-jakarta)] text-[1.05rem] leading-[1.7]"
+      style={{ background: "var(--gc-bg)", color: "var(--gc-text)" }}
+    >
       <Brotkrumen titel={`Hausbesuch in ${ort.name}`} pfad={pfad} />
       <script
         type="application/ld+json"
@@ -64,168 +69,21 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(dienstleistung) }}
       />
 
-      <GcSeitenKopf
-        kicker={ort.augenbraue}
-        titel={ort.h1}
-        text={ort.einleitung}
-      />
+      {/* Nur die H1 (titelZeilen) ist ortsspezifisch - Augenbraue, Text,
+          Merkmale und Person bleiben exakt wie auf der Startseite. */}
+      <GcHero hero={{ ...heroDe, titelZeilen: [ort.h1] }} />
+      <GcKonzept />
+      <GcLeistungen />
+      <GcUeberMich />
+      <GcKontakt />
 
       {/* ------------------------------------------------------------------
-          Was diesen Ort ausmacht. Steht bewusst ganz oben und nicht hinter
-          einer Leistungsliste: Es ist der einzige Abschnitt, den es so nur
-          auf dieser Seite gibt - und damit der Grund, warum sie existiert.
-          ------------------------------------------------------------------ */}
-      <section className="sektion">
-        <div className="huelle grid min-w-0 items-start gap-[clamp(2.5rem,6vw,5rem)] lg:grid-cols-[1fr_0.75fr]">
-          <div className="min-w-0">
-            <Sektionskopf augenbraue="Vor Ort" titel={ort.lage.titel} />
-            <div className="lesespalte mt-8 flex flex-col gap-5">
-              {ort.lage.absaetze.map((absatz) => (
-                <Enthuellen key={absatz.slice(0, 24)}>
-                  <p className="text-[1.05rem]">{absatz}</p>
-                </Enthuellen>
-              ))}
-            </div>
-          </div>
-
-          <BildWischer>
-            <Bild
-              name="wohnraum"
-              className="aspect-4/5 overflow-hidden"
-              groessen="(min-width: 1024px) 34vw, 100vw"
-            />
-          </BildWischer>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
-          Typische Zugangssituationen - konkret, nicht als Leistungsliste.
-          ------------------------------------------------------------------ */}
-      <section className="auf-warm sektion">
-        <div className="huelle">
-          <Sektionskopf
-            augenbraue="Wie ein Hausbesuch hier aussieht"
-            titel={`Vier Situationen, die es in ${ort.name} häufig gibt`}
-          />
-
-          <Staffel className="mt-14 grid min-w-0 gap-x-12 gap-y-10 md:grid-cols-2">
-            {ort.wege.map((weg, i) => (
-              <StaffelKind
-                key={weg.titel}
-                className="min-w-0 border-t border-linie-warm pt-7"
-              >
-                <span
-                  aria-hidden="true"
-                  className="text-[0.72rem] tracking-[0.18em] text-akzent-warm"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="schrift-display mt-4 text-[1.3rem] leading-tight">
-                  {weg.titel}
-                </h3>
-                <p className="mt-4 text-[0.98rem] text-leise">{weg.text}</p>
-              </StaffelKind>
-            ))}
-          </Staffel>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
-          Was behandelt wird - kurz, mit Verweis auf die ausfuehrliche Seite.
-          Bewusst KEINE Wiederholung der ganzen Leistungsliste: Vier Seiten
-          mit derselben Aufzaehlung waeren genau der doppelte Inhalt, den
-          diese Seiten vermeiden sollen.
-          ------------------------------------------------------------------ */}
-      <section className="auf-warm sektion">
-        <div className="huelle-eng">
-          <Enthuellen>
-            <p className="augenbraue">Behandlungen</p>
-            <h2 className="schrift-display titel-klein mt-6 max-w-[24ch]">
-              Was ich mitbringe, ist überall dasselbe. Wo es angewendet wird,
-              nicht.
-            </h2>
-            <p className="lesespalte-weit mt-7 text-[1.05rem]">
-              Krankengymnastik, Mobilisation, Nachsorge nach Operationen,
-              Sturzprophylaxe, manuelle Lymphdrainage und neurologische
-              Behandlung mit besonderer Erfahrung — in {ort.name} wie im
-              übrigen Kreis Ahrweiler. Was sich unterscheidet, ist die
-              Wohnung, in der geübt wird.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Knopf href="/behandlung/" art="linie" kind="Alle Behandlungen" />
-              <Knopf href="/ablauf/" art="linie" kind="Ablauf und Abrechnung" />
-            </div>
-          </Enthuellen>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
-          Anruf.
-          ------------------------------------------------------------------ */}
-      <section className="sektion">
-        <div className="huelle-eng text-center">
-          <Enthuellen className="flex flex-col items-center">
-            <p className="augenbraue">Termin in {ort.name}</p>
-            <h2 className="schrift-display titel-klein mt-6 max-w-[26ch]">
-              Rufen Sie an. Die erste Frage ist immer die nach dem Wohnort.
-            </h2>
-            <p className="lesespalte mt-6 text-[0.98rem] text-leise">
-              Weil ich Termine zu zusammenhängenden Routen bündele, entscheidet
-              die Adresse darüber, welcher Tag möglich ist. Fünf Minuten am
-              Telefon klären das schneller als jedes Formular.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Knopf
-                href={`tel:${kontakt.telefonLink}`}
-                kind={
-                  <>
-                    <Phone className="size-4" aria-hidden="true" />
-                    {kontakt.telefonAnzeige}
-                  </>
-                }
-              />
-              <Knopf href="/kontakt/" art="linie" kind="Schriftlich anfragen" />
-            </div>
-          </Enthuellen>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
-          Verweise auf die uebrigen Ortsseiten. Zweck ist nicht Navigation -
-          es sind die internen Links, ueber die Google die anderen Ortsseiten
-          ueberhaupt findet und als zusammengehoerig erkennt.
-          ------------------------------------------------------------------ */}
-      <section className="auf-warm sektion">
-        <div className="huelle">
-          <p className="augenbraue">Weitere Orte</p>
-          <ul className="mt-7 grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
-            {andere.map((eintrag) => (
-              <li key={eintrag.slug}>
-                <Link
-                  href={ortsPfad(eintrag.slug)}
-                  className="inline-flex min-h-[2.75rem] items-center gap-2 text-[0.98rem] text-leise transition-colors hover:text-text"
-                >
-                  <MapPin
-                    className="size-3.5 flex-none text-akzent-warm"
-                    strokeWidth={1.8}
-                    aria-hidden="true"
-                  />
-                  Hausbesuch in {eintrag.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
-          Ortsteile und Anfahrt. Nachschlage-Information, deshalb eingeklappt
-          und ganz unten - der Inhalt ist unveraendert und vollstaendig
-          vorhanden (Google gewichtet Akkordeon-Inhalt genauso wie offenen
-          Text), nur nicht mehr der erste Eindruck der Seite. Das Trigger-
-          Icon bleibt bewusst gut erkennbar: Inhalt, der fuer Menschen
-          absichtlich schwer auffindbar gemacht wird, ist etwas anderes als
-          Inhalt, der eingeklappt beginnt.
+          Alles Ortsspezifische, gesammelt in einem Block. Eingeklappt und
+          ganz unten, weil es Nachschlage-Information fuer Google und fuer
+          Besucher ist, die gezielt danach suchen - nicht der erste Eindruck
+          der Seite. Der Trigger bleibt bewusst kurz, aber lesbar und fuer
+          Screenreader zugaenglich: ein Bedienelement ohne jeden Text waere
+          fuer echte Nutzer nicht auffindbar.
           ------------------------------------------------------------------ */}
       <section className="sektion">
         <div className="huelle-eng">
@@ -234,14 +92,11 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
             collapsible
             className="border-t border-b border-linie-fein"
           >
-            <Accordion.Item value="ortsteile">
+            <Accordion.Item value="ort">
               <Accordion.Header>
-                <Accordion.Trigger className="group flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-aktion">
-                  <span>
-                    <span className="augenbraue">Ortsteile</span>
-                    <span className="schrift-display mt-2 block text-[1.2rem] leading-snug">
-                      Wohin ich in {ort.name} fahre
-                    </span>
+                <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-6 text-left transition-colors hover:text-aktion">
+                  <span className="schrift-display text-[1.2rem] leading-snug">
+                    In »{ort.name}«
                   </span>
                   <span
                     aria-hidden="true"
@@ -252,26 +107,89 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
                 </Accordion.Trigger>
               </Accordion.Header>
               <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[zu_240ms_ease] data-[state=open]:animate-[auf_320ms_ease]">
-                <div className="pb-8">
-                  <p className="text-[0.98rem] text-leise">{ort.anfahrt}</p>
-                  <div className="mt-6 flex flex-wrap gap-x-3 gap-y-3">
-                    {ort.ortsteile.map((teil) => (
-                      <span
-                        key={teil}
-                        className="flex items-center gap-2 rounded-full border border-linie px-4 py-2 text-[0.92rem] text-leise"
-                      >
-                        <MapPin
-                          className="size-3.5 flex-none text-akzent-warm"
-                          strokeWidth={1.8}
-                          aria-hidden="true"
-                        />
-                        {teil}
-                      </span>
-                    ))}
+                <div className="flex flex-col gap-10 pb-10">
+                  <div>
+                    <h2 className="schrift-display text-[1.3rem] leading-tight">
+                      {ort.lage.titel}
+                    </h2>
+                    <div className="lesespalte mt-5 flex flex-col gap-4">
+                      {ort.lage.absaetze.map((absatz) => (
+                        <p key={absatz.slice(0, 24)} className="text-[0.98rem] text-leise">
+                          {absatz}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                  <p className="lesespalte mt-6 text-[0.98rem] text-leise">
-                    {ort.ortsteileText}
-                  </p>
+
+                  <div>
+                    <h2 className="schrift-display text-[1.3rem] leading-tight">
+                      Vier Situationen, die es in {ort.name} häufig gibt
+                    </h2>
+                    <div className="mt-5 grid gap-x-12 gap-y-6 md:grid-cols-2">
+                      {ort.wege.map((weg, i) => (
+                        <div key={weg.titel} className="min-w-0 border-t border-linie-warm pt-5">
+                          <span
+                            aria-hidden="true"
+                            className="text-[0.72rem] tracking-[0.18em] text-akzent-warm"
+                          >
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="schrift-display mt-3 text-[1.1rem] leading-tight">
+                            {weg.titel}
+                          </h3>
+                          <p className="mt-3 text-[0.95rem] text-leise">{weg.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="schrift-display text-[1.3rem] leading-tight">
+                      Wohin ich in {ort.name} fahre
+                    </h2>
+                    <p className="mt-5 text-[0.98rem] text-leise">{ort.anfahrt}</p>
+                    <div className="mt-6 flex flex-wrap gap-x-3 gap-y-3">
+                      {ort.ortsteile.map((teil) => (
+                        <span
+                          key={teil}
+                          className="flex items-center gap-2 rounded-full border border-linie px-4 py-2 text-[0.92rem] text-leise"
+                        >
+                          <MapPin
+                            className="size-3.5 flex-none text-akzent-warm"
+                            strokeWidth={1.8}
+                            aria-hidden="true"
+                          />
+                          {teil}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="lesespalte mt-6 text-[0.98rem] text-leise">
+                      {ort.ortsteileText}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h2 className="schrift-display text-[1.3rem] leading-tight">
+                      Weitere Orte
+                    </h2>
+                    <ul className="mt-5 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+                      {andere.map((eintrag) => (
+                        <li key={eintrag.slug}>
+                          <Link
+                            href={ortsPfad(eintrag.slug)}
+                            className="inline-flex min-h-[2.75rem] items-center gap-2 text-[0.98rem] text-leise transition-colors hover:text-text"
+                          >
+                            <MapPin
+                              className="size-3.5 flex-none text-akzent-warm"
+                              strokeWidth={1.8}
+                              aria-hidden="true"
+                            />
+                            Hausbesuch in {eintrag.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </Accordion.Content>
             </Accordion.Item>
