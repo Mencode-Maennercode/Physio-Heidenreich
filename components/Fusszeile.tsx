@@ -52,8 +52,8 @@ import { spracheAus } from "@/lib/sprache";
     sitemap.xml mit gegenseitiger hreflang-Auszeichnung.
 
   Was bleibt, bleibt mit Grund: die fuenf Ortsseiten (der einzige Verweis
-  auf sie, der auf JEDER Seite steht), Notfall- und KI-Hinweis (beide
-  Pflicht), Impressum und Datenschutz (§ 5 DDG, Art. 13 DSGVO).
+  auf sie, der auf JEDER Seite steht), die KI-Offenlegung (Art. 50 KI-VO),
+  Impressum und Datenschutz (§ 5 DDG, Art. 13 DSGVO).
 */
 
 /*
@@ -170,46 +170,29 @@ export default function Fusszeile() {
 
         <div className="my-5 h-px bg-linie-warm" />
 
-        {/* Notfallhinweis und KI-Offenlegung nebeneinander. Beide muessen
-            auf jede Seite, beide sind kurz genug fuer eine halbe Breite -
-            untereinander kosteten sie mit ihren Abstaenden gut 150 px. */}
-        <div className="grid gap-x-10 gap-y-3 text-[0.88rem] leading-snug text-leise lg:grid-cols-[1.5fr_1fr]">
-          {/* Gehoert auf jede Seite eines Gesundheitsangebots - und zwar
-              dorthin, wo jemand in Panik zuerst hinsieht. */}
-          <p>
-            Diese Seite ist kein Notfalldienst. Bei akuten Notfällen wählen Sie{" "}
-            <a
-              href="tel:112"
-              className="font-medium text-text underline underline-offset-4"
-            >
-              112
-            </a>
-            , bei dringenden ärztlichen Fragen außerhalb der Sprechzeiten
-            erreichen Sie den ärztlichen Bereitschaftsdienst unter{" "}
-            <a
-              href="tel:116117"
-              className="font-medium text-text underline underline-offset-4"
-            >
-              116 117
-            </a>
-            .
-          </p>
+        {/*
+          Aufloesung des "KI"-Zeichens an den Bildern.
 
-          {/*
-            Aufloesung des "KI"-Zeichens an den Bildern.
+          Sie steht bewusst hier und nicht nur im Impressum: Artikel 50 der
+          EU-KI-Verordnung verlangt die Offenlegung dort, wo der Inhalt zu
+          sehen ist - eine eigene Rechtsseite, die man erst ansteuern muss,
+          genuegt ausdruecklich nicht. Das Kuerzel am Bild traegt die
+          Aussage, dieser Satz macht sie vollstaendig.
 
-            Sie steht bewusst hier und nicht nur im Impressum: Artikel 50 der
-            EU-KI-Verordnung verlangt die Offenlegung dort, wo der Inhalt zu
-            sehen ist - eine eigene Rechtsseite, die man erst ansteuern muss,
-            genuegt ausdruecklich nicht. Das Kuerzel am Bild traegt die
-            Aussage, dieser Satz macht sie vollstaendig.
+          Normale Fusszeilengroesse und -farbe, kein Kleingedrucktes: Auch
+          das ist Vorgabe, "blasse" oder versteckte Hinweise zaehlen nicht.
 
-            Normale Fusszeilengroesse und -farbe, kein Kleingedrucktes: Auch
-            das ist Vorgabe, "blasse" oder versteckte Hinweise zaehlen nicht.
-            Die zweite Spalte ist deshalb gleich gross gesetzt wie die erste.
-          */}
-          <p>{sprache === "en" ? KI_HINWEIS_EN : KI_HINWEIS}</p>
-        </div>
+          Daneben stand bis hierher der Notfallhinweis ("kein Notfalldienst,
+          im Notfall 112, ausserhalb der Sprechzeiten 116 117"). Der ist
+          entfallen: Verlangt hat ihn kein Gesetz, und Notdienst und
+          aerztlicher Bereitschaftsdienst sind Arztthemen. Wer 112 braucht,
+          sucht nicht nach einer Physiotherapeutin fuer Hausbesuche - der
+          Hinweis beantwortete eine Frage, die auf dieser Seite niemand
+          stellt.
+        */}
+        <p className="text-[0.88rem] leading-snug text-leise">
+          {sprache === "en" ? KI_HINWEIS_EN : KI_HINWEIS}
+        </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-1 text-[0.88rem] text-leise">
           {/* Nur der Name, nicht `nameLang`: "- Mobile Physiotherapie"
