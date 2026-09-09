@@ -41,6 +41,16 @@ import { analyse } from "@/lib/site-config";
  * damit ohne Aussage; die Frage, die zaehlt, ist "welche Seite fuehrt zum
  * Anruf".
  *
+ * Kein Tracking auf localhost:
+ *
+ * `scripts/pruefen.mjs` startet den gebauten Stand lokal (Port 4321) und
+ * ruft jede Seite auf; Playwright-Tests tun dasselbe auf wechselnden
+ * Ports. Ohne die Abfrage unten landet dieser Testverkehr in der echten
+ * Statistik - gemessen am 09.09.2026: 251 von 269 Aufrufen stammten aus
+ * lokalen Testlaeufen, die Zahlen waren damit wertlos. In Matomo ist
+ * zusaetzlich "nur bekannte URLs verfolgen" aktiv; das hier spart schon
+ * die Anfrage.
+ *
  * Beide Felder in site-config LEER lassen heisst: diese Komponente gibt
  * `null` zurueck, kein Skript steht im HTML.
  */
@@ -50,20 +60,25 @@ export default function Matomo() {
   return (
     <Script id="matomo-tracking" strategy="afterInteractive">
       {`
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['disableCookies']);
-        _paq.push(['enableHeartBeatTimer', 15]);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        document.addEventListener('click', function (e) {
-          var ziel = e.target && e.target.closest
-            ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]')
-            : null;
-          if (!ziel) return;
-          var art = ziel.getAttribute('href').indexOf('tel:') === 0 ? 'Anruf' : 'E-Mail';
-          _paq.push(['trackEvent', 'Kontakt', art, location.pathname]);
-        }, true);
         (function() {
+          var h = location.hostname;
+          if (h === 'localhost' || h === '127.0.0.1' || h === '::1' || h === '[::1]') return;
+
+          var _paq = window._paq = window._paq || [];
+          _paq.push(['disableCookies']);
+          _paq.push(['enableHeartBeatTimer', 15]);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+
+          document.addEventListener('click', function (e) {
+            var ziel = e.target && e.target.closest
+              ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]')
+              : null;
+            if (!ziel) return;
+            var art = ziel.getAttribute('href').indexOf('tel:') === 0 ? 'Anruf' : 'E-Mail';
+            _paq.push(['trackEvent', 'Kontakt', art, location.pathname]);
+          }, true);
+
           var u = ${JSON.stringify(analyse.matomoUrl)};
           _paq.push(['setTrackerUrl', u + 'matomo.php']);
           _paq.push(['setSiteId', ${JSON.stringify(analyse.matomoSiteId)}]);
