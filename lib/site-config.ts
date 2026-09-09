@@ -41,12 +41,14 @@ export const seite = {
    * Wiederholung: Suchmaschinen werten immer gleichen Text am Seitenrand
    * ohnehin nicht.
    *
-   * Diese Fassung behaelt die zwei Wortgruppen, auf die es ankommt -
-   * "Physiotherapie als Hausbesuch" und "Kreis Ahrweiler" - und passt in
-   * eine Zeile.
+   * Was hier drin bleiben MUSS, sind die Wortgruppen, mit denen gesucht
+   * wird: "Physiotherapie als Hausbesuch", "Privatpatienten und
+   * Selbstzahler", "Kreis Ahrweiler". Weggefallen ist nur die Aufzaehlung
+   * der Verfahren und die Rufnummer - beides steht in der Fusszeile
+   * ohnehin daneben bzw. auf den Leistungsseiten.
    */
   fusszeilenzeile:
-    "Physiotherapie als Hausbesuch im Kreis Ahrweiler.",
+    "Physiotherapie als Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler.",
 
   /**
    * Titelzeile der Startseite.
