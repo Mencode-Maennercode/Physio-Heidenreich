@@ -26,29 +26,31 @@ import { spracheAus } from "@/lib/sprache";
 */
 
 /*
-  Bauprinzip dieser Fusszeile: nebeneinander statt untereinander.
+  Bauprinzip: Reihen, keine Spalten.
 
-  Sie war einmal 826 px hoch am Laptop und 1768 px am Handy - ein ganzer
-  bzw. ein doppelter Bildschirm, den man am Ende jeder Seite durchscrollt.
-  Weggefallen ist dabei kein einziger Link und kein Pflichthinweis; was
-  gekuerzt wurde, ist ausschliesslich Luft:
+  Die Fusszeile war einmal 826 px hoch am Laptop und 1768 px am Handy. Der
+  erste Umbau stellte vier Spalten nebeneinander - das half, hatte aber
+  einen eingebauten Boden: Die hoechste Spalte bestimmt die Hoehe, und das
+  waren immer die fuenf Seitenlinks. Neben der Wortmarke blieb dadurch ein
+  handbreites Stueck leere Flaeche stehen, das nichts trug.
 
-  - Die Spalten stehen schon ab 640 px zu zweit nebeneinander, nicht erst
-    ab 768 px; ab 768 px liegt die Wortmarke als flache Zeile darueber und
-    die drei Listen daneben, ab 1280 px stehen alle vier nebeneinander.
-  - Die Ortsliste ist zweispaltig, am Handy laufen auch "Seiten" und
-    "Einsatzgebiet" in die Breite statt untereinander.
-  - Die Zusaetze an den Rufnummern ("Festnetz", "Mobil und SMS") stehen
-    hinter der Nummer statt darunter - halbe Hoehe, gleicher Inhalt.
-  - Notfall- und KI-Hinweis stehen am Laptop nebeneinander statt
-    hintereinander.
-  - Tippflaechen bleiben unangetastet bei 45 px. Das ist der Punkt, an
-    dem hier bewusst NICHT weiter gekuerzt wird - siehe `zeile` unten.
+  Jetzt liegt jede Gruppe in EINER Zeile - Beschriftung links, Eintraege
+  daneben:
+
+      [Marke]                         Festnetz   Mobil   E-Mail
+      Physiotherapie als Hausbesuch fuer ...
+      SEITEN          Start  Behandlung  Ueber mich  Ablauf  Kontakt
+      EINSATZGEBIET   Bad Neuenahr-Ahrweiler  Sinzig  Remagen  ...
+
+  Eine Gruppe kostet damit eine Zeilenhoehe statt fuenf, und es bleibt
+  keine Flaeche uebrig, die nur auf die laengste Nachbarspalte wartet. Auf
+  schmalen Schirmen rutscht die Beschriftung ueber ihre Zeile und die
+  Eintraege brechen um - dieselbe Anordnung, nur gestapelt.
+
+  Weggefallen ist kein Link und kein Pflichthinweis. Die Orte ohne eigene
+  Seite stehen jetzt im Beschreibungssatz statt in einem eigenen Absatz
+  unter der Ortsliste - nur so bleibt die Ortszeile eine Zeile.
 */
-
-function Spaltentitel({ children }: { children: React.ReactNode }) {
-  return <h2 className="feld-marke mb-3">{children}</h2>;
-}
 
 /*
   Eine Zeile in den Linklisten.
@@ -63,136 +65,130 @@ function Spaltentitel({ children }: { children: React.ReactNode }) {
 */
 const zeile = "inline-flex min-h-[2.5rem] items-center";
 
+/* Beschriftung einer Reihe. Ab `sm` steht sie in der Zeile ihrer
+   Eintraege und wird deshalb auf deren Hoehe zentriert. */
+function Reihentitel({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="feld-marke flex items-center self-start sm:min-h-[2.5rem]">
+      {children}
+    </h2>
+  );
+}
+
 export default function Fusszeile() {
   const sprache = spracheAus(usePathname());
 
+  /* Die Orte ohne eigene Seite. Sie werden trotzdem gesucht und gehoeren
+     deshalb in den Text - nur in den Satz, der ohnehin dasteht, statt in
+     einen eigenen Absatz unter der Ortsliste. */
+  const weitereOrte = einsatzgebiet.kern.filter(
+    (ort) => !ortsseiten.some((o) => o.name === ort),
+  );
+
   return (
     <footer className="auf-warm nicht-drucken">
-      <div className="huelle py-[clamp(2rem,3.5vw,3rem)]">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 sm:gap-x-8 sm:gap-y-8 md:grid-cols-[1.45fr_0.5fr_1.05fr] xl:grid-cols-[1.25fr_1.25fr_0.55fr_0.95fr] xl:gap-x-10">
-          <div className="col-span-2 md:col-span-3 md:flex md:items-center md:gap-7 xl:col-span-1 xl:block">
-            <div className="flex flex-none items-center gap-3">
-              <Bildmarke className="size-8 flex-none text-akzent-warm" />
-              <span className="flex flex-col leading-none">
-                <span className="schrift-display text-[1.05rem] tracking-[0.06em] uppercase">
-                  {seite.name}
-                </span>
-                <span className="mt-1 text-[0.6rem] font-medium tracking-[0.24em] text-leise uppercase">
-                  {seite.zusatz}
-                </span>
+      <div className="huelle py-[clamp(1.75rem,3vw,2.5rem)]">
+        <div className="flex flex-col gap-x-10 gap-y-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-none items-center gap-3">
+            <Bildmarke className="size-8 flex-none text-akzent-warm" />
+            <span className="flex flex-col leading-none">
+              <span className="schrift-display text-[1.05rem] tracking-[0.06em] uppercase">
+                {seite.name}
               </span>
-            </div>
-            <p className="mt-4 text-[0.9rem] text-leise md:mt-0 xl:mt-4">
-              {seite.fusszeilenzeile}
-            </p>
+              <span className="mt-1 text-[0.6rem] font-medium tracking-[0.24em] text-leise uppercase">
+                {seite.zusatz}
+              </span>
+            </span>
           </div>
 
-          <div className="col-span-2 sm:col-span-1">
-            <Spaltentitel>Kontakt</Spaltentitel>
-            <ul className="flex flex-col text-[0.95rem]">
-              <li>
-                <a
-                  href={`tel:${kontakt.telefonLink}`}
-                  className={`${zeile} gap-2.5 transition-colors hover:text-akzent-warm`}
-                >
-                  <Phone className="size-4 flex-none" aria-hidden="true" />
-                  <span>
-                    {kontakt.telefonAnzeige}
-                    <span className="ml-1.5 text-[0.78rem] text-leise">
-                      Festnetz
-                    </span>
+          {/* Nur fuer Screenreader: In der Zeile tragen die Zeichen vor den
+              Eintraegen die Bedeutung, aber die Gruppe soll dieselbe
+              Ueberschrift haben wie die beiden Reihen darunter. */}
+          <h2 className="sr-only">Kontakt</h2>
+          <ul className="flex flex-wrap gap-x-7 text-[0.95rem] lg:justify-end">
+            <li>
+              <a
+                href={`tel:${kontakt.telefonLink}`}
+                className={`${zeile} gap-2.5 transition-colors hover:text-akzent-warm`}
+              >
+                <Phone className="size-4 flex-none" aria-hidden="true" />
+                <span>
+                  {kontakt.telefonAnzeige}
+                  <span className="ml-1.5 text-[0.78rem] text-leise">
+                    Festnetz
                   </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${kontakt.mobilLink}`}
-                  className={`${zeile} gap-2.5 transition-colors hover:text-akzent-warm`}
-                >
-                  <Smartphone className="size-4 flex-none" aria-hidden="true" />
-                  <span>
-                    {kontakt.mobilAnzeige}
-                    <span className="ml-1.5 text-[0.78rem] text-leise">
-                      Mobil und SMS
-                    </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={`tel:${kontakt.mobilLink}`}
+                className={`${zeile} gap-2.5 transition-colors hover:text-akzent-warm`}
+              >
+                <Smartphone className="size-4 flex-none" aria-hidden="true" />
+                <span>
+                  {kontakt.mobilAnzeige}
+                  <span className="ml-1.5 text-[0.78rem] text-leise">
+                    Mobil und SMS
                   </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`mailto:${kontakt.email}`}
-                  className={`${zeile} gap-2.5 [overflow-wrap:anywhere] transition-colors hover:text-akzent-warm`}
-                >
-                  <Mail className="size-4 flex-none" aria-hidden="true" />
-                  {kontakt.email}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="col-span-2 sm:col-span-1">
-            <Spaltentitel>Seiten</Spaltentitel>
-            {/* Am Handy laufen die Eintraege in die Breite und brauchen zwei
-                Zeilen statt fuenf; ab `sm` ist Platz fuer die Spalte, die
-                sich schneller ueberfliegen laesst. */}
-            <ul className="flex flex-wrap gap-x-6 text-[0.95rem] sm:flex-col sm:gap-x-0">
-              {navigation.map((eintrag) => (
-                <li key={eintrag.pfad}>
-                  <Link
-                    href={eintrag.pfad}
-                    className={`${zeile} text-leise transition-colors hover:text-text`}
-                  >
-                    {eintrag.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="col-span-2 md:col-span-1">
-            <Spaltentitel>Einsatzgebiet</Spaltentitel>
-            {/* Bewusst Links statt der frueheren Aufzaehlung: Das ist der
-                einzige Verweis auf die Ortsseiten, der auf JEDER Seite
-                steht. Ohne ihn haengen sie an einer einzigen Stelle im
-                Seitenbaum (der Karte auf /ablauf/ und /kontakt/) - zu wenig,
-                damit eine Suchmaschine sie als vollwertige Seiten wertet.
-
-                Zweispaltig statt einer langen Liste: Mit jeder neuen
-                Ortsseite waechst die Fusszeile sonst um eine ganze Zeile -
-                bei fuenf und mehr Orten faellt das auf. Zwei Spalten
-                halbieren die Hoehe, ohne dass ein einzelner Link die
-                Mindest-Tippflaeche unterschreitet. */}
-            <ul className="flex flex-wrap gap-x-6 text-[0.95rem] sm:grid sm:grid-cols-2">
-              {ortsseiten.map((ort) => (
-                /* Lange Ortsnamen ueber beide Spalten: "Bad
-                   Neuenahr-Ahrweiler" passt in keine halbe Fusszeilenspalte
-                   und brach dort in zwei Zeilen um - der Umbruch kostete
-                   genau die Zeile, die die zweite Spalte einsparen soll.
-                   Nach Laenge statt nach Position, damit die Regel auch
-                   nach dem naechsten neuen Ort noch stimmt. */
-                <li key={ort.slug} className={ort.name.length > 14 ? "sm:col-span-2" : undefined}>
-                  <Link
-                    href={ortsPfad(ort.slug)}
-                    className={`${zeile} text-leise transition-colors hover:text-text`}
-                  >
-                    {ort.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            {/* Die Orte ohne eigene Seite trotzdem im Text: Sie werden
-                gesucht, und die Zeile kostet keine eigene Bildschirmhoehe -
-                sie fuellt den Platz unter der zweispaltigen Liste. */}
-            <p className="mt-2 text-[0.9rem] text-leise">
-              Dazu {einsatzgebiet.kern
-                .filter((ort) => !ortsseiten.some((o) => o.name === ort))
-                .join(", ")}{" "}
-              und Umgebung im Kreis Ahrweiler.
-            </p>
-          </div>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={`mailto:${kontakt.email}`}
+                className={`${zeile} gap-2.5 [overflow-wrap:anywhere] transition-colors hover:text-akzent-warm`}
+              >
+                <Mail className="size-4 flex-none" aria-hidden="true" />
+                {kontakt.email}
+              </a>
+            </li>
+          </ul>
         </div>
 
-        <div className="my-6 h-px bg-linie-warm" />
+        <p className="mt-3 text-[0.9rem] text-leise">
+          {seite.fusszeilenzeile} Dazu {weitereOrte.join(", ")} und Umgebung.
+        </p>
+
+        {/* Beschriftung links, Eintraege daneben. Die Beschriftungsspalte
+            ist `auto` breit, richtet sich also nach dem laengeren der
+            beiden Woerter - beide Reihen fluchten dadurch. */}
+        <div className="mt-4 grid gap-x-8 sm:grid-cols-[auto_1fr]">
+          <Reihentitel>Seiten</Reihentitel>
+          <ul className="flex flex-wrap gap-x-7 text-[0.95rem]">
+            {navigation.map((eintrag) => (
+              <li key={eintrag.pfad}>
+                <Link
+                  href={eintrag.pfad}
+                  className={`${zeile} text-leise transition-colors hover:text-text`}
+                >
+                  {eintrag.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <Reihentitel>Einsatzgebiet</Reihentitel>
+          {/* Bewusst Links statt einer Aufzaehlung: Das ist der einzige
+              Verweis auf die Ortsseiten, der auf JEDER Seite steht. Ohne
+              ihn haengen sie an einer einzigen Stelle im Seitenbaum (der
+              Karte auf /ablauf/ und /kontakt/) - zu wenig, damit eine
+              Suchmaschine sie als vollwertige Seiten wertet. */}
+          <ul className="flex flex-wrap gap-x-7 text-[0.95rem]">
+            {ortsseiten.map((ort) => (
+              <li key={ort.slug}>
+                <Link
+                  href={ortsPfad(ort.slug)}
+                  className={`${zeile} text-leise transition-colors hover:text-text`}
+                >
+                  {ort.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="my-5 h-px bg-linie-warm" />
 
         {/* Notfallhinweis und KI-Offenlegung nebeneinander. Beide muessen
             auf jede Seite, beide sind kurz genug fuer eine halbe Breite -
@@ -235,10 +231,10 @@ export default function Fusszeile() {
           <p>{sprache === "en" ? KI_HINWEIS_EN : KI_HINWEIS}</p>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-1 text-[0.88rem] text-leise">
+        <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-1 text-[0.88rem] text-leise">
           {/* Nur der Name, nicht `nameLang`: "- Mobile Physiotherapie"
-              steht drei Zeilen weiter oben in der Wortmarke und brach hier
-              am Handy in eine zweite Zeile um. */}
+              steht oben in der Wortmarke und brach hier am Handy in eine
+              zweite Zeile um. */}
           <p className="mr-auto">
             © {new Date().getFullYear()} {seite.name}
           </p>
