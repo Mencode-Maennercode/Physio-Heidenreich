@@ -22,6 +22,25 @@ import { analyse } from "@/lib/site-config";
  *    es sonst keinen zweiten Messpunkt, aus dem sich die Zeit auf der
  *    Seite berechnen liesse.
  *
+ * Anruf- und E-Mail-Klicks als Ereignis:
+ *
+ * `enableLinkTracking` erfasst ausgehende Links und Downloads - `tel:` und
+ * `mailto:` gehoeren ausdruecklich NICHT dazu. Ohne die Zeilen weiter unten
+ * bliebe damit ausgerechnet die wichtigste Handlung dieser Website
+ * ungemessen: der Anruf. In Matomo haengen daran die Ziele "Anruf
+ * gestartet" und "E-Mail geklickt".
+ *
+ * Ein einziger Listener am `document` statt einer Meldung pro Knopf:
+ * Telefonnummern stehen in ueber dreissig Dateien (Kopfzeile, Hero, feste
+ * Leiste auf dem Handy, Fusszeile, jede Unterseite). Einzeln verkabelt
+ * waere garantiert einer vergessen worden - und zwar unbemerkt, weil eine
+ * fehlende Meldung nichts kaputt macht, sondern nur fehlt.
+ *
+ * Als Bezeichnung wird der Pfad der Seite mitgeschickt, von der aus
+ * angerufen wurde - nicht die Nummer. Die Nummer ist immer dieselbe und
+ * damit ohne Aussage; die Frage, die zaehlt, ist "welche Seite fuehrt zum
+ * Anruf".
+ *
  * Beide Felder in site-config LEER lassen heisst: diese Komponente gibt
  * `null` zurueck, kein Skript steht im HTML.
  */
@@ -36,6 +55,14 @@ export default function Matomo() {
         _paq.push(['enableHeartBeatTimer', 15]);
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
+        document.addEventListener('click', function (e) {
+          var ziel = e.target && e.target.closest
+            ? e.target.closest('a[href^="tel:"], a[href^="mailto:"]')
+            : null;
+          if (!ziel) return;
+          var art = ziel.getAttribute('href').indexOf('tel:') === 0 ? 'Anruf' : 'E-Mail';
+          _paq.push(['trackEvent', 'Kontakt', art, location.pathname]);
+        }, true);
         (function() {
           var u = ${JSON.stringify(analyse.matomoUrl)};
           _paq.push(['setTrackerUrl', u + 'matomo.php']);
