@@ -20,15 +20,13 @@ import {
   leistungsliste as weitereBehandlungen,
   wohnungswegText as wohnungsweg,
 } from "@/lib/content/en/seiten";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: {
     absolute: "Treatments at Home | Physiotherapy Ahrweiler District",
   },
-  alternates: {
-    canonical: "/en/treatments/",
-    languages: { "de-DE": "/behandlung/", en: "/en/treatments/" },
-  },
+  alternates: sprachAlternativen("/en/treatments/"),
   description:
     "Physiotherapy in a home visit: exercise therapy, mobilisation, post-operative care, fall prevention, lymphatic drainage and neurological treatment.",
 };

@@ -30,13 +30,11 @@ import {
   warumZuHause,
   weitereBehandlungen,
 } from "@/lib/content/behandlung";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: "Behandlungen im Hausbesuch",
-  alternates: {
-    canonical: "/behandlung/",
-    languages: { "de-DE": "/behandlung/", en: "/en/treatments/" },
-  },
+  alternates: sprachAlternativen("/behandlung/"),
   description:
     "Physiotherapie im Hausbesuch: Krankengymnastik, Mobilisation, Nachsorge nach Operationen, Sturzprophylaxe, Lymphdrainage und neurologische Behandlung mit besonderer Erfahrung.",
 };

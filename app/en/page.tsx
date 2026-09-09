@@ -12,6 +12,7 @@ import {
   person,
   ueberMich,
 } from "@/lib/content/en/start";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: {
@@ -20,10 +21,7 @@ export const metadata: Metadata = {
   },
   description:
     "Physiotherapy at home for privately insured patients and self-payers in the Ahrweiler district – exercise therapy, neurology, lymphatic drainage. English spoken.",
-  alternates: {
-    canonical: "/en/",
-    languages: { "de-DE": "/", en: "/en/" },
-  },
+  alternates: sprachAlternativen("/en/"),
   openGraph: {
     locale: "en_GB",
     title: "Physiotherapy Home Visits – Ahrweiler District",

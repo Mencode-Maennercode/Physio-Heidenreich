@@ -31,24 +31,6 @@ export const seite = {
   kurzbeschreibung:
     "Physiotherapie als Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler – Krankengymnastik, Neurologie, Lymphdrainage. Termin: 02641 8904973.",
 
-  /**
-   * Kurzfassung fuer die Fusszeile.
-   *
-   * Dort stand vorher `kurzbeschreibung` - ein Satz, der als
-   * Suchergebnis-Beschreibung genau richtig ist, in einer schmalen
-   * Fusszeilenspalte aber vier Zeilen fuellt und damit die ganze Fusszeile
-   * hoch macht. Als Fliesstext auf jeder Unterseite ist er ausserdem
-   * Wiederholung: Suchmaschinen werten immer gleichen Text am Seitenrand
-   * ohnehin nicht.
-   *
-   * Was hier drin bleiben MUSS, sind die Wortgruppen, mit denen gesucht
-   * wird: "Physiotherapie als Hausbesuch", "Privatpatienten und
-   * Selbstzahler", "Kreis Ahrweiler". Weggefallen ist nur die Aufzaehlung
-   * der Verfahren und die Rufnummer - beides steht in der Fusszeile
-   * ohnehin daneben bzw. auf den Leistungsseiten.
-   */
-  fusszeilenzeile:
-    "Physiotherapie als Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler.",
 
   /**
    * Titelzeile der Startseite.
@@ -290,12 +272,17 @@ export const navigation = [
   { name: "Kontakt", pfad: "/kontakt/" },
 ] as const;
 
+/*
+  Hier stand einmal zusaetzlich { name: "English", pfad: "/en/" }, mit der
+  Begruendung: "Auf schmalen Schirmen, wo die Sprachwahl im Kopf entfaellt,
+  ist das der Weg dorthin." Diese Begruendung ist ueberholt - die Sprachwahl
+  in der Kopfzeile war frueher bis `md` ausgeblendet und ist es laengst
+  nicht mehr (siehe Kommentar in components/Kopfzeile.tsx). Der
+  Fusszeilen-Eintrag war damit ein zweiter Weg zum selben Ziel, und das
+  Kopfzeilen-Menue musste ihn ohnehin per `.filter()` wieder herausnehmen.
+*/
 export const rechtsnavigation = [
   { name: "Einfache Sprache", pfad: "/einfache-sprache/" },
-  /* Im Fuss statt in der Hauptnavigation: Die englische Seite ist ein
-     Angebot fuer wenige, kein gleichwertiger zweiter Auftritt. Auf schmalen
-     Schirmen, wo die Sprachwahl im Kopf entfaellt, ist das der Weg dorthin. */
-  { name: "English", pfad: "/en/" },
   { name: "Impressum", pfad: "/impressum/" },
   { name: "Datenschutz", pfad: "/datenschutz/" },
 ] as const;

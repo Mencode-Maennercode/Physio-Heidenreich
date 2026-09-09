@@ -3,10 +3,11 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 import SmsKnopf from "@/components/SmsKnopf";
 import { einsatzgebiet, kontakt, seite } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: "Einfache Sprache",
-  alternates: { canonical: "/einfache-sprache/" },
+  alternates: sprachAlternativen("/einfache-sprache/"),
   description:
     "Alles Wichtige über die mobile Physiotherapie von Nora Heidenreich in kurzen, einfachen Sätzen.",
 };

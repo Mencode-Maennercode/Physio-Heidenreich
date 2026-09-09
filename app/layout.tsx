@@ -89,13 +89,19 @@ export const metadata: Metadata = {
   authors: [{ name: seite.name }],
   creator: seite.name,
   publisher: seite.name,
-  /* hreflang: sagt Google, dass /en/ die englische Entsprechung ist - und
-     nicht etwa doppelter Inhalt. Ohne diese Angabe koennen sich beide
-     Fassungen gegenseitig verdraengen. */
-  alternates: {
-    canonical: "/",
-    languages: { "de-DE": "/", en: "/en/" },
-  },
+  /*
+    Hier stand `alternates: { canonical: "/", languages: {...} }` als
+    Vorgabe fuer alle Seiten. Das war falsch herum gedacht: Eine Seite, die
+    es nicht ueberschrieb, erklaerte damit die Startseite zu ihrer eigenen
+    kanonischen Adresse. /impressum/, /datenschutz/ und /kontakt/danke/
+    trugen genau das - und /impressum/ und /datenschutz/ stehen gleichzeitig
+    in der sitemap.xml. Ein Widerspruch, den Google zugunsten des canonical
+    aufloest: Die Seiten werden nicht eigenstaendig indexiert.
+
+    canonical und hreflang stehen jetzt bei jeder Seite einzeln, ueber
+    `sprachAlternativen()` in lib/sprache.ts. Fehlt der Aufruf, fehlt die
+    Angabe - und Google nimmt die Adresse der Seite selbst, was richtig ist.
+  */
   openGraph: {
     siteName: seite.nameLang,
     type: "website",

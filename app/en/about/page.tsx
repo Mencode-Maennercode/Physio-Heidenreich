@@ -19,15 +19,13 @@ import {
   aboutWarumHausbesuche as warumHausbesuche,
   aboutWerdegang as werdegang,
 } from "@/lib/content/en/seiten";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: {
     absolute: "Your Physiotherapist | Physiotherapy Ahrweiler District",
   },
-  alternates: {
-    canonical: "/en/about/",
-    languages: { "de-DE": "/ueber-mich/", en: "/en/about/" },
-  },
+  alternates: sprachAlternativen("/en/about/"),
   description:
     "Physiotherapist with a degree from the Netherlands and years of hospital experience, focus on neurology — now working through home visits in the Ahrweiler district.",
 };

@@ -19,13 +19,11 @@ import {
   warumHausbesuche,
   werdegang,
 } from "@/lib/content/ueber-mich";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: "Ihre Physiotherapeutin",
-  alternates: {
-    canonical: "/ueber-mich/",
-    languages: { "de-DE": "/ueber-mich/", en: "/en/about/" },
-  },
+  alternates: sprachAlternativen("/ueber-mich/"),
   description: `${grade.bachelor}, ${grade.master}. Viele Jahre Klinikerfahrung, überwiegend im neurologischen Bereich — jetzt als mobile Physiotherapie im Kreis Ahrweiler.`,
 };
 

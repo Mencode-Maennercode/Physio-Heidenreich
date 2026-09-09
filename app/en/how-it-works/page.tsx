@@ -30,15 +30,13 @@ import {
   ablaufCheckliste,
 } from "@/lib/content/en/seiten";
 import { ohneRezept } from "@/lib/content/ablauf";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: {
     absolute: "How It Works & Fees | Physiotherapy Ahrweiler District",
   },
-  alternates: {
-    canonical: "/en/how-it-works/",
-    languages: { "de-DE": "/ablauf/", en: "/en/how-it-works/" },
-  },
+  alternates: sprachAlternativen("/en/how-it-works/"),
   description:
     "How to get in touch, how an appointment comes about, who receives which invoice and what your insurer reimburses — written out before you call.",
 };

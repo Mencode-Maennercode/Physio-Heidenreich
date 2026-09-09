@@ -359,19 +359,17 @@ export default function Kopfzeile() {
                     */}
                     {sprache === "de" ? (
                       <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2 border-t border-linie-warm pt-6 text-[0.85rem] text-leise">
-                        {rechtsnavigation
-                          .filter((eintrag) => eintrag.pfad !== "/en/")
-                          .map((eintrag) => (
-                            <li key={eintrag.pfad}>
-                              <Link
-                                href={eintrag.pfad}
-                                onClick={() => setzeMenueOffen(false)}
-                                className="inline-flex min-h-11 items-center transition-colors hover:text-text"
-                              >
-                                {eintrag.name}
-                              </Link>
-                            </li>
-                          ))}
+                        {rechtsnavigation.map((eintrag) => (
+                          <li key={eintrag.pfad}>
+                            <Link
+                              href={eintrag.pfad}
+                              onClick={() => setzeMenueOffen(false)}
+                              className="inline-flex min-h-11 items-center transition-colors hover:text-text"
+                            >
+                              {eintrag.name}
+                            </Link>
+                          </li>
+                        ))}
                       </ul>
                     ) : null}
                   </nav>

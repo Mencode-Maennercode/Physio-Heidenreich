@@ -7,13 +7,7 @@ import { ortsPfad, ortsseiten } from "@/lib/content/orte";
 import { Mail, Phone, Smartphone } from "lucide-react";
 import { Bildmarke } from "./Logo";
 import BarrierefreiheitPanel from "./a11y/BarrierefreiheitPanel";
-import {
-  einsatzgebiet,
-  kontakt,
-  navigation,
-  rechtsnavigation,
-  seite,
-} from "@/lib/site-config";
+import { kontakt, rechtsnavigation, seite } from "@/lib/site-config";
 import { spracheAus } from "@/lib/sprache";
 
 /*
@@ -38,18 +32,28 @@ import { spracheAus } from "@/lib/sprache";
   daneben:
 
       [Marke]                         Festnetz   Mobil   E-Mail
-      Physiotherapie als Hausbesuch fuer ...
-      SEITEN          Start  Behandlung  Ueber mich  Ablauf  Kontakt
       EINSATZGEBIET   Bad Neuenahr-Ahrweiler  Sinzig  Remagen  ...
 
-  Eine Gruppe kostet damit eine Zeilenhoehe statt fuenf, und es bleibt
-  keine Flaeche uebrig, die nur auf die laengste Nachbarspalte wartet. Auf
-  schmalen Schirmen rutscht die Beschriftung ueber ihre Zeile und die
+  Auf schmalen Schirmen rutscht die Beschriftung ueber ihre Zeile und die
   Eintraege brechen um - dieselbe Anordnung, nur gestapelt.
 
-  Weggefallen ist kein Link und kein Pflichthinweis. Die Orte ohne eigene
-  Seite stehen jetzt im Beschreibungssatz statt in einem eigenen Absatz
-  unter der Ortsliste - nur so bleibt die Ortszeile eine Zeile.
+  Drei Dinge sind danach noch ganz entfallen, weil sie an anderer Stelle
+  schon stehen:
+
+  - Die Seitenlinks (Start, Behandlung, ...). Die Kopfzeile laeuft beim
+    Scrollen mit und traegt dieselben fuenf Links auf jeder Seite; fuer
+    Suchmaschinen war die Wiederholung im Fuss ohne Wert.
+  - Der Beschreibungssatz. Wortgleicher Text am Rand jeder Seite ist
+    Boilerplate, den Suchmaschinen nicht werten. Heimersheim und Bad
+    Bodendorf - die beiden Orte ohne eigene Seite - stehen weiterhin in der
+    Einsatzgebietskarte auf /ablauf/ und /kontakt/.
+  - Der Link zur englischen Fassung. Die Sprachwahl in der Kopfzeile ist
+    auf allen Breiten sichtbar, und die fuenf /en/-Seiten stehen in der
+    sitemap.xml mit gegenseitiger hreflang-Auszeichnung.
+
+  Was bleibt, bleibt mit Grund: die fuenf Ortsseiten (der einzige Verweis
+  auf sie, der auf JEDER Seite steht), Notfall- und KI-Hinweis (beide
+  Pflicht), Impressum und Datenschutz (§ 5 DDG, Art. 13 DSGVO).
 */
 
 /*
@@ -77,13 +81,6 @@ function Reihentitel({ children }: { children: React.ReactNode }) {
 
 export default function Fusszeile() {
   const sprache = spracheAus(usePathname());
-
-  /* Die Orte ohne eigene Seite. Sie werden trotzdem gesucht und gehoeren
-     deshalb in den Text - nur in den Satz, der ohnehin dasteht, statt in
-     einen eigenen Absatz unter der Ortsliste. */
-  const weitereOrte = einsatzgebiet.kern.filter(
-    (ort) => !ortsseiten.some((o) => o.name === ort),
-  );
 
   return (
     <footer className="auf-warm nicht-drucken">
@@ -146,28 +143,11 @@ export default function Fusszeile() {
           </ul>
         </div>
 
-        <p className="mt-3 text-[0.9rem] text-leise">
-          {seite.fusszeilenzeile} Dazu {weitereOrte.join(", ")} und Umgebung.
-        </p>
 
         {/* Beschriftung links, Eintraege daneben. Die Beschriftungsspalte
             ist `auto` breit, richtet sich also nach dem laengeren der
             beiden Woerter - beide Reihen fluchten dadurch. */}
         <div className="mt-4 grid gap-x-8 sm:grid-cols-[auto_1fr]">
-          <Reihentitel>Seiten</Reihentitel>
-          <ul className="flex flex-wrap gap-x-7 text-[0.95rem]">
-            {navigation.map((eintrag) => (
-              <li key={eintrag.pfad}>
-                <Link
-                  href={eintrag.pfad}
-                  className={`${zeile} text-leise transition-colors hover:text-text`}
-                >
-                  {eintrag.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
           <Reihentitel>Einsatzgebiet</Reihentitel>
           {/* Bewusst Links statt einer Aufzaehlung: Das ist der einzige
               Verweis auf die Ortsseiten, der auf JEDER Seite steht. Ohne
@@ -248,7 +228,7 @@ export default function Fusszeile() {
           */}
           <ul className="flex flex-wrap items-center gap-x-8 gap-y-1">
             <li className="flex flex-nowrap items-center gap-x-6">
-              {rechtsnavigation.slice(0, 2).map((eintrag) => (
+              {rechtsnavigation.slice(0, 1).map((eintrag) => (
                 <Link
                   key={eintrag.pfad}
                   href={eintrag.pfad}
@@ -259,7 +239,7 @@ export default function Fusszeile() {
               ))}
             </li>
             <li className="flex flex-nowrap items-center gap-x-6">
-              {rechtsnavigation.slice(2).map((eintrag) => (
+              {rechtsnavigation.slice(1).map((eintrag) => (
                 <Link
                   key={eintrag.pfad}
                   href={eintrag.pfad}

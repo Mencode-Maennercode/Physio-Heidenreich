@@ -4,6 +4,19 @@ import GcLeistungen from "@/components/golden-calm/GcLeistungen";
 import GcUeberMich from "@/components/golden-calm/GcUeberMich";
 import GcKontakt from "@/components/golden-calm/GcKontakt";
 
+import type { Metadata } from "next";
+import { sprachAlternativen } from "@/lib/sprache";
+
+/*
+  Titel und Beschreibung kommen weiterhin aus dem Wurzel-Layout - nur die
+  Adressangaben stehen hier. Sie standen frueher als Vorgabe im Layout und
+  galten dadurch versehentlich auch fuer Seiten, die gar nicht die
+  Startseite sind (siehe Kommentar dort).
+*/
+export const metadata: Metadata = {
+  alternates: sprachAlternativen("/"),
+};
+
 /**
  * Startseite — Stilexperiment "Golden Calm".
  *

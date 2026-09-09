@@ -27,13 +27,11 @@ import {
   ohneRezept,
   zusagen,
 } from "@/lib/content/ablauf";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: "Ablauf, Kosten und Abrechnung",
-  alternates: {
-    canonical: "/ablauf/",
-    languages: { "de-DE": "/ablauf/", en: "/en/how-it-works/" },
-  },
+  alternates: sprachAlternativen("/ablauf/"),
   description:
     "Wie die Kontaktaufnahme läuft, wie ein Termin zustande kommt, wer welche Rechnung bekommt und was Ihre Versicherung erstattet — offen aufgeschrieben, bevor Sie anrufen.",
 };

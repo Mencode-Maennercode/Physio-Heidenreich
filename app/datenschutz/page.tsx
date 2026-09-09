@@ -3,8 +3,10 @@ import { Abschnitt, Liste, Rechtsseite } from "@/components/Rechtstext";
 import MessungWiderrufen from "@/components/MessungWiderrufen";
 import MatomoWiderspruch from "@/components/MatomoWiderspruch";
 import { analyse, kontakt, seite } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
+  alternates: sprachAlternativen("/datenschutz/"),
   title: "Datenschutz",
   robots: { index: true, follow: false },
 };

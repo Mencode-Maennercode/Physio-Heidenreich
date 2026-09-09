@@ -6,15 +6,13 @@ import Einsatzgebiet from "@/components/Einsatzgebiet";
 import GcSeitenKopf from "@/components/golden-calm/GcSeitenKopf";
 import { Enthuellen } from "@/components/motion/Enthuellen";
 import { einsatzgebiet, kontakt } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: {
     absolute: "Contact | Physiotherapy Ahrweiler District",
   },
-  alternates: {
-    canonical: "/en/contact/",
-    languages: { "de-DE": "/kontakt/", en: "/en/contact/" },
-  },
+  alternates: sprachAlternativen("/en/contact/"),
   description:
     "Request a physiotherapy home visit in the Ahrweiler district. By phone, text message or e-mail. English spoken.",
 };

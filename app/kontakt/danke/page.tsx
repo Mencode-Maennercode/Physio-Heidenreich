@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Phone } from "lucide-react";
 import Knopf from "@/components/Knopf";
 import { kontakt } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
+  alternates: sprachAlternativen("/kontakt/danke/"),
   title: "Nachricht angekommen",
   robots: { index: false, follow: false },
 };

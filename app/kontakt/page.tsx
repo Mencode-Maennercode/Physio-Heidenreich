@@ -5,13 +5,11 @@ import Einsatzgebiet from "@/components/Einsatzgebiet";
 import Formular from "@/components/kontakt/Formular";
 import { Enthuellen } from "@/components/motion/Enthuellen";
 import { kontakt, terminstatus } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
   title: "Termin anfragen",
-  alternates: {
-    canonical: "/kontakt/",
-    languages: { "de-DE": "/kontakt/", en: "/en/contact/" },
-  },
+  alternates: sprachAlternativen("/kontakt/"),
   description:
     "Telefonisch, per SMS oder über das Formular. Hausbesuche im Kreis Ahrweiler — Rückruf zur gewünschten Zeit.",
 };

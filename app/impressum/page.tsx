@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Abschnitt, Liste, Rechtsseite } from "@/components/Rechtstext";
 import { grade, kontakt, seite } from "@/lib/site-config";
+import { sprachAlternativen } from "@/lib/sprache";
 
 export const metadata: Metadata = {
+  alternates: sprachAlternativen("/impressum/"),
   title: "Impressum",
   robots: { index: true, follow: false },
 };
