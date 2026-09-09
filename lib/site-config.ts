@@ -32,6 +32,23 @@ export const seite = {
     "Physiotherapie als Hausbesuch für Privatpatienten und Selbstzahler im Kreis Ahrweiler – Krankengymnastik, Neurologie, Lymphdrainage. Termin: 02641 8904973.",
 
   /**
+   * Kurzfassung fuer die Fusszeile.
+   *
+   * Dort stand vorher `kurzbeschreibung` - ein Satz, der als
+   * Suchergebnis-Beschreibung genau richtig ist, in einer schmalen
+   * Fusszeilenspalte aber vier Zeilen fuellt und damit die ganze Fusszeile
+   * hoch macht. Als Fliesstext auf jeder Unterseite ist er ausserdem
+   * Wiederholung: Suchmaschinen werten immer gleichen Text am Seitenrand
+   * ohnehin nicht.
+   *
+   * Diese Fassung behaelt die zwei Wortgruppen, auf die es ankommt -
+   * "Physiotherapie als Hausbesuch" und "Kreis Ahrweiler" - und passt in
+   * eine Zeile.
+   */
+  fusszeilenzeile:
+    "Physiotherapie als Hausbesuch im Kreis Ahrweiler.",
+
+  /**
    * Titelzeile der Startseite.
    *
    * Die Leistung steht vorn, der Name hinten. Wer "Physiotherapie
@@ -219,9 +236,9 @@ export const analyse = {
    * Beide Felder LEER lassen heisst: aus, kein Skript im HTML.
    */
   /** z. B. "https://stats.nora-heidenreich.de/" - mit Schraegstrich am Ende. */
-  matomoUrl: "https://stats.nora-heidenreich.de/",
+  matomoUrl: "https://matomo.praesenzwert.de/",
   /** Numerische Website-ID aus Matomo, meist "1" bei der ersten Seite dort. */
-  matomoSiteId: "1",
+  matomoSiteId: "4",
 } as const;
 
 /** Praxisumfang - bewusst klein. Steuert die Formulierungen zur Kapazitaet. */
