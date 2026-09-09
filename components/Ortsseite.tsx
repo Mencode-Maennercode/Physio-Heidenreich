@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MapPin, Phone } from "lucide-react";
+import * as Accordion from "@radix-ui/react-accordion";
+import { MapPin, Phone, Plus } from "lucide-react";
 import Brotkrumen from "@/components/Brotkrumen";
 import Bild from "@/components/Bild";
 import Knopf from "@/components/Knopf";
@@ -130,46 +131,6 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
       </section>
 
       {/* ------------------------------------------------------------------
-          Ortsteile und Anfahrt. Die Ortsteilliste ist der Teil, ueber den
-          jemand aus einem kleinen Dorf ueberhaupt erst faendig wird - dort
-          steht sonst nirgends im Netz, dass jemand dorthin faehrt.
-          ------------------------------------------------------------------ */}
-      <section className="sektion">
-        <div className="huelle grid min-w-0 gap-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[minmax(0,22rem)_1fr]">
-          <div>
-            <p className="augenbraue">Ortsteile</p>
-            <h2 className="schrift-display titel-klein mt-6 max-w-[14ch]">
-              Wohin ich in {ort.name} fahre
-            </h2>
-            <p className="mt-7 text-[0.98rem] text-leise">{ort.anfahrt}</p>
-          </div>
-
-          <div className="min-w-0">
-            <Staffel className="flex flex-wrap gap-x-3 gap-y-3">
-              {ort.ortsteile.map((teil) => (
-                <StaffelKind
-                  key={teil}
-                  className="flex items-center gap-2 rounded-full border border-linie px-4 py-2 text-[0.92rem] text-leise"
-                >
-                  <MapPin
-                    className="size-3.5 flex-none text-akzent-warm"
-                    strokeWidth={1.8}
-                    aria-hidden="true"
-                  />
-                  {teil}
-                </StaffelKind>
-              ))}
-            </Staffel>
-            <Enthuellen>
-              <p className="lesespalte mt-8 text-[0.98rem] text-leise">
-                {ort.ortsteileText}
-              </p>
-            </Enthuellen>
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------------
           Was behandelt wird - kurz, mit Verweis auf die ausfuehrliche Seite.
           Bewusst KEINE Wiederholung der ganzen Leistungsliste: Vier Seiten
           mit derselben Aufzaehlung waeren genau der doppelte Inhalt, den
@@ -254,6 +215,67 @@ export default function Ortsseite({ ort }: { ort: OrtsseiteDaten }) {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------------
+          Ortsteile und Anfahrt. Nachschlage-Information, deshalb eingeklappt
+          und ganz unten - der Inhalt ist unveraendert und vollstaendig
+          vorhanden (Google gewichtet Akkordeon-Inhalt genauso wie offenen
+          Text), nur nicht mehr der erste Eindruck der Seite. Das Trigger-
+          Icon bleibt bewusst gut erkennbar: Inhalt, der fuer Menschen
+          absichtlich schwer auffindbar gemacht wird, ist etwas anderes als
+          Inhalt, der eingeklappt beginnt.
+          ------------------------------------------------------------------ */}
+      <section className="sektion">
+        <div className="huelle-eng">
+          <Accordion.Root
+            type="single"
+            collapsible
+            className="border-t border-b border-linie-fein"
+          >
+            <Accordion.Item value="ortsteile">
+              <Accordion.Header>
+                <Accordion.Trigger className="group flex w-full items-start justify-between gap-6 py-6 text-left transition-colors hover:text-aktion">
+                  <span>
+                    <span className="augenbraue">Ortsteile</span>
+                    <span className="schrift-display mt-2 block text-[1.2rem] leading-snug">
+                      Wohin ich in {ort.name} fahre
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="mt-0.5 flex size-8 flex-none items-center justify-center rounded-full border border-linie transition-transform duration-300 group-data-[state=open]:rotate-45"
+                  >
+                    <Plus className="size-4" />
+                  </span>
+                </Accordion.Trigger>
+              </Accordion.Header>
+              <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[zu_240ms_ease] data-[state=open]:animate-[auf_320ms_ease]">
+                <div className="pb-8">
+                  <p className="text-[0.98rem] text-leise">{ort.anfahrt}</p>
+                  <div className="mt-6 flex flex-wrap gap-x-3 gap-y-3">
+                    {ort.ortsteile.map((teil) => (
+                      <span
+                        key={teil}
+                        className="flex items-center gap-2 rounded-full border border-linie px-4 py-2 text-[0.92rem] text-leise"
+                      >
+                        <MapPin
+                          className="size-3.5 flex-none text-akzent-warm"
+                          strokeWidth={1.8}
+                          aria-hidden="true"
+                        />
+                        {teil}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="lesespalte mt-6 text-[0.98rem] text-leise">
+                    {ort.ortsteileText}
+                  </p>
+                </div>
+              </Accordion.Content>
+            </Accordion.Item>
+          </Accordion.Root>
         </div>
       </section>
     </div>
