@@ -27,6 +27,28 @@ import { fragen } from "@/lib/content/ablauf";
  * Alle Angaben stammen aus site-config und den Inhaltsdateien - sie koennen
  * damit nicht auseinanderlaufen, wenn sich etwas aendert.
  */
+/**
+ * Behandelte Krankheitsbilder, maschinenlesbar.
+ *
+ * Schlaganfall, Parkinson und MS stehen im Fliesstext der Behandlungs- und
+ * Ortsseiten an vielen Stellen - eine Suchmaschine musste das bisher aus dem
+ * Text erschliessen, statt es gesagt zu bekommen. Neuer Inhalt ist das also
+ * nicht, nur eine Angabe in maschinenlesbarer Form.
+ *
+ * Nicht aus `schwerpunkt.indikationen` (lib/content/behandlung.ts)
+ * abgeleitet, obwohl die sichtbare Liste fast dieselbe ist: Dort steht
+ * "Nach laengerem Krankenhausaufenthalt", und das ist keine Diagnose,
+ * sondern eine Lebenslage. Als MedicalCondition waere es schlicht falsch.
+ * Wer die sichtbare Liste aendert, prueft diese hier mit.
+ */
+const indikationen = [
+  "Schlaganfall",
+  "Morbus Parkinson",
+  "Multiple Sklerose",
+  "Polyneuropathie",
+  "Gangunsicherheit",
+].map((name) => ({ "@type": "MedicalCondition", name }));
+
 export default function StrukturDaten() {
   const adresse = {
     "@type": "PostalAddress",
@@ -124,15 +146,18 @@ export default function StrukturDaten() {
       { "@type": "Language", name: "Dutch", alternateName: "nl" },
     ],
     availableService: [
-      "Krankengymnastik im Hausbesuch",
-      "Neurologische Physiotherapie",
-      "Mobilisation von Gelenken und Muskulatur",
-      "Nachsorge nach Operationen",
-      "Sturzprophylaxe und Gangschule",
-      "Manuelle Lymphdrainage",
-      "Kinesio Taping",
-      "Anleitung von Angehörigen",
-    ].map((name) => ({ "@type": "MedicalTherapy", name })),
+      { name: "Krankengymnastik im Hausbesuch" },
+      {
+        name: "Neurologische Physiotherapie",
+        treatsHealthCondition: indikationen,
+      },
+      { name: "Mobilisation von Gelenken und Muskulatur" },
+      { name: "Nachsorge nach Operationen" },
+      { name: "Sturzprophylaxe und Gangschule" },
+      { name: "Manuelle Lymphdrainage" },
+      { name: "Kinesio Taping" },
+      { name: "Anleitung von Angehörigen" },
+    ].map((eintrag) => ({ "@type": "MedicalTherapy", ...eintrag })),
     medicalSpecialty: "Physiotherapy",
     priceRange: "$$",
     currenciesAccepted: "EUR",

@@ -35,8 +35,13 @@ import { sprachAlternativen } from "@/lib/sprache";
 export const metadata: Metadata = {
   title: "Behandlungen im Hausbesuch",
   alternates: sprachAlternativen("/behandlung/"),
+  /* Die Krankheitsbilder ausgeschrieben statt "neurologische Behandlung mit
+     besonderer Erfahrung": Gesucht wird nach "Physiotherapie nach
+     Schlaganfall", nicht nach der Fachrichtung. Beides steht ohnehin im
+     Fliesstext der Seite - hier fehlte es nur in der Zeile, die Google im
+     Suchergebnis anzeigt. */
   description:
-    "Physiotherapie im Hausbesuch: Krankengymnastik, Mobilisation, Nachsorge nach Operationen, Sturzprophylaxe, Lymphdrainage und neurologische Behandlung mit besonderer Erfahrung.",
+    "Physiotherapie im Hausbesuch nach Schlaganfall, bei Parkinson und MS — dazu Krankengymnastik, Sturzprophylaxe und Lymphdrainage im Kreis Ahrweiler.",
 };
 
 /**
