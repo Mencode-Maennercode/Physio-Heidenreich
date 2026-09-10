@@ -309,5 +309,10 @@ export const fragen = {
       antwort:
         "Mein Schwerpunkt sind Erwachsene. Bei Kindern verweise ich auf Kolleginnen und Kollegen mit entsprechender Weiterbildung.",
     },
+    {
+      frage: "Ist das eine Massage?",
+      antwort:
+        "Nein. Ich biete keine Massagen an und bin keine Masseurin, sondern Physiotherapeutin. Viele nennen den Hausbesuch trotzdem so — gemeint ist damit fast immer Krankengymnastik: gezielte Bewegungsübungen, Mobilisation und Anleitung, meist mit ärztlicher Verordnung und von der Versicherung erstattungsfähig.",
+    },
   ],
 } as const;
