@@ -34,15 +34,15 @@ Werbeeinwilligung.
 
 | Verzeichnis | Kostenlos? | Stand | Haken |
 | --- | --- | --- | --- |
-| Das Oertliche | ja, "Grundeintrag" 0 EUR | geprueft, nicht eingetragen | Alle Varianten inkl. "Telefonischer Beratung" - also Vertriebsanrufe. 29,90 EUR/Monat-Tarif wirbt mit "3 Monate kostenlos", laeuft danach in ein Jahresabo ueber 358,80 EUR. Finger weg. |
+| Das Oertliche | ja, "Grundeintrag" 0 EUR | kein Eintrag gefunden (Kategorie Physiotherapie/Grafschaft) | Alle Varianten inkl. "Telefonischer Beratung" - also Vertriebsanrufe. 29,90 EUR/Monat-Tarif wirbt mit "3 Monate kostenlos", laeuft danach in ein Jahresabo ueber 358,80 EUR. Finger weg. |
 | GoLocal | ja | geprueft, nicht eingetragen | Gehoert zu Das Oertliche. Ablauf: bestehenden Eintrag suchen und uebernehmen, sonst neu anlegen. Konto noetig. |
 | AW-Wiki | ja | geprueft, nicht eingetragen | Regionales Wiki, hoher lokaler Wert (Pro Corpus hat dort einen Eintrag). Die Kontoanlage hat eine Anti-Bot-Frage, die ausdruecklich automatisiertes Anlegen verhindern soll - **Konto muss Nora selbst anlegen**, danach kann der Eintrag geschrieben werden. |
-| meinAW | offen | in Pruefung | Regionales Kreis-Ahrweiler-Verzeichnis. Physio Plus AW ist dort gelistet. |
-| Gelbe Seiten | offen | nicht geprueft | |
-| 11880 | offen | nicht geprueft | Bewirbt kostenpflichtige Pakete. |
-| Cylex | offen | nicht geprueft | |
-| ProvenExpert | offen | nicht geprueft | |
-| werkenntdenbesten | offen | nicht geprueft | |
+| meinAW | ja | **von Hand erledigen** | Regionales Kreis-Ahrweiler-Verzeichnis, Physio Plus AW ist dort gelistet. Kein Konto noetig, nur ein Kontaktformular unter /Pages/registrieren. Nicht automatisierbar: der Cookie-Layer (usercentrics) liegt ueber der Zustimmungs-Checkbox und faengt jeden Klick ab; die Formularpruefung akzeptiert auch kein per Skript gesetztes Haekchen. Text steht unten. |
+| Gelbe Seiten | ja | **Eintrag besteht bereits** | Detailseite: /gsbiz/27ab5739-3413-4f07-a95d-e8c4aa48fe0e. Verlinkt auf https://www.nora-heidenreich.de/ mit rel="noopener", **kein nofollow** - also ein echter, zaehlender Backlink. Nichts Neues anlegen, ein Doppeleintrag wuerde die Ortsangaben aufspalten. |
+| 11880 | offen | kein Eintrag gefunden | Bewirbt kostenpflichtige Pakete. |
+| Cylex | offen | kein Eintrag gefunden | |
+| ProvenExpert | offen | kein Eintrag gefunden | |
+| werkenntdenbesten | offen | kein Eintrag gefunden | |
 | Sellwerk | offen | nicht geprueft | Bewirbt kostenpflichtige Pakete. |
 | ahrtal.com | offen | nicht geprueft | Regionales Portal, Physio Plus AW und das Physiotherapie-Zentrum sind dort gelistet. Vermutlich redaktionell. |
 | jameda | nein | nicht moeglich | Verlangt Berufsnachweis - muss Nora selbst machen. |
@@ -54,3 +54,30 @@ Werbeeinwilligung.
   kontakt@nora-heidenreich.de dauert zu lange. Oeffentlich angezeigt wird in
   jedem Eintrag trotzdem kontakt@nora-heidenreich.de.
 - Bei jedem Eintrag pruefen: Haken fuer Newsletter und Werbung nicht setzen.
+
+## Text fuer meinAW (von Hand abschicken)
+
+Formular: https://meinaw.de/Pages/registrieren - ausfuellen, Datenschutz-Haken
+setzen, "Bestaetigen". Dauert keine Minute.
+
+- Vollstaendiger Name: `Nora Heidenreich`
+- E-Mail: `kontakt@nora-heidenreich.de`
+- Telefon: `026418904973` (ohne Leerzeichen, sonst meckert das Formular)
+- Betreff: `Betrieb eintragen: Nora Heidenreich - Mobile Physiotherapie`
+
+Nachricht:
+
+> Guten Tag, ich moechte meinen Betrieb bei MeinAW eintragen lassen.
+>
+> Nora Heidenreich - Mobile Physiotherapie
+> Branche: Physiotherapie / Krankengymnastik (Hausbesuch)
+> Telefon: 02641 890 49 73
+> Mobil: 0160 220 52 63
+> E-Mail: kontakt@nora-heidenreich.de
+> Homepage: https://www.nora-heidenreich.de
+>
+> Physiotherapie im Hausbesuch fuer Privatpatienten und Selbstzahler im Kreis
+> Ahrweiler - Krankengymnastik, Neurologie, Lymphdrainage.
+>
+> Viele Gruesse
+> Nora Heidenreich
