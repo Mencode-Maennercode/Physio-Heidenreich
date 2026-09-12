@@ -73,10 +73,10 @@ export const ortsseiten: readonly Ortsseite[] = [
        und der, unter dem der Ort bis 1969 eigenstaendig war. Mit dem vollen
        Namen zusaetzlich waere der Titel ueber der Laenge, die Google
        anzeigt (~60 Zeichen) und wuerde mitten in "Ahrweiler" abgeschnitten. */
-    seoTitel: "Physiotherapie Hausbesuch Ahrweiler | Bad Neuenahr-Ahrweiler",
+    seoTitel: "Physiotherapie & Krankengymnastik Ahrweiler | Hausbesuch",
     beschreibung:
       "Physiotherapie Hausbesuch in Bad Neuenahr-Ahrweiler und Ahrweiler — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten, Selbstzahler. 02641 8904973.",
-    h1: "Physiotherapie im Hausbesuch in Bad Neuenahr-Ahrweiler",
+    h1: "Physiotherapie und Krankengymnastik im Hausbesuch in Bad Neuenahr-Ahrweiler",
     anfahrt:
       "Von Grafschaft aus etwa eine Viertelstunde. Bad Neuenahr-Ahrweiler liegt damit im Zentrum meiner Touren — hier lassen sich Termine am ehesten kurzfristig einschieben.",
     ortsteile: [
@@ -103,10 +103,10 @@ export const ortsseiten: readonly Ortsseite[] = [
     slug: "sinzig",
     name: "Sinzig",
     imOrt: "in Sinzig",
-    seoTitel: "Physiotherapie Hausbesuch Sinzig | Mobile Physiotherapie",
+    seoTitel: "Physiotherapie & Krankengymnastik Sinzig | Hausbesuch",
     beschreibung:
       "Physiotherapie im Hausbesuch in Sinzig, Bad Bodendorf, Westum und Löhndorf — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten und Selbstzahler. 02641 8904973.",
-    h1: "Physiotherapie im Hausbesuch in Sinzig",
+    h1: "Physiotherapie und Krankengymnastik im Hausbesuch in Sinzig",
     anfahrt:
       "Von Grafschaft aus rund zwanzig Minuten über die Höhe. Sinzig liegt auf derselben Achse wie Remagen — beide Orte lassen sich gut in eine gemeinsame Tour legen.",
     ortsteile: [
@@ -128,10 +128,10 @@ export const ortsseiten: readonly Ortsseite[] = [
     slug: "remagen",
     name: "Remagen",
     imOrt: "in Remagen",
-    seoTitel: "Physiotherapie Hausbesuch Remagen | Mobile Physiotherapie",
+    seoTitel: "Physiotherapie & Krankengymnastik Remagen | Hausbesuch",
     beschreibung:
       "Physiotherapie im Hausbesuch in Remagen, Kripp, Oberwinter und Rolandswerth — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten und Selbstzahler. 02641 8904973.",
-    h1: "Physiotherapie im Hausbesuch in Remagen",
+    h1: "Physiotherapie und Krankengymnastik im Hausbesuch in Remagen",
     anfahrt:
       "Von Grafschaft aus rund zwanzig Minuten. Die Höhenorte — Oedingen, Unkelbach, Bandorf — liegen der Grafschaft näher als der Remagener Innenstadt.",
     ortsteile: [
@@ -154,10 +154,10 @@ export const ortsseiten: readonly Ortsseite[] = [
     slug: "grafschaft",
     name: "Grafschaft",
     imOrt: "in der Grafschaft",
-    seoTitel: "Physiotherapie Hausbesuch Grafschaft | Mobile Physiotherapie",
+    seoTitel: "Physiotherapie & Krankengymnastik Grafschaft | Hausbesuch",
     beschreibung:
       "Physiotherapie im Hausbesuch in der Grafschaft — Gelsdorf, Ringen, Leimersdorf, Birresdorf und alle weiteren Ortsteile. Privatpatienten und Selbstzahler. 02641 8904973.",
-    h1: "Physiotherapie im Hausbesuch in der Grafschaft",
+    h1: "Physiotherapie und Krankengymnastik im Hausbesuch in der Grafschaft",
     anfahrt:
       "Fünf bis fünfzehn Minuten, je nach Ortsteil. Hier kann ich am ehesten kurzfristig kommen und am ehesten einen Termin verschieben, ohne dass eine ganze Tour kippt.",
     ortsteile: [
@@ -186,10 +186,10 @@ export const ortsseiten: readonly Ortsseite[] = [
     slug: "altenahr",
     name: "Altenahr",
     imOrt: "in Altenahr",
-    seoTitel: "Physiotherapie Hausbesuch Altenahr | Mobile Physiotherapie",
+    seoTitel: "Physiotherapie & Krankengymnastik Altenahr | Hausbesuch",
     beschreibung:
       "Physiotherapie im Hausbesuch in Altenahr — Krankengymnastik, Neurologie, Lymphdrainage. Privatpatienten und Selbstzahler im engen Ahrtal. 02641 8904973.",
-    h1: "Physiotherapie im Hausbesuch in Altenahr",
+    h1: "Physiotherapie und Krankengymnastik im Hausbesuch in Altenahr",
     anfahrt:
       "Von Grafschaft aus knapp eine halbe Stunde, überwiegend an der Ahr entlang. Der weiteste Weg in meinem Einsatzgebiet — ich lege ihn deshalb bevorzugt mit einem zweiten Termin im Tal zusammen.",
     ortsteile: ["Altenahr"],
