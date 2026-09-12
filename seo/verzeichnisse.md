@@ -43,6 +43,7 @@ Werbeeinwilligung.
 | Cylex | offen | kein Eintrag gefunden | |
 | ProvenExpert | offen | kein Eintrag gefunden | |
 | werkenntdenbesten | offen | kein Eintrag gefunden | |
+| lateralsklerose.info | ja, ausdruecklich "voellig kostenlos" | **von Hand: Formular ausfuellen** | Physiotherapeuten-Verzeichnis mit eigenem Website-Feld, also ein echter themennaher Link. Fachlich der beste Treffer bisher: die Seite richtet sich an ALS-Erkrankte, und genau die brauchen Neurologie im Hausbesuch. Das Formular hat eine Spamabfrage ("Ein Huhn legt?"), die eine menschliche Eingabe sicherstellen soll - die loese ich nicht automatisch. Text steht unten. |
 | Therapeutenkatalog | nein | **Sackgasse, nicht weiterverfolgen** | Klang nach kostenlosem Fachverzeichnis, ist aber keins: `/eintragen/` leitet auf `/patientengewinnung/` um, eine Vermarktungsseite ohne Eintragsformular, dazu mit reCAPTCHA. Kein Eintragsweg erkennbar. |
 | Sellwerk | offen | nicht geprueft | Bewirbt kostenpflichtige Pakete. |
 | ahrtal.com | ja | **von Hand: Mail an info@ahrtal.de** | Regionales Portal, Physio Plus AW und das Physiotherapie-Zentrum sind unter "Gesundheitsstadt / Medizinische Versorgung / Therapeuten" gelistet, Nora nicht. Es gibt **kein** Selbsteintragsformular, die Liste ist redaktionell gepflegt. Offen ist, ob ein Betrieb aus der Grafschaft dort aufgenommen wird - die Anfrage kostet nichts. Text steht unten. |
@@ -55,6 +56,23 @@ Werbeeinwilligung.
   kontakt@nora-heidenreich.de dauert zu lange. Oeffentlich angezeigt wird in
   jedem Eintrag trotzdem kontakt@nora-heidenreich.de.
 - Bei jedem Eintrag pruefen: Haken fuer Newsletter und Werbung nicht setzen.
+
+## Eintrag bei lateralsklerose.info (von Hand)
+
+Formular steht auf https://www.lateralsklerose.info/physiotherapeuten/ unter
+"Eintrag in das Physiotherapeutenverzeichnis". Feld fuer Feld:
+
+- Titel: leer lassen
+- Praxis: `Nora Heidenreich - Mobile Physiotherapie`
+- Vorname: `Nora`
+- Nachname: `Heidenreich`
+- Adresse: `Josef-Martin-Weg 4, 53501 Grafschaft` (hier Pflichtfeld)
+- E-Mail: `kontakt@nora-heidenreich.de`
+- Kontakt-Telefon: `02641 890 49 73`
+- Website: `https://www.nora-heidenreich.de`
+- Sonstiges: `Ausschliesslich Hausbesuche im Kreis Ahrweiler - Krankengymnastik,
+  Neurologie, Lymphdrainage. Fuer Privatpatienten und Selbstzahler.`
+- Spamabfrage "Ein Huhn legt?": die Antwort ist offensichtlich
 
 ## Text fuer ahrtal.com (Mail an info@ahrtal.de)
 
