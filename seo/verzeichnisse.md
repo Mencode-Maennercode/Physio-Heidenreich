@@ -43,6 +43,7 @@ Werbeeinwilligung.
 | Cylex | offen | kein Eintrag gefunden | |
 | ProvenExpert | offen | kein Eintrag gefunden | |
 | werkenntdenbesten | offen | kein Eintrag gefunden | |
+| Therapeutenkatalog | nein | **Sackgasse, nicht weiterverfolgen** | Klang nach kostenlosem Fachverzeichnis, ist aber keins: `/eintragen/` leitet auf `/patientengewinnung/` um, eine Vermarktungsseite ohne Eintragsformular, dazu mit reCAPTCHA. Kein Eintragsweg erkennbar. |
 | Sellwerk | offen | nicht geprueft | Bewirbt kostenpflichtige Pakete. |
 | ahrtal.com | ja | **von Hand: Mail an info@ahrtal.de** | Regionales Portal, Physio Plus AW und das Physiotherapie-Zentrum sind unter "Gesundheitsstadt / Medizinische Versorgung / Therapeuten" gelistet, Nora nicht. Es gibt **kein** Selbsteintragsformular, die Liste ist redaktionell gepflegt. Offen ist, ob ein Betrieb aus der Grafschaft dort aufgenommen wird - die Anfrage kostet nichts. Text steht unten. |
 | jameda | nein | nicht moeglich | Verlangt Berufsnachweis - muss Nora selbst machen. |
