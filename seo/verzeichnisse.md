@@ -44,7 +44,7 @@ Werbeeinwilligung.
 | ProvenExpert | offen | kein Eintrag gefunden | |
 | werkenntdenbesten | offen | kein Eintrag gefunden | |
 | Sellwerk | offen | nicht geprueft | Bewirbt kostenpflichtige Pakete. |
-| ahrtal.com | offen | nicht geprueft | Regionales Portal, Physio Plus AW und das Physiotherapie-Zentrum sind dort gelistet. Vermutlich redaktionell. |
+| ahrtal.com | ja | **von Hand: Mail an info@ahrtal.de** | Regionales Portal, Physio Plus AW und das Physiotherapie-Zentrum sind unter "Gesundheitsstadt / Medizinische Versorgung / Therapeuten" gelistet, Nora nicht. Es gibt **kein** Selbsteintragsformular, die Liste ist redaktionell gepflegt. Offen ist, ob ein Betrieb aus der Grafschaft dort aufgenommen wird - die Anfrage kostet nichts. Text steht unten. |
 | jameda | nein | nicht moeglich | Verlangt Berufsnachweis - muss Nora selbst machen. |
 
 ## Offene Punkte
@@ -54,6 +54,31 @@ Werbeeinwilligung.
   kontakt@nora-heidenreich.de dauert zu lange. Oeffentlich angezeigt wird in
   jedem Eintrag trotzdem kontakt@nora-heidenreich.de.
 - Bei jedem Eintrag pruefen: Haken fuer Newsletter und Werbung nicht setzen.
+
+## Text fuer ahrtal.com (Mail an info@ahrtal.de)
+
+Betreff: `Aufnahme in die Therapeutenliste - Mobile Physiotherapie, Kreis Ahrweiler`
+
+> Guten Tag,
+>
+> auf ahrtal.com sind unter "Gesundheitsstadt - Medizinische Versorgung -
+> Therapeuten" mehrere Physiotherapie-Praxen aus dem Kreis gelistet. Ich wuerde
+> mich freuen, dort ebenfalls aufgenommen zu werden.
+>
+> Nora Heidenreich - Mobile Physiotherapie
+> Josef-Martin-Weg 4, 53501 Grafschaft
+> Telefon: 02641 890 49 73
+> E-Mail: kontakt@nora-heidenreich.de
+> Homepage: https://www.nora-heidenreich.de
+>
+> Besonderheit: Ich behandle ausschliesslich im Hausbesuch - fuer Menschen, die
+> den Weg in eine Praxis nicht oder nur schwer schaffen. Einsatzgebiet ist der
+> Kreis Ahrweiler, darunter Bad Neuenahr-Ahrweiler, Sinzig, Remagen, Altenahr
+> und die Grafschaft. Leistungen: Krankengymnastik, Neurologie, Lymphdrainage,
+> fuer Privatpatienten und Selbstzahler.
+>
+> Viele Gruesse
+> Nora Heidenreich
 
 ## Text fuer meinAW (von Hand abschicken)
 
