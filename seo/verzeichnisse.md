@@ -15,6 +15,11 @@ Unterseiten.
 | Telefon | 02641 / 890 49 73 |
 | Mobil | 0160 220 52 63 |
 | Homepage | https://www.nora-heidenreich.de |
+| Anschrift | Josef-Martin-Weg 4, 53501 Grafschaft |
+
+Die Anschrift nur dort eintragen, wo das Verzeichnis sie zwingend verlangt.
+Wo ein Eintrag ohne oeffentliche Adresse moeglich ist (Einsatzgebiet statt
+Ladenlokal), diesen Weg nehmen - es sind Hausbesuche, kein Ladengeschaeft.
 
 Beschreibungstext:
 
@@ -44,8 +49,8 @@ Werbeeinwilligung.
 
 ## Offene Punkte
 
-- Anmeldeadresse: Bestaetigungsmails an kontakt@nora-heidenreich.de werden an
-  ein Gmail-Konto weitergeleitet, was lange dauert. Vorschlag: Konten direkt
-  mit der Gmail-Adresse anlegen, oeffentlich angezeigt bleibt
-  kontakt@nora-heidenreich.de.
+- Anmeldeadresse: Konten werden mit **nora.wannenmacher@gmail.com** angelegt -
+  dort kommen die Bestaetigungsmails sofort an. Die Weiterleitung von
+  kontakt@nora-heidenreich.de dauert zu lange. Oeffentlich angezeigt wird in
+  jedem Eintrag trotzdem kontakt@nora-heidenreich.de.
 - Bei jedem Eintrag pruefen: Haken fuer Newsletter und Werbung nicht setzen.
