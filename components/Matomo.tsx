@@ -76,7 +76,11 @@ export default function Matomo() {
               : null;
             if (!ziel) return;
             var art = ziel.getAttribute('href').indexOf('tel:') === 0 ? 'Anruf' : 'E-Mail';
-            _paq.push(['trackEvent', 'Kontakt', art, location.pathname]);
+            // window._paq, NICHT die lokale Variable: matomo.js ersetzt das
+            // Array nach dem Laden durch ein eigenes Objekt. Ein push auf das
+            // alte Array landet nirgends - bis 14.09.2026 kam so kein
+            // einziger Anruf-Klick in Matomo an.
+            window._paq.push(['trackEvent', 'Kontakt', art, location.pathname]);
           }, true);
 
           var u = ${JSON.stringify(analyse.matomoUrl)};
