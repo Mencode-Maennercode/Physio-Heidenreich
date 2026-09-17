@@ -161,7 +161,7 @@ export default function Fusszeile() {
                   href={ortsPfad(ort.slug)}
                   className={`${zeile} text-leise transition-colors hover:text-text`}
                 >
-                  {ort.name}
+                  Physiotherapie {ort.name}
                 </Link>
               </li>
             ))}

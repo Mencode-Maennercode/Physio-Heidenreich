@@ -8,6 +8,7 @@ import { kontaktBand as kontaktBandDe } from "@/lib/content/golden-calm";
 import type { KontaktBand } from "@/lib/content/typen";
 import WortAuftritt from "@/components/motion/WortAuftritt";
 import { kontakt } from "@/lib/site-config";
+import { ortsPfad, ortsseiten } from "@/lib/content/orte";
 
 /**
  * Kontakt-Band in warmem Braun, Formular als eingebettete Karte.
@@ -109,6 +110,33 @@ export default function GcKontakt({
           <p className="mt-6 text-[1.05rem]" style={{ color: "#D2C6B9" }}>
             {kontaktBand.sprechzeiten}
           </p>
+
+          {/* Nur Deutsch, wie die Ortsseiten selbst (siehe Fusszeile.tsx).
+              Bisher verlinkte die Startseite die Ortsseiten nur ueber die
+              Fusszeile - ein Link im eigentlichen Inhalt zaehlt bei
+              Suchmaschinen staerker als ein auf jeder Seite gleicher
+              Fusszeilen-Link. */}
+          {formular ? (
+            <p className="mt-4 text-[0.98rem]" style={{ color: "#D2C6B9" }}>
+              Hausbesuche in{" "}
+              {ortsseiten.map((ort, i) => (
+                <span key={ort.slug}>
+                  <Link
+                    href={ortsPfad(ort.slug)}
+                    className="underline decoration-[#E0C79A]/40 underline-offset-4 transition-colors hover:text-[#FBF8F2]"
+                  >
+                    {ort.name}
+                  </Link>
+                  {i < ortsseiten.length - 2
+                    ? ", "
+                    : i === ortsseiten.length - 2
+                      ? " und "
+                      : ""}
+                </span>
+              ))}
+              .
+            </p>
+          ) : null}
         </div>
 
         {/*
